@@ -35,13 +35,13 @@
 		
 		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://mysql:3306/tramite"/> <!-- value="jdbc:mysql://127.0.0.1:3306/tramite"/ ronaldmam este usario se creoen openshift tambien -->
+		<property name="url" value="jdbc:mysql://mysql:3306/ControlBus"/> <!-- value="jdbc:mysql://127.0.0.1:3306/tramite"/ ronaldmam este usario se creoen openshift tambien -->
 		<property name="username" value="user8TL" />	 		
 		<property name="password" value="lCxEe8W6NvNp7lW2" />
 		
 		<!--		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-		<property name="url" value="jdbc:mysql://localhost:3306/tramite"/>
+		<property name="url" value="jdbc:mysql://127.0.0.1:3307/ControlBus"/>
 		<property name="username" value="root" />		
 		<property name="password" value="Pa$$w0rd" /> 		
 			
@@ -49,7 +49,7 @@
 	</bean>
 	 
 	 
-	<bean id="RutaService" class="com.godared.controlbus.service.RutaServiceImp">
+	<bean id="rutaService" class="com.godared.controlbus.service.RutaServiceImp">
 	    <property name="rutaDao" ref="rutaDao"/>
 	           
 	 </bean> 
