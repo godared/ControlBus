@@ -49,7 +49,13 @@ public class RutaServiceImp implements IRutaService {
 		
 	}
 	public void Delete(int id){
+		try{
 		 this.rutaDao.deleteById(id);
+		 this.DeleteRutaDetalle(id);
+		}
+		catch(Exception ex ){
+			
+		}
 	 }
 	public List<Ruta> findAll() {
 		// TODO Auto-generated method stub
