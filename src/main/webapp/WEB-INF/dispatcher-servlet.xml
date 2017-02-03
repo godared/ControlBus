@@ -42,8 +42,8 @@
 		<!--		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3307/ControlBus"/>
-		<property name="username" value="root" />		
-		<property name="password" value="Pa$$w0rd" /> 		
+		<property name="username" value="user8TL" />		
+		<property name="password" value="lCxEe8W6NvNp7lW2" /> 		
 			
 		-->
 	</bean>
