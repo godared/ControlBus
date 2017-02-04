@@ -19,6 +19,7 @@ import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.service.IRutaService;
 
 
+
 @RestController
 @RequestMapping("/rest")
 public class RutaRestController {
@@ -42,12 +43,15 @@ public class RutaRestController {
 	public Ruta NewRuta(){
 		return new Ruta();
 	}
+	
 	@RequestMapping(value = "/ruta/save", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Ruta> Save(@Valid @RequestBody Ruta ruta) {
-		rutaService.Save(ruta);
-		return new ResponseEntity<Ruta>(ruta, HttpStatus.OK);
+	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
+		
+		rutaService.Save(requestWrapper.getRuta(), requestWrapper.getRutaDetalle());;
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	
 	@RequestMapping(value="/ruta/delete/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> Delete(@PathVariable("id") int id) {
 		rutaService.Delete(id);

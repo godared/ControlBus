@@ -19,9 +19,9 @@ public class RutaDetalleRestController {
 	@Autowired
 	IRutaService rutaService;
 	
-	@RequestMapping(value="/ruta/{id}", method=RequestMethod.GET)
-	public RutaDetalle Get(@PathVariable("id") int ruId) {
-		RutaDetalle rutaDetalle=rutaService.findOneRutaDetalleId(ruId);
+	@RequestMapping(value="/ruta/{ruId}", method=RequestMethod.GET)
+	public RutaDetalle Get(@PathVariable("ruId") int ruId) {
+		RutaDetalle rutaDetalle=rutaService.findOneRutaDetalleByruId(ruId);
 		if(rutaDetalle==null)
 		{
 			throw new RestException(1,"Ruta no enccontrado"," Ruta con id:"+ ruId + " No encontrado en el sistema");
