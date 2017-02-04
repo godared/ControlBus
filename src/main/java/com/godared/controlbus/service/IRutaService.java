@@ -6,10 +6,11 @@ import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.RutaDetalle;
 
 public interface IRutaService {
-	 void Save(Ruta ruta);
+	 
 	 List<Ruta> findAll();
 	 Ruta findOne(int ruId);
 	 void Delete(int ruId);
+	 void Save(Ruta ruta,List<RutaDetalle> rutaDetalle);
 	 //Ruta Detalle
 	 RutaDetalle findOneRutaDetalleId(int ruId);
 	 RutaDetalle findOneRutaDetalleByruId(int ruId);
