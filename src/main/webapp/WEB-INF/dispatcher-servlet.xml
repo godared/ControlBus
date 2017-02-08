@@ -34,18 +34,18 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		
 		<!-- value="jdbc:mysql://127.0.0.1:3306/tramite"/ ronaldmam este usario se creoen openshift tambien -->
-		<!--
+		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://mysql:3306/ControlBus"/> 
 		<property name="username" value="user8TL" />	 		
 		<property name="password" value="lCxEe8W6NvNp7lW2" />
-		-->
-				
+		
+		<!--		
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3307/ControlBus"/>
 		<property name="username" value="user8TL" />		
 		<property name="password" value="lCxEe8W6NvNp7lW2" /> 		
-			
+			-->
 		
 	</bean>
 	 
