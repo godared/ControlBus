@@ -9,8 +9,7 @@ import javax.persistence.Id;
 import com.fasterxml.jackson.annotation.JsonProperty;
 @Entity
 public class RutaDetalle  implements Serializable  {
-	@Id 
-	@GeneratedValue	
+	@Id		
 	private int RuId;
 	private String RuDeDescripcion;
 	private float RuDeLatitud;

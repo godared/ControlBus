@@ -19,7 +19,7 @@ public class RutaDetalleRestController {
 	@Autowired
 	IRutaService rutaService;
 	
-	@RequestMapping(value="/ruta/{ruId}", method=RequestMethod.GET)
+	@RequestMapping(value="/rutadetalle/{ruId}", method=RequestMethod.GET)
 	public RutaDetalle Get(@PathVariable("ruId") int ruId) {
 		RutaDetalle rutaDetalle=rutaService.findOneRutaDetalleByruId(ruId);
 		if(rutaDetalle==null)
@@ -28,7 +28,7 @@ public class RutaDetalleRestController {
 		}
 		return rutaDetalle;
 	}
-	@RequestMapping(value="/ruta/new", method=RequestMethod.GET)
+	@RequestMapping(value="/rutadetalle/new", method=RequestMethod.GET)
 	public RutaDetalle NewRutaDetalle(){
 		return new RutaDetalle();
 	}

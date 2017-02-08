@@ -11,13 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Ruta;
+import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.service.IRutaService;
-
 
 
 @RestController
@@ -57,5 +58,9 @@ public class RutaRestController {
 		rutaService.Delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
-	
+	//http://localhost:8080/ControlBus/rest/ruta/getallrutabyem?emId=1
+	@RequestMapping(value = "/ruta/getallrutabyem",params = {"emId"}, method=RequestMethod.GET)
+	public List<Usp_S_RuGetAllRutaByEm> GetAllRutaByEm(@RequestParam("emId") int emId) {
+		return rutaService.GetAllRutaByEm(emId);
+	}
 }

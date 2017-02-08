@@ -17,7 +17,7 @@ public class Ruta  implements Serializable  {
 	private Date RuFechaCreacion;
 	private String RuRegMunicipal;
 	private float RuKilometro;
-	private Boolean RuActivo;
+	private Boolean RuActivo=true;
 	private int UsId;
 	private Date UsFechaReg;//acepta timestamp
 	

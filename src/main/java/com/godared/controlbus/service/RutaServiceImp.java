@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.RutaDetalle;
+import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.dao.IRutaDao;
 import com.godared.controlbus.dao.IRutaDetalleDao;
 
@@ -91,7 +92,9 @@ public class RutaServiceImp implements IRutaService {
 			entityManager.close();
 		}
 	}
-	
+	public List<Usp_S_RuGetAllRutaByEm> GetAllRutaByEm(int emId){
+		return rutaDao.GetAllRutaByEm(emId);
+	}
 	 //Ruta Detalle
 	public RutaDetalle findOneRutaDetalleId(int ruId){
 		return rutaDetalleDao.findOne(ruId);//aqui hay que hacer un procedure

@@ -3,6 +3,7 @@ package com.godared.controlbus.dao;
 import java.util.List;
 
 import com.godared.controlbus.bean.Ruta;
+import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 
 public interface IRutaDao {
 	Ruta findOne(int id);
@@ -11,5 +12,6 @@ public interface IRutaDao {
     Ruta update(Ruta entity);
     void delete(Ruta entity);
     void deleteById(int entityId);
+    List<Usp_S_RuGetAllRutaByEm> GetAllRutaByEm(int emId);
 
 }
