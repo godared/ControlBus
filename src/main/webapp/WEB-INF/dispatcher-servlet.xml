@@ -52,11 +52,23 @@
 	 
 	<bean id="rutaService" class="com.godared.controlbus.service.RutaServiceImp">
 	    <property name="rutaDao" ref="rutaDao"/>
-	    <property name="rutaDetalleDao" ref="rutaDetalleDao"/>       
+	    <property name="rutaDetalleDao" ref="rutaDetalleDao"/> 
+	    <property name="puntoControlDao" ref="puntoControlDao"/>
+	    <property name="puntoControlDetalleDao" ref="puntoControlDetalleDao"/>      
 	 </bean> 
 	 
 	<bean id="rutaDao" class="com.godared.controlbus.dao.RutaDaoImp"/>
 	<bean id="rutaDetalleDao" class="com.godared.controlbus.dao.RutaDetalleDaoImp"/>
+	<bean id="puntoControlDao" class="com.godared.controlbus.dao.PuntoControlDaoImp"/>
+	<bean id="puntoControlDetalleDao" class="com.godared.controlbus.dao.PuntoControlDetalleDaoImp"/>
+	
+	<bean id="programacionService" class="com.godared.controlbus.service.ProgramacionServiceImp">
+	    <property name="programacionDao" ref="programacionDao"/>
+	    <property name="programacionDetalleDao" ref="programacionDetalleDao"/> 
+	      
+	 </bean>
+	<bean id="programacionDao" class="com.godared.controlbus.dao.ProgramacionDaoImp"/>
+	<bean id="programacionDetalleDao" class="com.godared.controlbus.dao.ProgramacionDetalleDaoImp"/>
 		
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	      <property name="entityManagerFactory" ref="entityManagerFactory" />

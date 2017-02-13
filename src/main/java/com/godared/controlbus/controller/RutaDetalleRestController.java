@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
-import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.RutaDetalle;
 import com.godared.controlbus.service.IRutaService;
 
