@@ -98,6 +98,10 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio){
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
+	public void RegistrarProgramacionBase(int emId, Boolean aleatorio){
+		
+	}
+	
 	//Programacion Detalle
 	public ProgramacionDetalle findOneProgramacionDetalleId(int prDeId){
 		return this.programacionDetalleDao.findOne(prDeId);	

@@ -3,6 +3,7 @@ package com.godared.controlbus.dao;
 import java.util.List;
 
 import com.godared.controlbus.bean.Bus;
+import com.godared.controlbus.bean.Usp_S_BuGetAllBusesByEmSuEm;
 
 public interface IBusDao {
 	Bus findOne(int id);
@@ -11,5 +12,5 @@ public interface IBusDao {
     Bus update(Bus entity);
     void delete(Bus entity);
     void deleteById(int entityId);
-    //List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId,int anio);
+    List<Usp_S_BuGetAllBusesByEmSuEm> GetAllBusesByEmSuEm(int emId,int suEmId);
 }

@@ -1,5 +1,6 @@
 package com.godared.controlbus.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.godared.controlbus.bean.Bus;
+import com.godared.controlbus.bean.Usp_S_BuGetAllBusesByEmSuEm;
 import com.godared.controlbus.dao.IBusDao;
 
 @Service
@@ -48,4 +50,20 @@ public class BusServiceImp implements IBusService{
 	public void Delete(int id){
 		 this.busDao.deleteById(id);
 	 }
+	public List<Usp_S_BuGetAllBusesByEmSuEm> GetAllBusesByEmSuEm(int emId, int suEmId){
+		return this.busDao.GetAllBusesByEmSuEm(emId, suEmId);
+	}
+	public List<Bus>GetAllBusActivo(int emId){
+		List<Bus> resultBus = new ArrayList<Bus>();
+		Bus busBean=new Bus();
+		
+		 for (Usp_S_BuGetAllBusesByEmSuEm bus: this.GetAllBusesByEmSuEm(emId,0)) {
+		        if (bus.getBuActivo()==true) {
+		        	busBean=new Bus();
+		        	busBean.setBuId(bus.getBuId());		        	
+		        	resultBus.add(busBean);
+		        }
+		    }
+		 return resultBus;
+	}
 }

@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Bus;
+import com.godared.controlbus.bean.Usp_S_BuGetAllBusesByEmSuEm;
+import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.service.IBusService;
 
 @RestController
@@ -51,5 +54,10 @@ public class BusRestController {
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
 		busService.Delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	//http://localhost:8080/ControlBus/rest/bus/getallrutabyem?emId=1
+	@RequestMapping(value = "/bus/getallbusesbyemsuem",params = {"emId","suEmId"}, method=RequestMethod.GET)
+	public List<Usp_S_BuGetAllBusesByEmSuEm> GetAllBusesByEmSuEm(@RequestParam("emId") int emId,@RequestParam("suEmId") int suEmId) {
+		return busService.GetAllBusesByEmSuEm(emId,suEmId);
 	}
 }
