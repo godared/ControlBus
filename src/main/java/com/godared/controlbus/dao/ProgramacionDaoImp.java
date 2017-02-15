@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
-import com.godared.controlbus.bean.Usp_S_PuCoGetAllPuntoControlByEmRu;
 
 @Repository
 public class ProgramacionDaoImp extends AbstractJpaDAO<Programacion> implements IProgramacionDao {

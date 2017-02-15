@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionDetalle;
-import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 
 public interface IProgramacionService {
