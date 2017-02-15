@@ -99,7 +99,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
 	public void RegistrarProgramacionBase(int emId, Boolean aleatorio){
+		IBusService busService;
 		
+		busService.GetAllBusActivo(emId);
 	}
 	
 	//Programacion Detalle
