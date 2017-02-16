@@ -1,5 +1,6 @@
 package com.godared.controlbus.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import javax.persistence.PersistenceUnit;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
@@ -99,10 +101,19 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
 	public void RegistrarProgramacionBase(int emId, Boolean aleatorio){
-		IBusService busService;
-		
-		busService.GetAllBusActivo(emId);
+		IBusService busService=new BusServiceImp();
+		List<Bus> busAleatorio = new ArrayList<Bus>();
+		if (aleatorio==true){
+			busAleatorio=busService.SortearAleatorio(emId);
+			for(Bus bus:busAleatorio){
+				
+			}
+			
+		}else{
+			
+		}		
 	}
+	
 	
 	//Programacion Detalle
 	public ProgramacionDetalle findOneProgramacionDetalleId(int prDeId){

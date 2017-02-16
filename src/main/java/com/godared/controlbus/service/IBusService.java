@@ -12,4 +12,5 @@ public interface IBusService {
 	 void Save(Bus bus);
 	 List<Usp_S_BuGetAllBusesByEmSuEm> GetAllBusesByEmSuEm(int emId, int suEmId);
 	 List<Bus>GetAllBusActivo(int emId);
+	 List<Bus>SortearAleatorio(int emId);
 }

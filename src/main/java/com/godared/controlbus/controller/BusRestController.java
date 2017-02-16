@@ -60,4 +60,9 @@ public class BusRestController {
 	public List<Usp_S_BuGetAllBusesByEmSuEm> GetAllBusesByEmSuEm(@RequestParam("emId") int emId,@RequestParam("suEmId") int suEmId) {
 		return busService.GetAllBusesByEmSuEm(emId,suEmId);
 	}
+	@RequestMapping(value = "/bus/seorteoaleatorio",params = {"emId"}, method=RequestMethod.GET)
+	public List<Bus> SortearAleatorio(@RequestParam("emId") int emId) {
+		return busService.SortearAleatorio(emId);
+	}
+	
 }

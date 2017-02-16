@@ -1,6 +1,7 @@
 package com.godared.controlbus.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -65,5 +66,13 @@ public class BusServiceImp implements IBusService{
 		        }
 		    }
 		 return resultBus;
+	}
+	public List<Bus>SortearAleatorio(int emId){
+		List<Bus> busActivos = new ArrayList<Bus>();
+		busActivos=this.GetAllBusActivo(emId);
+		Collections.shuffle(busActivos);
+		return busActivos;
+		
+		
 	}
 }
