@@ -101,6 +101,5 @@ public class Programacion implements Serializable {
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
 	}
-	
 
 }

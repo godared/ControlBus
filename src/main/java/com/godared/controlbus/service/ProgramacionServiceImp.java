@@ -1,6 +1,9 @@
 package com.godared.controlbus.service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +29,6 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	private IProgramacionDetalleDao programacionDetalleDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
-	
 //	injeccion de dependencias
 	public void setProgramacionDao(IProgramacionDao programacionDao) {
 		 this.programacionDao = programacionDao;		 
@@ -100,18 +102,104 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio){
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
-	public void RegistrarProgramacionBase(int emId, Boolean aleatorio){
-		IBusService busService=new BusServiceImp();
-		List<Bus> busAleatorio = new ArrayList<Bus>();
+	//Registrar el la programacion Base 
+	public void RegistrarProgramacionBase(int emId,int prId, Boolean aleatorio,
+			List<ProgramacionDetalle> ... programacionDetalles ){		
+		IBusService _busService=new BusServiceImp();
+		List<Bus> _busAleatorio = new ArrayList<Bus>();
+		IProgramacionService _programacionService=new ProgramacionServiceImp();
+		Programacion _programacion;
+		ProgramacionDetalle _programacionDetalle=new ProgramacionDetalle();
+		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
+		int c=1;
+		//Obteniendo los datos de la programación
+		_programacion=_programacionService.findOne(prId);
+		long _nroDias=_programacion.getPrFechaInicio().getTime()-_programacion.getPrFechaFin().getTime();
+			
+		
 		if (aleatorio==true){
-			busAleatorio=busService.SortearAleatorio(emId);
-			for(Bus bus:busAleatorio){
+			_busAleatorio=_busService.SortearAleatorio(emId);
+			for(Bus _bus:_busAleatorio){
+				_programacionDetalle.setPrId(prId);
+				_programacionDetalle.setBuId(_bus.getBuId());
+				_programacionDetalle.setUsFechaReg(_programacion.getPrFechaInicio());
+				_programacionDetalle.setPrDeBase(true);
+				_programacionDetalle.setPrDeOrden(c);
+				_programacionDetalle.setUsId(1);
+				_programacionDetalle.setUsFechaReg(new Date());
 				
+				_programacionDetalles.add(_programacionDetalle);
+				c=c+1;
 			}
+			for (ProgramacionDetalle programaDet:_programacionDetalles)
+			_programacionService.CreateProgramacionDetalle(programaDet);
+			this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_nroDias);
 			
 		}else{
 			
-		}		
+			if (!programacionDetalles[0].isEmpty()){
+				for (ProgramacionDetalle programaDet:programacionDetalles[0])
+					_programacionService.CreateProgramacionDetalle(programaDet);
+				this.GenerarProgramacionMensual(emId,prId,programacionDetalles[0],_nroDias);
+			}
+			
+			
+		}
+		
+		
+		
+	}
+	public void GenerarProgramacionMensual(int emId,int prId, 
+			List<ProgramacionDetalle> programacionDetalles,long nroDias){
+		
+		int c= 2;
+		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
+		List<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>();
+		//_programacionDetalles=programacionDetalles;
+		_programacionDetalles2=programacionDetalles;
+		
+		for(int i=2; i<=nroDias;i++){
+			if ( i % 2==0){
+				Collections.sort(programacionDetalles, new Comparator<ProgramacionDetalle>() {
+		               
+	                public int compare(ProgramacionDetalle lhs, ProgramacionDetalle rhs) {
+	                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+	                    return lhs.getPrDeOrden() > rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() < rhs.getPrDeOrden() ) ? 1 : 0;
+	                }
+	            });
+				
+				for(ProgramacionDetalle pr:programacionDetalles){		
+					//Agregar a la base de datos
+						 
+				}
+				//
+			}else
+			{
+				c=1;
+				int c2=3;
+				int c1=1;
+				for(ProgramacionDetalle pr:_programacionDetalles2){	
+					if(c%2==0){
+						//Ingresa
+						pr.setPrDeOrden(c1);
+						_programacionDetalles.add(pr);
+						if (c==2)
+							c1=c1+1;
+						else
+							c1=c1+2;
+					}else{
+						//ingresa
+						pr.setPrDeOrden(c2);
+						_programacionDetalles.add(pr);
+						c2=c2+2;
+					}						
+					//
+					c=c+1;					
+				}				
+				_programacionDetalles2=programacionDetalles;
+			}
+			
+		}	
 	}
 	
 	
