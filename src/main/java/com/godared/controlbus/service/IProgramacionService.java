@@ -12,7 +12,10 @@ public interface IProgramacionService {
 	 void Delete(int prId);
 	 void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle);
 	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio);
-	 void RegistrarProgramacionBase(int emId, Boolean aleatorio);
+	 void RegistrarProgramacionBase(int emId,int prId, Boolean aleatorio,
+				List<ProgramacionDetalle> ... programacionDetalles );
+	 public void GenerarProgramacionMensual(int emId,int prId, 
+				List<ProgramacionDetalle> programacionDetalles,long nroDias);
 	//Programacion Detalle
 	 ProgramacionDetalle findOneProgramacionDetalleId(int prDeId);
 	 ProgramacionDetalle findOneProgramacionDetalleByprId(int prId);

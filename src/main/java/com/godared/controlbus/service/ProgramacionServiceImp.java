@@ -141,12 +141,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 				for (ProgramacionDetalle programaDet:programacionDetalles[0])
 					_programacionService.CreateProgramacionDetalle(programaDet);
 				this.GenerarProgramacionMensual(emId,prId,programacionDetalles[0],_nroDias);
-			}
-			
+			}		
 			
 		}
-		
-		
 		
 	}
 	public void GenerarProgramacionMensual(int emId,int prId, 
@@ -155,12 +152,16 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		int c= 2;
 		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
 		List<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>();
+		List<ProgramacionDetalle> _programacionDetalles1=new ArrayList<ProgramacionDetalle>();
 		//_programacionDetalles=programacionDetalles;
 		_programacionDetalles2=programacionDetalles;
+		_programacionDetalles1=programacionDetalles;
 		
 		for(int i=2; i<=nroDias;i++){
 			if ( i % 2==0){
-				Collections.sort(programacionDetalles, new Comparator<ProgramacionDetalle>() {
+				//si la clumna  dia es par tonces invertimos de la columna inpar anterior 
+				c=1;
+				Collections.sort(_programacionDetalles1, new Comparator<ProgramacionDetalle>() {
 		               
 	                public int compare(ProgramacionDetalle lhs, ProgramacionDetalle rhs) {
 	                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
@@ -168,16 +169,20 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	                }
 	            });
 				
-				for(ProgramacionDetalle pr:programacionDetalles){		
+				for(ProgramacionDetalle pr:_programacionDetalles1){		
 					//Agregar a la base de datos
-						 
+					pr.setPrDeOrden(c);
+					this.programacionDetalleDao.create(pr);
+					c=c+1;	 
 				}
 				//
 			}else
 			{
+				//si es impar tonces 
 				c=1;
 				int c2=3;
 				int c1=1;
+				_programacionDetalles.clear();
 				for(ProgramacionDetalle pr:_programacionDetalles2){	
 					if(c%2==0){
 						//Ingresa
@@ -195,8 +200,21 @@ public class ProgramacionServiceImp implements IProgramacionService {
 					}						
 					//
 					c=c+1;					
-				}				
-				_programacionDetalles2=programacionDetalles;
+				}	
+				// ordenamos en forma ascendente
+				Collections.sort(_programacionDetalles, new Comparator<ProgramacionDetalle>() {
+		               
+	                public int compare(ProgramacionDetalle lhs, ProgramacionDetalle rhs) {
+	                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+	                    return lhs.getPrDeOrden() > rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() < rhs.getPrDeOrden() ) ? 1 : 0;
+	                }
+	            });
+				_programacionDetalles1=_programacionDetalles;
+				_programacionDetalles2=_programacionDetalles;
+				//Agregamos a la base
+				for(ProgramacionDetalle pr:_programacionDetalles){		
+					this.programacionDetalleDao.create(pr);
+				}
 			}
 			
 		}	
