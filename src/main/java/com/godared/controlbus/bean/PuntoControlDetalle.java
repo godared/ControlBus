@@ -14,7 +14,6 @@ import javax.persistence.StoredProcedureParameter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-
 @NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name = "Usp_D_PuCoDeEliminaByPuCo", 
 	procedureName = "Usp_D_PuCoDeEliminaByPuCo",

@@ -3,11 +3,12 @@ package com.godared.controlbus.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+@Entity
 public class TarjetaControl implements Serializable{
 	@Id 
 	@GeneratedValue

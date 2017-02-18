@@ -3,14 +3,28 @@ package com.godared.controlbus.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-
+@Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(name = "Usp_D_TaCoDeEliminaByTaCo", 
+	procedureName = "Usp_D_TaCoDeEliminaByTaCo",
+	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
+	})
+})
 public class TarjetaControlDetalle implements Serializable {
 	@Id 
 	@GeneratedValue
+	private int TaCoDeId;
 	private int TaCoId;
 	private int PuCoDeId;
 	private Date TaCoDeFecha;

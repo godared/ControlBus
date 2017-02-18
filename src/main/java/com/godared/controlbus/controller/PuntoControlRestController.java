@@ -30,13 +30,13 @@ public class PuntoControlRestController {
 		return rutaService.findAllPuntoControl();
 	}
 	@RequestMapping(value="/puntocontrol/{id}", method=RequestMethod.GET)
-	public Ruta Get(@PathVariable("id") int puCoId) {
+	public PuntoControl Get(@PathVariable("id") int puCoId) {
 		PuntoControl puntoControl=rutaService.findOnePuntoControl(puCoId);
 		if(puntoControl==null)
 		{
 			throw new RestException(1,"PuntoControl no enccontrado","PuntoControl con id:"+ puCoId + " No encontrado en el sistema");
 		}
-		return rutaService.findOne(puCoId);
+		return rutaService.findOnePuntoControl(puCoId);
 	}
 	@RequestMapping(value="/puntocontrol/new", method=RequestMethod.GET)
 	public PuntoControl NewPuntoControl(){

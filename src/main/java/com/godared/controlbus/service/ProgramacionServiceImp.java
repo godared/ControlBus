@@ -147,8 +147,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		
 	}
 	public void GenerarProgramacionMensual(int emId,int prId, 
-			List<ProgramacionDetalle> programacionDetalles,long nroDias){
-		
+			List<ProgramacionDetalle> programacionDetalles,long nroDias){		
 		int c= 2;
 		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
 		List<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>();
@@ -218,8 +217,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			}
 			
 		}	
-	}
-	
+	}	
 	
 	//Programacion Detalle
 	public ProgramacionDetalle findOneProgramacionDetalleId(int prDeId){

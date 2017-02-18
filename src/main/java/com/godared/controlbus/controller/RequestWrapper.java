@@ -8,6 +8,8 @@ import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.RutaDetalle;
+import com.godared.controlbus.bean.TarjetaControl;
+import com.godared.controlbus.bean.TarjetaControlDetalle;
 
 public class RequestWrapper {
 	Ruta ruta;
@@ -16,6 +18,8 @@ public class RequestWrapper {
 	List<PuntoControlDetalle> puntoControlDetalle;
 	Programacion programacion;
 	List<ProgramacionDetalle> programacionDetalle;
+	TarjetaControl tarjetaControl;
+	List<TarjetaControlDetalle> tarjetaControlDetalle;
 	
 	public Ruta getRuta() {
 		return ruta;
@@ -52,6 +56,18 @@ public class RequestWrapper {
 	}
 	public void setProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle) {
 		this.programacionDetalle = programacionDetalle;
+	}
+	public TarjetaControl getTarjetaControl() {
+		return tarjetaControl;
+	}
+	public void setTarjetaControl(TarjetaControl tarjetaControl) {
+		this.tarjetaControl = tarjetaControl;
+	}
+	public List<TarjetaControlDetalle> getTarjetaControlDetalle() {
+		return tarjetaControlDetalle;
+	}
+	public void setTarjetaControlDetalle(List<TarjetaControlDetalle> tarjetaControlDetalle) {
+		this.tarjetaControlDetalle = tarjetaControlDetalle;
 	}
 	
 
