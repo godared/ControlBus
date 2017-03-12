@@ -55,7 +55,7 @@
 	    <property name="puntoControlDetalleDao" ref="puntoControlDetalleDao"/>      
 	 </bean> 
 	 
-	<bean id="rutaDao" class="com.godared.controlbus.dao.RutaDaoImp"/>
+	<bean id="rutaDao1" class="com.godared.controlbus.dao.RutaDaoImp"/>
 	<bean id="rutaDetalleDao" class="com.godared.controlbus.dao.RutaDetalleDaoImp"/>
 	<bean id="puntoControlDao" class="com.godared.controlbus.dao.PuntoControlDaoImp"/>
 	<bean id="puntoControlDetalleDao" class="com.godared.controlbus.dao.PuntoControlDetalleDaoImp"/>
