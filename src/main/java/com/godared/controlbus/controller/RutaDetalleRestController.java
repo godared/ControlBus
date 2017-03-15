@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
+import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.RutaDetalle;
 import com.godared.controlbus.service.IRutaService;
 
@@ -32,6 +35,13 @@ public class RutaDetalleRestController {
 	@RequestMapping(value="/rutadetalle/new", method=RequestMethod.GET)
 	public RutaDetalle NewRutaDetalle(){
 		return new RutaDetalle();
+	}
+	
+	@RequestMapping(value = "/rutadetalle/save", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody List<RutaDetalle> rutaDetalle) {		
+		rutaService.CreateRutaDetalle(rutaDetalle);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/rutadetalle/delete/ruid/{ruId}", method=RequestMethod.DELETE)

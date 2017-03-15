@@ -52,7 +52,7 @@ public class RutaRestController {
 	}
 	
 	
-	@RequestMapping(value = "/ruta/save", method=RequestMethod.POST)
+	@RequestMapping(value = "/ruta/saveRuDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
 		

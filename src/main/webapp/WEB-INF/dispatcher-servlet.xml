@@ -34,17 +34,17 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		
 		<!-- value="jdbc:mysql://127.0.0.1:3306/tramite"/ ronaldmam este usario se creoen openshift tambien -->
-		
+		<!--
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://mysql:3306/ControlBus"/> 
 		<property name="username" value="userMW7" />	 		
 		<property name="password" value="Ol55Boarh1vgFvgl" />		
-		<!--
+		-->	
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3307/ControlBus"/>
 		<property name="username" value="userMW7" />		
 		<property name="password" value="Ol55Boarh1vgFvgl" /> 		
-				-->	
+				
 	</bean>
 	 
 	 <!-- ruta -->
@@ -55,7 +55,7 @@
 	    <property name="puntoControlDetalleDao" ref="puntoControlDetalleDao"/>      
 	 </bean> 
 	 
-	<bean id="rutaDao1" class="com.godared.controlbus.dao.RutaDaoImp"/>
+	<bean id="rutaDao" class="com.godared.controlbus.dao.RutaDaoImp"/>
 	<bean id="rutaDetalleDao" class="com.godared.controlbus.dao.RutaDetalleDaoImp"/>
 	<bean id="puntoControlDao" class="com.godared.controlbus.dao.PuntoControlDaoImp"/>
 	<bean id="puntoControlDetalleDao" class="com.godared.controlbus.dao.PuntoControlDetalleDaoImp"/>
