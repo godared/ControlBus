@@ -51,7 +51,6 @@ public class RutaRestController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	
-	
 	@RequestMapping(value = "/ruta/saveRuDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
