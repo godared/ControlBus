@@ -3,6 +3,8 @@ package com.godared.controlbus.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +20,7 @@ public class RutaDetalleRestController {
 	@Autowired
 	IRutaService rutaService;
 	
-	@RequestMapping(value="/rutadetalle/{ruId}", method=RequestMethod.GET)
+	@RequestMapping(value="/rutadetalle/ruid/{ruId}", method=RequestMethod.GET)
 	public RutaDetalle Get(@PathVariable("ruId") int ruId) {
 		RutaDetalle rutaDetalle=rutaService.findOneRutaDetalleByruId(ruId);
 		if(rutaDetalle==null)
@@ -31,4 +33,11 @@ public class RutaDetalleRestController {
 	public RutaDetalle NewRutaDetalle(){
 		return new RutaDetalle();
 	}
+	
+	@RequestMapping(value="/rutadetalle/delete/ruid/{ruId}", method=RequestMethod.DELETE)
+	public ResponseEntity<Boolean> Delete(@PathVariable("ruId") int ruId) {
+		rutaService.DeleteRutaDetalleByRuId(ruId);;
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	
 }

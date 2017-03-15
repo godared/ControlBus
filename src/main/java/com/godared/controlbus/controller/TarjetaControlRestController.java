@@ -22,8 +22,8 @@ import com.godared.controlbus.service.ITarjetaControlService;
 public class TarjetaControlRestController {
 	@Autowired
 	ITarjetaControlService tarjetaControlService;
-	@RequestMapping(value = "/tarjetacontrol", method=RequestMethod.GET)
 	
+	@RequestMapping(value = "/tarjetacontrol", method=RequestMethod.GET)	
 	public List<TarjetaControl> List() {
 		return tarjetaControlService.findAll();
 	}

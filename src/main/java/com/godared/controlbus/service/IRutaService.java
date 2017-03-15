@@ -14,14 +14,17 @@ public interface IRutaService {
 	 List<Ruta> findAll();
 	 Ruta findOne(int ruId);
 	 void Delete(int ruId);
+	 void Create(Ruta ruta);
 	 void Save(Ruta ruta,List<RutaDetalle> rutaDetalle);
 	 List<Usp_S_RuGetAllRutaByEm> GetAllRutaByEm(int emId);
 	 //Ruta Detalle
 	 RutaDetalle findOneRutaDetalleId(int ruId);
 	 RutaDetalle findOneRutaDetalleByruId(int ruId);
 	 void CreateRutaDetalle(RutaDetalle rutaDetalle);
+	 void CreateRutaDetalle(List<RutaDetalle> rutaDetalle);
 	 void UpdateRutaDetalle(int ruId,RutaDetalle rutaDetalle);
 	 void DeleteRutaDetalle(int ruId);
+	 void DeleteRutaDetalleByRuId(int ruId);
 	 //PuntoControl
 	 List<PuntoControl> findAllPuntoControl();
 	 PuntoControl findOnePuntoControl(int puCoId);

@@ -64,6 +64,9 @@ public class RutaServiceImp implements IRutaService {
 		// TODO Auto-generated method stub
 		return rutaDao.findOne(id);
 	}
+	public void Create(Ruta ruta) {
+		 rutaDao.create(ruta);
+	}
 	public void Save(Ruta ruta,List<RutaDetalle> rutaDetalle) {
 		// TODO Auto-generated method stub
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
@@ -130,6 +133,24 @@ public class RutaServiceImp implements IRutaService {
 	public void CreateRutaDetalle(RutaDetalle rutaDetalle){
 		 this.rutaDetalleDao.create(rutaDetalle);
 	 }
+	public void CreateRutaDetalle(List<RutaDetalle> rutaDetalle){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {	
+			for(RutaDetalle _rutaDetalle : rutaDetalle) {
+				_rutaDetalle.setRuId(_rutaDetalle.getRuId());
+				 this.rutaDetalleDao.create(_rutaDetalle);
+	        }
+			transaction.commit();
+		}catch(Exception ex ){
+			transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+		
+	 }
 	public void UpdateRutaDetalle(int ruId,RutaDetalle rutaDetalle){
 		RutaDetalle _rutaDetalle=new RutaDetalle();
 		_rutaDetalle=findOneRutaDetalleId(ruId);
@@ -140,7 +161,10 @@ public class RutaServiceImp implements IRutaService {
 		this.rutaDetalleDao.update(_rutaDetalle);	
 	 }
 	 public void DeleteRutaDetalle(int ruId){
-		 this.rutaDetalleDao.deleteById(ruId);
+		 this.rutaDetalleDao.deleteById(ruId);// para eliminar un registro del detalle, la tabla tiene que tener un Primary Key
+	 }
+	 public void DeleteRutaDetalleByRuId(int ruId){
+		 this.rutaDetalleDao.deleteByRuId(ruId);
 	 }
 	 //PuntoControl
 	 public List<PuntoControl> findAllPuntoControl(){
