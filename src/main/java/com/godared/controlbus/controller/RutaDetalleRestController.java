@@ -24,8 +24,8 @@ public class RutaDetalleRestController {
 	IRutaService rutaService;
 	
 	@RequestMapping(value="/rutadetalle/ruid/{ruId}", method=RequestMethod.GET)
-	public RutaDetalle Get(@PathVariable("ruId") int ruId) {
-		RutaDetalle rutaDetalle=rutaService.findOneRutaDetalleByruId(ruId);
+	public List<RutaDetalle> getAllRutaDetalleByRu(@PathVariable("ruId") int ruId) {
+		List<RutaDetalle> rutaDetalle=rutaService.getAllRutaDetalleByRu(ruId);
 		if(rutaDetalle==null)
 		{
 			throw new RestException(1,"Ruta no enccontrado"," Ruta con id:"+ ruId + " No encontrado en el sistema");

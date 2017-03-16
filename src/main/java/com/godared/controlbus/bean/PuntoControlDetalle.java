@@ -20,6 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "puCoId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_PuCoDeGetAllPuntoControlDetalleByPuCo", 
+	procedureName = "Usp_S_PuCoDeGetAllPuntoControlDetalleByPuCo",
+	resultClasses = PuntoControlDetalle.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "puCoId")
 	})
 })
 public class PuntoControlDetalle implements Serializable  {

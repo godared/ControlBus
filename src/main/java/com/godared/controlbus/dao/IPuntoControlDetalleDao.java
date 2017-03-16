@@ -12,4 +12,5 @@ public interface IPuntoControlDetalleDao {
     void delete(PuntoControlDetalle entity);
     void deleteById(int entityId);
     void deleteByPuCoId(int entityPuCoId);
+    List<PuntoControlDetalle> getAllPuntoControlDetalleByPuCo(int puCoId);
 }

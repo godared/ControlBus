@@ -1,6 +1,8 @@
 package com.godared.controlbus.dao;
 
 
+import java.util.List;
+
 import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.stereotype.Repository;
@@ -18,5 +20,10 @@ public class RutaDetalleDaoImp extends AbstractJpaDAO<RutaDetalle> implements IR
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_D_RuDeEliminaByRu");
 	 	    storedProcedure.setParameter("ruId",ruId);
 	 	    storedProcedure.execute();
+	 }
+	 public List<RutaDetalle> getAllRutaDetalleByRu(int ruId){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_RuDeGetAllRutaDetalleByRu");
+	 	    storedProcedure.setParameter("ruId",ruId);
+	 	   return storedProcedure.getResultList();
 	 }
 }

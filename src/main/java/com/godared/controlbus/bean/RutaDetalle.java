@@ -18,6 +18,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "ruId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_RuDeGetAllRutaDetalleByRu", 
+	procedureName = "Usp_S_RuDeGetAllRutaDetalleByRu",
+	resultClasses = RutaDetalle.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "ruId")
 	})
 })
 public class RutaDetalle  implements Serializable  {

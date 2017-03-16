@@ -12,5 +12,6 @@ public interface IRutaDetalleDao {
     void delete(RutaDetalle entity);
     void deleteById(int entityId);
     void deleteByRuId(int ruId);
+    List<RutaDetalle> getAllRutaDetalleByRu(int ruId);
 
 }

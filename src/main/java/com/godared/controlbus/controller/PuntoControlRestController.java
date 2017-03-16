@@ -42,8 +42,14 @@ public class PuntoControlRestController {
 	public PuntoControl NewPuntoControl(){
 		return new PuntoControl();
 	}
-	
 	@RequestMapping(value = "/puntocontrol/save", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody PuntoControl puntoControl) {
+		
+		rutaService.CreatePuntoControl(puntoControl);;
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/puntocontrol/savePuCoDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
 		
@@ -56,7 +62,7 @@ public class PuntoControlRestController {
 		rutaService.Delete(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
-	//http://localhost:8080/ControlBus/rest/ruta/getallrutabyem?emId=1
+	//http://localhost:8080/ControlBus/rest/puntocontrol/getallpuntocontrolbyemru?emId=1&ruId=1
 	@RequestMapping(value = "/puntocontrol/getallpuntocontrolbyemru",params = {"emId","ruId"}, method=RequestMethod.GET)
 	public List<Usp_S_PuCoGetAllPuntoControlByEmRu> GetAllPuntoControlByEmRu(@RequestParam("emId") int emId,@RequestParam("ruId") int ruId) {
 		return rutaService.GetAllPuntoControlByEmRu(emId,ruId);

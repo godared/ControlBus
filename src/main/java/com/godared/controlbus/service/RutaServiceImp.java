@@ -127,8 +127,8 @@ public class RutaServiceImp implements IRutaService {
 	public RutaDetalle findOneRutaDetalleId(int ruId){
 		return rutaDetalleDao.findOne(ruId);//aqui hay que hacer un procedure
 	 }
-	public RutaDetalle findOneRutaDetalleByruId(int ruId){
-		return rutaDetalleDao.findOne(ruId);//aqui hay que hacer un procedure
+	public List<RutaDetalle> getAllRutaDetalleByRu(int ruId){
+		return rutaDetalleDao.getAllRutaDetalleByRu(ruId);
 	 }
 	public void CreateRutaDetalle(RutaDetalle rutaDetalle){
 		 this.rutaDetalleDao.create(rutaDetalle);
@@ -173,6 +173,9 @@ public class RutaServiceImp implements IRutaService {
 	 public PuntoControl findOnePuntoControl(int puCoId){
 		 return puntoControlDao.findOne(puCoId);
 	 }
+	 public void CreatePuntoControl(PuntoControl puntoControl) {
+		 puntoControlDao.create(puntoControl);
+	}
 	 public void DeletePuntoControl(int puCoId){
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
 		EntityTransaction transaction=entityManager.getTransaction();
@@ -233,12 +236,31 @@ public class RutaServiceImp implements IRutaService {
 	 public PuntoControlDetalle findOnePuntoControlDetalleId(int puCoDeId){
 		 return this.puntoControlDetalleDao.findOne(puCoDeId);	 
 	 }
-	 public PuntoControlDetalle findOnePuntoControlDetalleBypuCoId(int puCoId){
-		 return this.puntoControlDetalleDao.findOne(puCoId);	//aqui hay que hacer un procedure pa get by puCoId
+	 public List<PuntoControlDetalle> getAllPuntoControlDetalleByPuCo(int puCoId){
+		 return this.puntoControlDetalleDao.getAllPuntoControlDetalleByPuCo(puCoId);	//aqui hay que hacer un procedure pa get by puCoId
 	 }
+	
 	 public void CreatePuntoControlDetalle(PuntoControlDetalle puntoControlDetalle){
 		 this.puntoControlDetalleDao.create(puntoControlDetalle);
 	 }
+	 public void CreatePuntoControlDetalle(List<PuntoControlDetalle> puntoControlDetalle){
+			EntityManager entityManager=entityManagerFactory.createEntityManager();
+			EntityTransaction transaction=entityManager.getTransaction();
+			try {	
+				for(PuntoControlDetalle _puntoControlDetalle : puntoControlDetalle) {
+					//_puntoControlDetalle.setRuId(_puntoControlDetalle.getRuId());
+					 this.puntoControlDetalleDao.create(_puntoControlDetalle);
+		        }
+				transaction.commit();
+			}catch(Exception ex ){
+				transaction.rollback();
+			       throw new RuntimeException(ex);
+			}
+			finally{
+				entityManager.close();
+			}
+			
+		 }
 	 public void UpdatePuntoControlDetalle(int puCoDetId,PuntoControlDetalle puntoControlDetalle){
 		 	 
 		 PuntoControlDetalle _puntoControlDetalle=new PuntoControlDetalle();
