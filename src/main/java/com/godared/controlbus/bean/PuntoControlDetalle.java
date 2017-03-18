@@ -39,6 +39,7 @@ public class PuntoControlDetalle implements Serializable  {
 	private Date PuCoDeHora;
 	private int UsId;
 	private Date UsFechaReg;
+	private int PuCoDeOrden;
 	
 	@JsonProperty("PuCoDeId")
 	public int getPuCoDeId() {
@@ -95,6 +96,13 @@ public class PuntoControlDetalle implements Serializable  {
 	}
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
+	}
+	@JsonProperty("PuCoDeOrden")
+	public int getPuCoDeOrden() {
+		return PuCoDeOrden;
+	}
+	public void setPuCoDeOrden(int puCoDeOrden) {
+		PuCoDeOrden = puCoDeOrden;
 	}
 	
 	

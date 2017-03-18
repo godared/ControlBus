@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class RutaDetalle  implements Serializable  {
 	@Id		
 	private int RuId;
-	private String RuDeDescripcion;
+	private int RuDeOrden;
 	private float RuDeLatitud;
 	private float RuDeLongitud;
 	private int UsId;
@@ -42,12 +42,12 @@ public class RutaDetalle  implements Serializable  {
 	public void setRuId(int ruId) {
 		RuId = ruId;
 	}
-	@JsonProperty("RuDeDescripcion")
-	public String getRuDeDescripcion() {
-		return RuDeDescripcion;
+	@JsonProperty("RuDeOrden")
+	public int getRuDeDescripcion() {
+		return RuDeOrden;
 	}
-	public void setRuDeDescripcion(String ruDeDescripcion) {
-		RuDeDescripcion = ruDeDescripcion;
+	public void setRuDeOrden(int ruDeOrden) {
+		RuDeOrden = ruDeOrden;
 	}
 	@JsonProperty("RuDeLatitud")
 	public float getRuDeLatitud() {
