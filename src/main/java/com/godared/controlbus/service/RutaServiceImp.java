@@ -154,7 +154,7 @@ public class RutaServiceImp implements IRutaService {
 	public void UpdateRutaDetalle(int ruId,RutaDetalle rutaDetalle){
 		RutaDetalle _rutaDetalle=new RutaDetalle();
 		_rutaDetalle=findOneRutaDetalleId(ruId);
-		_rutaDetalle.setRuDeDescripcion(rutaDetalle.getRuDeDescripcion());
+		_rutaDetalle.setRuDeOrden(rutaDetalle.getRuDeOrden());
 		_rutaDetalle.setRuDeLatitud(rutaDetalle.getRuDeLatitud());
 		_rutaDetalle.setRuDeLongitud(rutaDetalle.getRuDeLongitud());
 		_rutaDetalle.setUsFechaReg(rutaDetalle.getUsFechaReg());

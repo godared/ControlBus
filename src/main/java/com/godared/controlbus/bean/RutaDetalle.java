@@ -42,7 +42,7 @@ public class RutaDetalle  implements Serializable  {
 		RuId = ruId;
 	}
 	@JsonProperty("RuDeOrden")
-	public int getRuDeDescripcion() {
+	public int getRuDeOrden() {
 		return RuDeOrden;
 	}
 	public void setRuDeOrden(int ruDeOrden) {
