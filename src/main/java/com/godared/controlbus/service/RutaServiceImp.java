@@ -136,7 +136,8 @@ public class RutaServiceImp implements IRutaService {
 	public void CreateRutaDetalle(List<RutaDetalle> rutaDetalle){
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
 		EntityTransaction transaction=entityManager.getTransaction();
-		try {	
+		try {
+			transaction.begin();
 			for(RutaDetalle _rutaDetalle : rutaDetalle) {
 				_rutaDetalle.setRuId(_rutaDetalle.getRuId());
 				 this.rutaDetalleDao.create(_rutaDetalle);
@@ -246,7 +247,8 @@ public class RutaServiceImp implements IRutaService {
 	 public void CreatePuntoControlDetalle(List<PuntoControlDetalle> puntoControlDetalle){
 			EntityManager entityManager=entityManagerFactory.createEntityManager();
 			EntityTransaction transaction=entityManager.getTransaction();
-			try {	
+			try {
+				transaction.begin();
 				for(PuntoControlDetalle _puntoControlDetalle : puntoControlDetalle) {
 					//_puntoControlDetalle.setRuId(_puntoControlDetalle.getRuId());
 					 this.puntoControlDetalleDao.create(_puntoControlDetalle);

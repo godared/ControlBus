@@ -47,7 +47,7 @@ public class PuntoControlDetalleRestController {
 		return new PuntoControlDetalle();
 	}
 	
-	@RequestMapping(value = "/puntocontroldetalle/save", method=RequestMethod.POST)
+	@RequestMapping(value = "/puntocontroldetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody List<PuntoControlDetalle> puntoControlDetalle) {		
 		rutaService.CreatePuntoControlDetalle(puntoControlDetalle);
