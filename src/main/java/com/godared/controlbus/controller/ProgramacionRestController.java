@@ -41,8 +41,13 @@ public class ProgramacionRestController {
 	public Programacion NewProgramacion(){
 		return new Programacion();
 	}
-	
 	@RequestMapping(value = "/programacion/save", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody Programacion programacion) {
+			programacionService.CreateProgramacion(programacion);;
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/programacion/savePrDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
 		

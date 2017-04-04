@@ -19,6 +19,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_PrDeGetAllProgramacionDetalleByPr", 
+	procedureName = "Usp_S_PrDeGetAllProgramacionDetalleByPr",
+	resultClasses = ProgramacionDetalle.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId")
 	})
 })
 public class ProgramacionDetalle implements Serializable {

@@ -46,6 +46,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		// TODO Auto-generated method stub
 		return this.programacionDao.findOne(id);
 	}
+	public void CreateProgramacion(Programacion programacion){
+		this.programacionDao.create(programacion);
+	}
 	public void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle) {
 		// TODO Auto-generated method stub
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
@@ -223,12 +226,31 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public ProgramacionDetalle findOneProgramacionDetalleId(int prDeId){
 		return this.programacionDetalleDao.findOne(prDeId);	
 	}
-	public ProgramacionDetalle findOneProgramacionDetalleByprId(int prId){
-		 return this.programacionDetalleDao.findOne(prId);	
+	public List<ProgramacionDetalle> getAllProgramacionDetalleByPr(int prId){
+		 return this.programacionDetalleDao.getAllProgramacionDetalleByPr(prId);	
 	}
 	public void CreateProgramacionDetalle(ProgramacionDetalle programacionDetalle){
 		this.programacionDetalleDao.create(programacionDetalle);
 	}
+	 public void CreateProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle){
+			EntityManager entityManager=entityManagerFactory.createEntityManager();
+			EntityTransaction transaction=entityManager.getTransaction();
+			try {
+				transaction.begin();
+				for(ProgramacionDetalle _programacionDetalle : programacionDetalle) {
+					//_puntoControlDetalle.setRuId(_puntoControlDetalle.getRuId());
+					 this.programacionDetalleDao.create(_programacionDetalle);
+		        }
+				transaction.commit();
+			}catch(Exception ex ){
+				transaction.rollback();
+			       throw new RuntimeException(ex);
+			}
+			finally{
+				entityManager.close();
+			}
+			
+		 }
 	public void UpdateProgramacionDetalle(int prDeId,ProgramacionDetalle programacionDetalle){
 		 ProgramacionDetalle _programacionDetalle=new ProgramacionDetalle();
 			_programacionDetalle=findOneProgramacionDetalleId(prDeId);

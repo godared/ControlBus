@@ -10,6 +10,7 @@ public interface IProgramacionService {
 	 List<Programacion> findAll();
 	 Programacion findOne(int prId);
 	 void Delete(int prId);
+	 void CreateProgramacion(Programacion programacion);
 	 void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle);
 	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio);
 	 void RegistrarProgramacionBase(int emId,int prId, Boolean aleatorio,
@@ -18,7 +19,8 @@ public interface IProgramacionService {
 				List<ProgramacionDetalle> programacionDetalles,long nroDias);
 	//Programacion Detalle
 	 ProgramacionDetalle findOneProgramacionDetalleId(int prDeId);
-	 ProgramacionDetalle findOneProgramacionDetalleByprId(int prId);
+	 List<ProgramacionDetalle> getAllProgramacionDetalleByPr(int prId);
+	 void CreateProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle);
 	 void CreateProgramacionDetalle(ProgramacionDetalle programacionDetalle);
 	 void UpdateProgramacionDetalle(int prDeId,ProgramacionDetalle programacionDetalle);
 	 void DeleteProgramacionDetalle(int prDeId);
