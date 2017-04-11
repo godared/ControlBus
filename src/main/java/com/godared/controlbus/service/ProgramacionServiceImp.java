@@ -106,8 +106,8 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
 	//Registrar el la programacion Base 
-	public void RegistrarProgramacionBase(int emId,int prId, Boolean aleatorio,
-			List<ProgramacionDetalle> ... programacionDetalles ){		
+	public void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,
+			int emId,int prId, Boolean aleatorio){		
 		IBusService _busService=new BusServiceImp();
 		List<Bus> _busAleatorio = new ArrayList<Bus>();
 		IProgramacionService _programacionService=new ProgramacionServiceImp();
@@ -140,10 +140,10 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			
 		}else{
 			
-			if (!programacionDetalles[0].isEmpty()){
-				for (ProgramacionDetalle programaDet:programacionDetalles[0])
+			if (!programacionDetalles.isEmpty()){
+				for (ProgramacionDetalle programaDet:programacionDetalles)
 					_programacionService.CreateProgramacionDetalle(programaDet);
-				this.GenerarProgramacionMensual(emId,prId,programacionDetalles[0],_nroDias);
+				this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias);
 			}		
 			
 		}

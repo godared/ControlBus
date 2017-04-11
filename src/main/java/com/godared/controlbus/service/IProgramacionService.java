@@ -13,8 +13,8 @@ public interface IProgramacionService {
 	 void CreateProgramacion(Programacion programacion);
 	 void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle);
 	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio);
-	 void RegistrarProgramacionBase(int emId,int prId, Boolean aleatorio,
-				List<ProgramacionDetalle> ... programacionDetalles );
+	 void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,
+				int emId,int prId, Boolean aleatorio );
 	 public void GenerarProgramacionMensual(int emId,int prId, 
 				List<ProgramacionDetalle> programacionDetalles,long nroDias);
 	//Programacion Detalle
