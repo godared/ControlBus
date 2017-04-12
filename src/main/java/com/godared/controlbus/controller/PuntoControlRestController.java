@@ -57,7 +57,7 @@ public class PuntoControlRestController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value="/puntocontrol/{id}", method=RequestMethod.DELETE)
+	@RequestMapping(value="/puntocontrol/delete/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> Delete(@PathVariable("id") int id) {
 		rutaService.DeletePuntoControl(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);

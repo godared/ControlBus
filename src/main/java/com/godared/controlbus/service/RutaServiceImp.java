@@ -108,7 +108,7 @@ public class RutaServiceImp implements IRutaService {
 		EntityTransaction transaction=entityManager.getTransaction();
 		try{
 			transaction.begin();
-			this.DeleteRutaDetalle(id);
+			this.DeleteRutaDetalleByRuId(id);
 			this.rutaDao.deleteById(id);
 			transaction.commit();
 		}

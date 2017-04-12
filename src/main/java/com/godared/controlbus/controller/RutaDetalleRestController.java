@@ -37,7 +37,7 @@ public class RutaDetalleRestController {
 		return new RutaDetalle();
 	}
 	
-	@RequestMapping(value = "/rutadetalle/save", method=RequestMethod.POST)
+	@RequestMapping(value = "/rutadetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody List<RutaDetalle> rutaDetalle) {		
 		rutaService.CreateRutaDetalle(rutaDetalle);

@@ -3,6 +3,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
@@ -26,7 +27,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	})
 })
 public class RutaDetalle  implements Serializable  {
-	@Id		
+	@Id	
+	@GeneratedValue
+	private int RuDeId;
 	private int RuId;
 	private int RuDeOrden;
 	private float RuDeLatitud;
@@ -34,6 +37,13 @@ public class RutaDetalle  implements Serializable  {
 	private int UsId;
 	private Date UsFechaReg;
 	
+	@JsonProperty("RuDeId")
+	public int getRuDeId() {
+		return RuDeId;
+	}
+	public void setRuDeId(int ruDeId) {
+		RuDeId = ruDeId;
+	}
 	@JsonProperty("RuId")
 	public int getRuId() {
 		return RuId;
