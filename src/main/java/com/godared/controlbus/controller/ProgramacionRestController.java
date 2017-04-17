@@ -45,7 +45,7 @@ public class ProgramacionRestController {
 	@RequestMapping(value = "/programacion/save", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody Programacion programacion) {
-			programacionService.CreateProgramacion(programacion);;
+			programacionService.Save(programacion);;
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/programacion/savePrDe", method=RequestMethod.POST)

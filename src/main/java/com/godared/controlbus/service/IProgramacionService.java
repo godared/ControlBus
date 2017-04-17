@@ -11,6 +11,7 @@ public interface IProgramacionService {
 	 Programacion findOne(int prId);
 	 void Delete(int prId);
 	 void CreateProgramacion(Programacion programacion);
+	 void Save(Programacion programacion);
 	 void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle);
 	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio);
 	 void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,

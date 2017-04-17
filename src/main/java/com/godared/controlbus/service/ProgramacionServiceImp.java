@@ -49,6 +49,28 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public void CreateProgramacion(Programacion programacion){
 		this.programacionDao.create(programacion);
 	}
+	public void Save(Programacion programacion){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {		
+			transaction.begin();
+			if (programacion.getPrId()>0)
+			{
+				programacion.setUsFechaReg(new Date());
+				this.programacionDao.update(programacion);
+			}else
+			{
+				this.programacionDao.create(programacion);
+			}
+			transaction.commit();
+		}catch(Exception ex){
+		    transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+	}
 	public void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle) {
 		// TODO Auto-generated method stub
 		EntityManager entityManager=entityManagerFactory.createEntityManager();

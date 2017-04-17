@@ -67,6 +67,29 @@ public class RutaServiceImp implements IRutaService {
 	public void Create(Ruta ruta) {
 		 rutaDao.create(ruta);
 	}
+	public void Save(Ruta ruta){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {
+			transaction.begin();
+			if (ruta.getRuId()>0)
+			{
+				ruta.setUsFechaReg(new Date());
+				this.rutaDao.update(ruta);
+			}
+			else{
+				this.rutaDao.create(ruta);			
+			}
+			transaction.commit();
+		}
+		catch(Exception ex){
+		    transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+	}
 	public void Save(Ruta ruta,List<RutaDetalle> rutaDetalle) {
 		// TODO Auto-generated method stub
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
@@ -193,6 +216,29 @@ public class RutaServiceImp implements IRutaService {
 		finally{
 			entityManager.close();
 		}
+	 }
+	 public void Save(PuntoControl puntoControl){
+		 EntityManager entityManager=entityManagerFactory.createEntityManager();
+			EntityTransaction transaction=entityManager.getTransaction();
+			try {		
+				transaction.begin();
+				if (puntoControl.getPuCoId()>0)
+				{
+					puntoControl.setUsFechaReg(new Date() );
+					this.puntoControlDao.update(puntoControl);
+				}else
+				{
+					this.puntoControlDao.create(puntoControl);
+		        }
+			transaction.commit();
+			}
+			catch(Exception ex){
+			    transaction.rollback();
+			       throw new RuntimeException(ex);
+			}
+			finally{
+				entityManager.close();
+			}
 	 }
 	 public void Save(PuntoControl puntoControl,List<PuntoControlDetalle> puntoControlDetalle){
 		// TODO Auto-generated method stub

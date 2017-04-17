@@ -47,7 +47,7 @@ public class RutaRestController {
 	@RequestMapping(value = "/ruta/save", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody Ruta ruta) {		
-		rutaService.Create(ruta);
+		rutaService.Save(ruta);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	

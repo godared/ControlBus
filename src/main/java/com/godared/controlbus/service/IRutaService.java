@@ -15,6 +15,7 @@ public interface IRutaService {
 	 Ruta findOne(int ruId);
 	 void Delete(int ruId);
 	 void Create(Ruta ruta);
+	 void Save(Ruta ruta);
 	 void Save(Ruta ruta,List<RutaDetalle> rutaDetalle);
 	 List<Usp_S_RuGetAllRutaByEm> GetAllRutaByEm(int emId);
 	 //Ruta Detalle
@@ -30,6 +31,7 @@ public interface IRutaService {
 	 PuntoControl findOnePuntoControl(int puCoId);
 	 void DeletePuntoControl(int puCoId);
 	 void CreatePuntoControl(PuntoControl puntoControl);
+	 void Save(PuntoControl puntoContro);
 	 void Save(PuntoControl puntoControl,List<PuntoControlDetalle> puntoControlDetalle);
 	 List<Usp_S_PuCoGetAllPuntoControlByEmRu> GetAllPuntoControlByEmRu(int emId,int ruId);
 	//PuntaContro Detalle
