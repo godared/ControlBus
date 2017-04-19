@@ -40,8 +40,13 @@ public class TarjetaControlRestController {
 	public TarjetaControl NewPuntoControl(){
 		return new TarjetaControl();
 	}
-	
 	@RequestMapping(value = "/tarjetacontrol/save", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody TarjetaControl tarjetaControl){
+		tarjetaControlService.Save(tarjetaControl);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/tarjetacontrol/saveTaDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
 		

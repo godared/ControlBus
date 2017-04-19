@@ -44,6 +44,28 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		// TODO Auto-generated method stub
 		return tarjetaControlDao.findOne(id);
 	}
+	public void Save(TarjetaControl tarjetaControl){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {		
+			transaction.begin();
+			if (tarjetaControl.getRuId()>0)
+			{
+				tarjetaControl.setUsFechaReg(new Date() );
+				this.tarjetaControlDao.update(tarjetaControl);
+			}
+			else{
+				this.tarjetaControlDao.create(tarjetaControl);
+			}
+		}
+		catch(Exception ex){
+		    transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+	}
 	public void Save(TarjetaControl tarjetaControl,List<TarjetaControlDetalle> tarjetaControlDetalle) {
 		// TODO Auto-generated method stub
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
@@ -109,6 +131,24 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	}
 	public void CreateTarjetaControlDetalle(TarjetaControlDetalle puntoControlDetalle){
 		 this.tarjetaControlDetalleDao.create(puntoControlDetalle);
+	}
+	public void CreateTarjetaControlDetalle(List<TarjetaControlDetalle> tarjetaControlDetalle){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {
+			transaction.begin();
+			for(TarjetaControlDetalle _puntoControlDetalle:tarjetaControlDetalle){
+				this.tarjetaControlDetalleDao.create(_puntoControlDetalle);
+			}
+			transaction.commit();
+		}		
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
 	}
 	public void UpdateTarjetaControlDetalle(int taCoDeId,TarjetaControlDetalle tarjetaControlDetalle){
 		 TarjetaControlDetalle _tarjetaControlDetalle=new TarjetaControlDetalle();

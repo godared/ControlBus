@@ -1,9 +1,15 @@
 package com.godared.controlbus.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
@@ -31,4 +37,17 @@ public class TarjetaControlDetalleRestController {
 	public TarjetaControlDetalle NewTarjetaControlDetalle(){
 		return new TarjetaControlDetalle();
 	}
+	@RequestMapping(value = "/tarjetacontroldetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody List<TarjetaControlDetalle> tarjetaControlDetalle) {		
+		tarjetaControlService.CreateTarjetaControlDetalle(tarjetaControlDetalle);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value="/tarjetacontroldetalle/delete/tacoid/{taCoDeId}", method=RequestMethod.GET)
+	@ResponseBody
+	public ResponseEntity<Boolean> Delete(@PathVariable("taCoId")int taCoId){
+		tarjetaControlService.DeleteTarjetaControlDetalleBytaCoId(taCoId);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	
 }
