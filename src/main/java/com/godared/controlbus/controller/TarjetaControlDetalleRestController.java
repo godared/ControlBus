@@ -33,6 +33,15 @@ public class TarjetaControlDetalleRestController {
 		}
 		return tarjetaControlDetalle;
 	}
+	@RequestMapping(value="/tarjetacontroldetalle/tacoid/{taCoId}", method=RequestMethod.GET)
+	public List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(@PathVariable("taCoId") int taCoId) {
+		List<TarjetaControlDetalle> tarjetaControlDetalle=tarjetaControlService.getAllTarjetaControlDetalleByTaCo(taCoId);
+		if(tarjetaControlDetalle==null)
+		{
+			throw new RestException(1,"Tarjeta Control no enccontrado"," TarjetaControl con id:"+ taCoId + " No encontrado en el sistema");
+		}
+		return tarjetaControlDetalle;
+	}
 	@RequestMapping(value="/tarjetacontroldetalle/new", method=RequestMethod.GET)
 	public TarjetaControlDetalle NewTarjetaControlDetalle(){
 		return new TarjetaControlDetalle();

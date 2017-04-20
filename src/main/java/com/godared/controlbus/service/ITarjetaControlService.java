@@ -17,6 +17,7 @@ public interface ITarjetaControlService {
 	//TarjetaControl Detalle
 	 TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId);
 	 TarjetaControlDetalle findOneTarjetaControlDetalleBytaCoId(int taCoId);
+	 List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(int taCoId);
 	 void CreateTarjetaControlDetalle(TarjetaControlDetalle tarjetaControlDetalle);
 	 void CreateTarjetaControlDetalle(List<TarjetaControlDetalle> tarjetaControlDetalle);
 	 void UpdateTarjetaControlDetalle(int taCoId,TarjetaControlDetalle tarjetaControlDetalle);

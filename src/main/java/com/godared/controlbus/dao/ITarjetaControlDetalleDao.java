@@ -12,4 +12,5 @@ public interface ITarjetaControlDetalleDao {
     void delete(TarjetaControlDetalle entity);
     void deleteById(int entityId);
     void deleteByTaCoId(int entityTaCoId);
+    List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(int taCoId);
 }

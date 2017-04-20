@@ -1,7 +1,8 @@
 package com.godared.controlbus.dao;
 
-import javax.persistence.StoredProcedureQuery;
+import java.util.List;
 
+import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 
 import com.godared.controlbus.bean.TarjetaControlDetalle;
@@ -15,5 +16,10 @@ public class TarjetaControlDetalleDaoImp extends AbstractJpaDAO<TarjetaControlDe
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_D_TaCoDeEliminaByTaCo");
 	 	    storedProcedure.setParameter("taCoId",taCoId);
 	 	    storedProcedure.execute();
+	 }
+	 public List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(int taCoId){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_TaCoDeGetAllTarjetaControlDetalleByTaCo");
+	 	    storedProcedure.setParameter("taCoId",taCoId);
+	 	   return storedProcedure.getResultList();
 	 }
 }

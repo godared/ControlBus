@@ -19,6 +19,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_TaCoDeGetAllTarjetaControlDetalleByTaCo", 
+	procedureName = "Usp_S_TaCoDeGetAllTarjetaControlDetalleByTaCo",
+	resultClasses = TarjetaControlDetalle.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
 	})
 })
 public class TarjetaControlDetalle implements Serializable {
@@ -36,6 +42,13 @@ public class TarjetaControlDetalle implements Serializable {
 	private int  UsId;
 	private Date UsFechaReg;
 	
+	@JsonProperty("TaCoDeId")
+	public int getTaCoDeId() {
+		return TaCoDeId;
+	}
+	public void setTaCoDeId(int taCoDeId) {
+		TaCoDeId = taCoDeId;
+	}
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
 		return TaCoId;

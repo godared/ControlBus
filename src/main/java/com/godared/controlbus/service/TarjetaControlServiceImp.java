@@ -129,6 +129,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	public TarjetaControlDetalle findOneTarjetaControlDetalleBytaCoId(int taCoId){
 		return this.tarjetaControlDetalleDao.findOne(taCoId);	//aqui hay que hacer un procedure pa get by puCoId
 	}
+	public List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(int taCoId){
+		return this.tarjetaControlDetalleDao.getAllTarjetaControlDetalleByTaCo(taCoId);
+	}
 	public void CreateTarjetaControlDetalle(TarjetaControlDetalle puntoControlDetalle){
 		 this.tarjetaControlDetalleDao.create(puntoControlDetalle);
 	}
