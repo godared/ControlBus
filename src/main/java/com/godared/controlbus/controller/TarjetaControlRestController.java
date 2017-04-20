@@ -60,7 +60,7 @@ public class TarjetaControlRestController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	//http://localhost:8080/ControlBus/rest/ruta/getallrutabyem?emId=1
-	@RequestMapping(value = "/tarjetacontrol/getallpuntocontrolbyemru",params = {"emId","puCoId"}, method=RequestMethod.GET)
+	@RequestMapping(value = "/tarjetacontrol/getalltarjetacontrolbyempuco",params = {"emId","puCoId"}, method=RequestMethod.GET)
 	public List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(@RequestParam("emId") int emId,@RequestParam("puCoId") int puCoId) {
 		return tarjetaControlService.GetAllTarjetaControlByEmPuCo(emId,puCoId);
 	}
