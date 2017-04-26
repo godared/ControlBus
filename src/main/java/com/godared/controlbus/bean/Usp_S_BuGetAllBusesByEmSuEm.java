@@ -1,8 +1,10 @@
 package com.godared.controlbus.bean;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
@@ -21,8 +23,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "suEmId")
 	})
 })
-public class Usp_S_BuGetAllBusesByEmSuEm {
+public class Usp_S_BuGetAllBusesByEmSuEm  implements Serializable {
 	@Id
+	@GeneratedValue
 	private int BuId;
 	private int SuEmId;
 	private String BuDescripcion;

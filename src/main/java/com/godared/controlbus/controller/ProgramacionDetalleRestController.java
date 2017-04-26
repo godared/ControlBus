@@ -42,8 +42,8 @@ public class ProgramacionDetalleRestController {
 		return programacionDetalle;
 	}
 	@RequestMapping(value="/programaciondetalle/new", method=RequestMethod.GET)
-	public PuntoControlDetalle NewProgramacionDetalle(){
-		return new PuntoControlDetalle();
+	public ProgramacionDetalle NewProgramacionDetalle(){
+		return new ProgramacionDetalle();
 	}
 	@RequestMapping(value = "/programaciondetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	//@Consumes({ MediaType.APPLICATION_JSON })

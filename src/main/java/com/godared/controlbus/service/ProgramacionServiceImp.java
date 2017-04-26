@@ -1,7 +1,8 @@
 package com.godared.controlbus.service;
 
-import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -12,8 +13,11 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.apache.commons.lang3.SerializationUtils;
 
 import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Programacion;
@@ -29,6 +33,8 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	private IProgramacionDetalleDao programacionDetalleDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
+	@Autowired
+	IBusService busService;
 //	injeccion de dependencias
 	public void setProgramacionDao(IProgramacionDao programacionDao) {
 		 this.programacionDao = programacionDao;		 
@@ -49,18 +55,22 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public void CreateProgramacion(Programacion programacion){
 		this.programacionDao.create(programacion);
 	}
-	public void Save(Programacion programacion){
+	public Programacion createReturn(Programacion programacion){
+		return this.programacionDao.createReturn(programacion);
+	}
+	public Programacion Save(Programacion programacion){
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
 		EntityTransaction transaction=entityManager.getTransaction();
+		Programacion _programacion=null;
 		try {		
 			transaction.begin();
 			if (programacion.getPrId()>0)
 			{
 				programacion.setUsFechaReg(new Date());
-				this.programacionDao.update(programacion);
+				_programacion=(Programacion)this.programacionDao.update(programacion);
 			}else
 			{
-				this.programacionDao.create(programacion);
+				_programacion=(Programacion)this.programacionDao.createReturn(programacion);
 			}
 			transaction.commit();
 		}catch(Exception ex){
@@ -70,6 +80,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		finally{
 			entityManager.close();
 		}
+		return _programacion;
 	}
 	public void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle) {
 		// TODO Auto-generated method stub
@@ -128,120 +139,199 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
 	}
 	//Registrar el la programacion Base 
-	public void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,
-			int emId,int prId, Boolean aleatorio){		
-		IBusService _busService=new BusServiceImp();
-		List<Bus> _busAleatorio = new ArrayList<Bus>();
-		IProgramacionService _programacionService=new ProgramacionServiceImp();
-		Programacion _programacion;
-		ProgramacionDetalle _programacionDetalle=new ProgramacionDetalle();
+	public void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles,
+			int emId,int prId, Boolean aleatorio ) {		
+		//BusServiceImp _busService=new BusServiceImp();
+		List<Bus> _busAleatorio = new ArrayList<Bus>();		
+		Programacion _programacion=null;		
 		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
+		List<ProgramacionDetalle> _programacionDetallesBD=new ArrayList<ProgramacionDetalle>();
+		List<ProgramacionDetalle> _programacionDetallesBD2=new ArrayList<ProgramacionDetalle>();
 		int c=1;
-		//Obteniendo los datos de la programación
-		_programacion=_programacionService.findOne(prId);
-		long _nroDias=_programacion.getPrFechaInicio().getTime()-_programacion.getPrFechaFin().getTime();
-			
+		//Obteniendo los datos de la programaciï¿½n
+		_programacion=(Programacion)this.programacionDao.findOne(prId);//_programacionService.findOne(prId);
 		
-		if (aleatorio==true){
-			_busAleatorio=_busService.SortearAleatorio(emId);
-			for(Bus _bus:_busAleatorio){
-				_programacionDetalle.setPrId(prId);
-				_programacionDetalle.setBuId(_bus.getBuId());
-				_programacionDetalle.setUsFechaReg(_programacion.getPrFechaInicio());
-				_programacionDetalle.setPrDeBase(true);
-				_programacionDetalle.setPrDeOrden(c);
-				_programacionDetalle.setUsId(1);
-				_programacionDetalle.setUsFechaReg(new Date());
+		//String day = new SimpleDateFormat("dd").format(new Date(_programacion.getPrFechaInicio()));
+		long timestamp = _programacion.getPrFechaInicio().getTime();
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeInMillis(timestamp);
+		long DiasIncio=cal.get(Calendar.DAY_OF_YEAR);
+		long timestamp2 = _programacion.getPrFechaFin().getTime();
+		Calendar cal2 = Calendar.getInstance();
+		cal2.setTimeInMillis(timestamp2);
+		long DiasFin=cal2.get(Calendar.DAY_OF_YEAR);
 				
-				_programacionDetalles.add(_programacionDetalle);
+		long _nroDias=DiasFin-DiasIncio+1;
+		if (aleatorio==true){
+			_busAleatorio=busService.SortearAleatorio(emId);
+			for(Bus _bus:_busAleatorio){
+				ProgramacionDetalle obj=new ProgramacionDetalle();
+				obj.setPrId(prId);
+				obj.setBuId(_bus.getBuId());
+				obj.setUsFechaReg(_programacion.getPrFechaInicio());
+				obj.setPrDeBase(true);
+				obj.setPrDeOrden(c);
+				obj.setUsId(1);
+				obj.setUsFechaReg(new Date());
+				
+				_programacionDetalles.add(obj);
 				c=c+1;
 			}
-			for (ProgramacionDetalle programaDet:_programacionDetalles)
-			_programacionService.CreateProgramacionDetalle(programaDet);
-			this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_nroDias);
+			for (ProgramacionDetalle programacionDet:_programacionDetalles){
+				ProgramacionDetalle obj=new ProgramacionDetalle();
+				obj=org.apache.commons.lang3.SerializationUtils.clone(programacionDet);
+				obj.setPrDeBase(true);
+				obj.setPrDeFecha(_programacion.getPrFechaInicio());	
+				//this.programacionDetalleDao.create(programaDet);
+				_programacionDetallesBD.add(obj);}
+				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD);
 			
-		}else{
-			
+		}else{			
 			if (!programacionDetalles.isEmpty()){
-				for (ProgramacionDetalle programaDet:programacionDetalles)
-					_programacionService.CreateProgramacionDetalle(programaDet);
-				this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias);
+				for (ProgramacionDetalle programacionDet:programacionDetalles){
+					ProgramacionDetalle obj=new ProgramacionDetalle();
+					obj=org.apache.commons.lang3.SerializationUtils.clone(programacionDet);
+					obj.setPrDeBase(true);
+					obj.setPrDeFecha(_programacion.getPrFechaInicio());					
+					_programacionDetallesBD.add(obj);
+					}					
+					//_programacionService.CreateProgramacionDetalle(programaDet);
+			_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD);
 			}		
 			
 		}
-		
+		//Guardando en la Base de Datos
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {		
+			transaction.begin();
+			for(ProgramacionDetalle programacionDet : _programacionDetallesBD2) {
+				//programacionDet.setPrId(programacion.getPrId());
+				//this.CreateProgramacionDetalle(programacionDet);//System.out.println(rutaDet);
+				ProgramacionDetalle obj=new ProgramacionDetalle();				
+				obj=org.apache.commons.lang3.SerializationUtils.clone(programacionDet);
+				this.programacionDetalleDao.create(obj);
+	        }	
+			transaction.commit();
+		}
+		catch(Exception ex ){
+			transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}	
 	}
-	public void GenerarProgramacionMensual(int emId,int prId, 
-			List<ProgramacionDetalle> programacionDetalles,long nroDias){		
+	public List<ProgramacionDetalle> GenerarProgramacionMensual(int emId,int prId, 
+			List<ProgramacionDetalle> programacionDetalles,long nroDias, Date fechaInicio,List<ProgramacionDetalle>programacionDetallesBD){		
 		int c= 2;
-		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>();
-		List<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>();
-		List<ProgramacionDetalle> _programacionDetalles1=new ArrayList<ProgramacionDetalle>();
-		//_programacionDetalles=programacionDetalles;
-		_programacionDetalles2=programacionDetalles;
-		_programacionDetalles1=programacionDetalles;
+		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>(programacionDetalles);
+		List<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>(programacionDetalles);
+		List<ProgramacionDetalle> _programacionDetalles1=new ArrayList<ProgramacionDetalle>(programacionDetalles);
+		List<ProgramacionDetalle> _programacionDetallesBD=new ArrayList<ProgramacionDetalle>(programacionDetallesBD);
 		
+		//long timestamp =fechaInicio.getTime();
+		Calendar cal = Calendar.getInstance();
+		Date _fechaInicio=fechaInicio;
+		//cal.setTime(_fechaInicio);
+		//cal.add(Calendar.DAY_OF_MONTH, 1);
+		//_fechaInicio=cal.getTime();
+		//long DiasIncio=cal.get(Calendar.DAY_OF_YEAR);
 		for(int i=2; i<=nroDias;i++){
+			cal.setTime(_fechaInicio);
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			_fechaInicio=cal.getTime();
 			if ( i % 2==0){
 				//si la clumna  dia es par tonces invertimos de la columna inpar anterior 
 				c=1;
-				Collections.sort(_programacionDetalles1, new Comparator<ProgramacionDetalle>() {
-		               
+				Collections.sort(_programacionDetalles1, new Comparator<ProgramacionDetalle>() {		               
 	                public int compare(ProgramacionDetalle lhs, ProgramacionDetalle rhs) {
 	                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
 	                    return lhs.getPrDeOrden() > rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() < rhs.getPrDeOrden() ) ? 1 : 0;
 	                }
-	            });
-				
+	            });				
 				for(ProgramacionDetalle pr:_programacionDetalles1){		
-					//Agregar a la base de datos
-					pr.setPrDeOrden(c);
-					this.programacionDetalleDao.create(pr);
+					//Agregar a la base de datos					
+					ProgramacionDetalle obj=new ProgramacionDetalle();
+					obj=org.apache.commons.lang3.SerializationUtils.clone(pr);
+					obj.setPrDeBase(false);
+					obj.setPrDeFecha(_fechaInicio);	
+					obj.setPrDeOrden(c);
+					_programacionDetallesBD.add(obj);
+					//this.programacionDetalleDao.create(pr);
 					c=c+1;	 
 				}
 				//
 			}else
-			{
-				//si es impar tonces 
+			{//si es impar tonces hacemos la logica de orden para ordenarlo mas adelante
 				c=1;
 				int c2=3;
 				int c1=1;
-				_programacionDetalles.clear();
+				int total=0;
+				total=(int)_programacionDetalles2.size();
+				_programacionDetalles.clear();				
 				for(ProgramacionDetalle pr:_programacionDetalles2){	
+					ProgramacionDetalle obj=new ProgramacionDetalle();
+					obj=org.apache.commons.lang3.SerializationUtils.clone(pr);
+					obj.setPrDeBase(false);
+					obj.setPrDeFecha(_fechaInicio);	
 					if(c%2==0){
-						//Ingresa
-						pr.setPrDeOrden(c1);
-						_programacionDetalles.add(pr);
+						//EN caso el total sea par
+						if(total%2==0){
+							if(c==total-1)
+								//pr.setPrDeOrden(c1+3);
+							obj.setPrDeOrden(c1+3);
+						}
+						else
+							//pr.setPrDeOrden(c1);
+							obj.setPrDeOrden(c1);
+						//_programacionDetalles.add(pr);
+						
+												
+						_programacionDetalles.add(obj);
+						
 						if (c==2)
 							c1=c1+1;
 						else
 							c1=c1+2;
 					}else{
-						//ingresa
-						pr.setPrDeOrden(c2);
-						_programacionDetalles.add(pr);
+						//en caso el total sea inpar					
+						if(c==total)
+							//pr.setPrDeOrden(c2-3);
+							obj.setPrDeOrden(c2-3);
+						else
+							//pr.setPrDeOrden(c2);
+							obj.setPrDeOrden(c2);
+						
+						_programacionDetalles.add(obj);
 						c2=c2+2;
 					}						
 					//
 					c=c+1;					
 				}	
-				// ordenamos en forma ascendente
-				Collections.sort(_programacionDetalles, new Comparator<ProgramacionDetalle>() {
-		               
+				// ordenamos en forma ascendente de acuerdo a lo anterior hecho en else
+				Collections.sort(_programacionDetalles, new Comparator<ProgramacionDetalle>() {		               
 	                public int compare(ProgramacionDetalle lhs, ProgramacionDetalle rhs) {
 	                    // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-	                    return lhs.getPrDeOrden() > rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() < rhs.getPrDeOrden() ) ? 1 : 0;
+	                    return lhs.getPrDeOrden() < rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() > rhs.getPrDeOrden() ) ? 1 : 0;
 	                }
 	            });
-				_programacionDetalles1=_programacionDetalles;
-				_programacionDetalles2=_programacionDetalles;
-				//Agregamos a la base
-				for(ProgramacionDetalle pr:_programacionDetalles){		
-					this.programacionDetalleDao.create(pr);
+				_programacionDetalles1=new ArrayList<ProgramacionDetalle>(_programacionDetalles);//_programacionDetalles;
+				_programacionDetalles2=new ArrayList<ProgramacionDetalle>(_programacionDetalles);//_programacionDetalles;
+				//Agregamos  para el sigueiente dia base detalle Programacion
+				for(ProgramacionDetalle pr:_programacionDetalles){	
+					//pr.setPrDeFecha(_fechaInicio);
+					//pr.setPrDeBase(false);
+					//_programacionDetallesBD.add(pr);					
+					ProgramacionDetalle obj=new ProgramacionDetalle();
+					obj=org.apache.commons.lang3.SerializationUtils.clone(pr);	
+					_programacionDetallesBD.add(obj);
+					//this.programacionDetalleDao.create(pr);
 				}
 			}
 			
-		}	
+		}
+		return _programacionDetallesBD;
 	}	
 	
 	//Programacion Detalle

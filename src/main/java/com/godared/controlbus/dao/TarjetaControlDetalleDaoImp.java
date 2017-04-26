@@ -3,6 +3,7 @@ package com.godared.controlbus.dao;
 import java.util.List;
 
 import javax.persistence.StoredProcedureQuery;
+
 import org.springframework.stereotype.Repository;
 
 import com.godared.controlbus.bean.TarjetaControlDetalle;

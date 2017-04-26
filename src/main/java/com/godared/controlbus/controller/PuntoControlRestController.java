@@ -46,7 +46,7 @@ public class PuntoControlRestController {
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody PuntoControl puntoControl) {
 		
-		rutaService.Save(puntoControl);;
+		rutaService.Save(puntoControl);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/puntocontrol/savePuCoDe", method=RequestMethod.POST)

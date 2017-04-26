@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
-import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 
 public interface ITarjetaControlService {

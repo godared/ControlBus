@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,8 +47,9 @@ public class PuntoControlDetalleRestController {
 	public PuntoControlDetalle NewPuntoControlDetalle(){
 		return new PuntoControlDetalle();
 	}
-	
 	@RequestMapping(value = "/puntocontroldetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	//@Consumes({ MediaType.APPLICATION_JSON })
+    //@Produces({ MediaType.APPLICATION_JSON })
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody List<PuntoControlDetalle> puntoControlDetalle) {		
 		rutaService.CreatePuntoControlDetalle(puntoControlDetalle);

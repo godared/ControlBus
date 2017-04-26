@@ -9,7 +9,6 @@ import com.godared.controlbus.bean.ProgramacionDetalle;
 public class ProgramacionDetalleDaoImp extends AbstractJpaDAO<ProgramacionDetalle> implements IProgramacionDetalleDao   {
 	 public ProgramacionDetalleDaoImp() {
 	        super();
-
 	        setClazz(ProgramacionDetalle.class);
 	    }
 	 public void deleteByPrId(int prId){

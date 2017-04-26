@@ -3,7 +3,6 @@ package com.godared.controlbus.dao;
 import java.util.List;
 
 import com.godared.controlbus.bean.ProgramacionDetalle;
-import com.godared.controlbus.bean.PuntoControlDetalle;
 
 public interface IProgramacionDetalleDao {
 	ProgramacionDetalle findOne(int id);

@@ -9,6 +9,7 @@ public interface IProgramacionDao {
 	Programacion findOne(int id);
     List<Programacion> findAll();
     void create(Programacion entity);
+    Programacion createReturn(Programacion entity);
     Programacion update(Programacion entity);
     void delete(Programacion entity);
     void deleteById(int entityId);

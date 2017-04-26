@@ -32,11 +32,12 @@ public class RutaDetalle  implements Serializable  {
 	private int RuDeId;
 	private int RuId;
 	private int RuDeOrden;
-	private float RuDeLatitud;
-	private float RuDeLongitud;
+	private double RuDeLatitud;
+	private double RuDeLongitud;
 	private int UsId;
 	private Date UsFechaReg;
 	
+
 	@JsonProperty("RuDeId")
 	public int getRuDeId() {
 		return RuDeId;
@@ -59,17 +60,17 @@ public class RutaDetalle  implements Serializable  {
 		RuDeOrden = ruDeOrden;
 	}
 	@JsonProperty("RuDeLatitud")
-	public float getRuDeLatitud() {
+	public double getRuDeLatitud() {
 		return RuDeLatitud;
 	}
-	public void setRuDeLatitud(float ruDeLatitud) {
+	public void setRuDeLatitud(double ruDeLatitud) {
 		RuDeLatitud = ruDeLatitud;
 	}
 	@JsonProperty("RuDeLongitud")
-	public float getRuDeLongitud() {
+	public double getRuDeLongitud() {
 		return RuDeLongitud;
 	}
-	public void setRuDeLongitud(float ruDeLongitud) {
+	public void setRuDeLongitud(double ruDeLongitud) {
 		RuDeLongitud = ruDeLongitud;
 	}
 	@JsonProperty("UsId")

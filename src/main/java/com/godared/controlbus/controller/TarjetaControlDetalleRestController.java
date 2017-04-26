@@ -13,9 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
-import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
-import com.godared.controlbus.service.IRutaService;
 import com.godared.controlbus.service.ITarjetaControlService;
 
 @RestController
@@ -58,5 +56,4 @@ public class TarjetaControlDetalleRestController {
 		tarjetaControlService.DeleteTarjetaControlDetalleBytaCoId(taCoId);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
-	
 }

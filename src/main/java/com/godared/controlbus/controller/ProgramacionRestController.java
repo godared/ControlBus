@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionDetalle;
+import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
+import com.godared.controlbus.service.IBusService;
 import com.godared.controlbus.service.IProgramacionService;
 
 
@@ -25,6 +27,7 @@ import com.godared.controlbus.service.IProgramacionService;
 public class ProgramacionRestController {
 	@Autowired
 	IProgramacionService programacionService;
+	
 	@RequestMapping(value = "/programacion", method=RequestMethod.GET)	
 	public List<Programacion> List() {
 		return programacionService.findAll();
@@ -44,14 +47,13 @@ public class ProgramacionRestController {
 	}
 	@RequestMapping(value = "/programacion/save", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Boolean> save(@RequestBody Programacion programacion) {
-			programacionService.Save(programacion);;
-		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	public Programacion save(@RequestBody Programacion programacion) {
+			programacionService.Save(programacion);
+		return programacionService.Save(programacion);// new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/programacion/savePrDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
-		
 		programacionService.Save(requestWrapper.getProgramacion(), requestWrapper.getProgramacionDetalle());;
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
@@ -66,11 +68,10 @@ public class ProgramacionRestController {
 	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(@RequestParam("emId") int emId,@RequestParam("anio") int anio) {
 		return programacionService.GetAllProgramacionByEm(emId,anio);
 	}
-	//http://localhost:8080/ControlBus/rest/ruta/programacionbase?emId=1&prId=1&aleatorio=0
-	@RequestMapping(value = "/programacion/programacionbase",params = {"emId","prId","aleatorio"}, method=RequestMethod.POST)
+	@RequestMapping(value = "/programacion/programacionbase/{emId}/{prId}/{aleatorio}/", method=RequestMethod.POST) //params = {"emId","prId","aleatorio"},
 	@ResponseBody
 	public ResponseEntity<Boolean> RegistrarProgramacionBase(@RequestBody List<ProgramacionDetalle>  programacionDetalles ,
-			@RequestParam("emId")int emId,@RequestParam("prId")int prId, @RequestParam("aleatorio")Boolean aleatorio){
+			@PathVariable("emId")int emId,@PathVariable("prId")int prId, @PathVariable("aleatorio")Boolean aleatorio) {
 		programacionService.RegistrarProgramacionBase(programacionDetalles,emId,prId,aleatorio);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 		

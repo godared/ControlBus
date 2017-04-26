@@ -112,7 +112,7 @@ public class RutaServiceImp implements IRutaService {
 				this.rutaDao.create(ruta);
 				//REgistramos el detalle
 				for(RutaDetalle rutaDet : rutaDetalle) {
-					rutaDet.setRuId(ruta.getRuId());
+					//rutaDet.setRuId(ruta.getRuId());
 					this.rutaDetalleDao.create(rutaDet);//System.out.println(rutaDet);
 		        }			
 			}
@@ -162,7 +162,7 @@ public class RutaServiceImp implements IRutaService {
 		try {
 			transaction.begin();
 			for(RutaDetalle _rutaDetalle : rutaDetalle) {
-				_rutaDetalle.setRuId(_rutaDetalle.getRuId());
+				//_rutaDetalle.setRuId(_rutaDetalle.getRuId());
 				 this.rutaDetalleDao.create(_rutaDetalle);
 	        }
 			transaction.commit();

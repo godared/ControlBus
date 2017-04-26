@@ -4,11 +4,13 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureParameter;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -19,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	//resultClasses = Usp_S_RuGetAllRutaByEm.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId")
-	}),
+	}),	
 	@NamedStoredProcedureQuery(name = "Usp_S_PrDeGetAllProgramacionDetalleByPr", 
 	procedureName = "Usp_S_PrDeGetAllProgramacionDetalleByPr",
 	resultClasses = ProgramacionDetalle.class , 
@@ -28,7 +30,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	})
 })
 public class ProgramacionDetalle implements Serializable {
-	@Id 
+	@Id
+	@GeneratedValue
+	private int PrDeId;
 	private int PrId;
 	private int BuId;
 	private Date PrDeFecha;
@@ -36,7 +40,15 @@ public class ProgramacionDetalle implements Serializable {
 	private int PrDeOrden;
 	private int UsId;
 	private Date UsFechaReg;
+	private short PrDeAsignadoTarjeta;
 	
+	@JsonProperty("PrDeId")
+	public int getPrDeId() {
+		return PrDeId;
+	}
+	public void setPrDeId(int prDeId) {
+		PrDeId = prDeId;
+	}
 	@JsonProperty("PrId")
 	public int getPrId() {
 		return PrId;
@@ -85,7 +97,15 @@ public class ProgramacionDetalle implements Serializable {
 	}
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
+	}
+	@JsonProperty("PrDeAsignadoTarjeta")
+	public short getPrDeAsignadoTarjeta() {
+		return PrDeAsignadoTarjeta;
+	}
+	public void setPrDeAsignadoTarjeta(short prDeAsignadoTarjeta) {
+		this.PrDeAsignadoTarjeta = prDeAsignadoTarjeta;
 	}	
 	
+
 
 }
