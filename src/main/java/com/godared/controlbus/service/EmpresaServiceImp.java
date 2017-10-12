@@ -6,6 +6,7 @@ import java.util.List;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +21,11 @@ import com.godared.controlbus.dao.ISubEmpresaDao;
 @Service
 @Transactional
 public class EmpresaServiceImp implements IEmpresaService  {
+	@Autowired
 	private IEmpresaDao empresaDao;
+	@Autowired
 	private ISubEmpresaDao subEmpresaDao;
+	@Autowired
 	private IEmpresaPersonaDao empresaPersonaDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;

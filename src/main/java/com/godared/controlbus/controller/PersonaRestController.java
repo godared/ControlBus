@@ -2,6 +2,7 @@ package com.godared.controlbus.controller;
 
 import java.util.List;
 
+import javax.annotation.Resource;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,7 @@ import com.godared.controlbus.service.IPersonaService;
 @RestController
 @RequestMapping("/rest")
 public class PersonaRestController {
-	@Autowired
+	@Autowired	
 	IPersonaService personaService;
 	@RequestMapping(value = "/persona", method=RequestMethod.GET)	
 	public List<Persona> List() {
