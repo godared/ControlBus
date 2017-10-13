@@ -23,7 +23,9 @@ import com.godared.controlbus.dao.ISubEmpresaDao;
 public class EmpresaServiceImp implements IEmpresaService  {
 	@Autowired
 	private IEmpresaDao empresaDao;	
-	private ISubEmpresaDao subEmpresaDao;	
+	@Autowired
+	private ISubEmpresaDao subEmpresaDao;
+	@Autowired
 	private IEmpresaPersonaDao empresaPersonaDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;

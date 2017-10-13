@@ -4,8 +4,10 @@ import java.util.List;
 
 import javax.persistence.StoredProcedureQuery;
 
-import com.godared.controlbus.bean.SubEmpresa;
+import org.springframework.stereotype.Repository;
 
+import com.godared.controlbus.bean.SubEmpresa;
+@Repository
 public class SubEmpresaDaoImp extends AbstractJpaDAO<SubEmpresa> implements ISubEmpresaDao {
 	public SubEmpresaDaoImp() {
         super();
