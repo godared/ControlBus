@@ -5,7 +5,12 @@ import java.util.List;
 
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
+import com.godared.controlbus.bean.Telefono;
+import com.godared.controlbus.bean.TiempoProgramado;
+import com.godared.controlbus.bean.TiempoSalida;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
+import com.godared.controlbus.bean.Usp_S_TeGetAllTelefonoByBuImei;
+import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
 
 public interface ITarjetaControlService {
 	 List<TarjetaControl> findAll();
@@ -25,4 +30,18 @@ public interface ITarjetaControlService {
 	 void DeleteTarjetaControlDetalle(int taCoDeId);
 	 void DeleteTarjetaControlDetalleBytaCoId(int taCoId);
 	 void AsignarTarjetaControl(TarjetaControl tarjetaControl);
+	 
+	//TiempoSalida
+	List<TiempoSalida> findAllTiempoSalida();
+	TiempoSalida findOneTiempoSalida(int tiSaId);	
+	List<TiempoSalida> GetAllTiempoSalidaByEm(int emId);
+	void DeleteTiempoSalida(int tiSaId);
+	void SaveTiempoSalida(TiempoSalida tiempoSalida);
+	//TiempoProgramado	
+	List<TiempoProgramado> findAllTiempoProgramado();	
+	TiempoProgramado findOneTiempoProgramado(int tiPrId);
+	List<Usp_S_TiPrGetAllTiempoProgramadoByTiSa> GetAllTiempoProgramadoByTiSa(int tiSaId);
+	void DeleteTiempoProgramado(int tiPrId);
+	//void DeleteBusPersonaByBu(int buId);
+	void SaveTiempoProgramado(TiempoProgramado tiempoProgramado);
 }

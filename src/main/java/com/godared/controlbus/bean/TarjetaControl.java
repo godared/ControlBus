@@ -44,6 +44,8 @@ public class TarjetaControl implements Serializable{
 	private Date UsFechaReg;
 	private int TaCoNroVuelta;
 	private int PrId;
+	private int TiPrId;
+	private Boolean TaCoAsignado;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -131,6 +133,20 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setPrId(int prId) {
 		PrId = prId;
+	}
+	@JsonProperty("TiPrId")
+	public int getTiPrId() {
+		return TiPrId;
+	}
+	public void setTiPrId(int tiPrId) {
+		TiPrId = tiPrId;
+	}
+	@JsonProperty("TaCoAsignado")
+	public Boolean getTaCoAsignado() {
+		return TaCoAsignado;
+	}
+	public void setTaCoAsignado(Boolean taCoAsignado) {
+		TaCoAsignado = taCoAsignado;
 	}
 	
 	

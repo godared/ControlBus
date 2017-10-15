@@ -1,0 +1,76 @@
+package com.godared.controlbus.bean;
+
+import java.io.Serializable;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+@Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(name = "Usp_S_TiPrGetAllTiempoProgramadoByTiSa", 
+	procedureName = "Usp_S_TiPrGetAllTiempoProgramadoByTiSa",
+	resultClasses = Usp_S_TiPrGetAllTiempoProgramadoByTiSa.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "tiSaId")
+	})
+})
+public class Usp_S_TiPrGetAllTiempoProgramadoByTiSa implements Serializable {
+	@Id
+	@GeneratedValue
+	private int TiPrId;
+	private int BuId;
+	private int BuPlaca;
+	private int BuDescripcion;
+	private int BuMarca;
+	private int TiSaId;
+	
+	@JsonProperty("TiPrId")
+	public int getTiPrId() {
+		return TiPrId;
+	}
+	public void setTiPrId(int tiPrId) {
+		TiPrId = tiPrId;
+	}
+	@JsonProperty("BuId")
+	public int getBuId() {
+		return BuId;
+	}
+	public void setBuId(int buId) {
+		BuId = buId;
+	}
+	@JsonProperty("BuPlaca")
+	public int getBuPlaca() {
+		return BuPlaca;
+	}
+	public void setBuPlaca(int buPlaca) {
+		BuPlaca = buPlaca;
+	}
+	@JsonProperty("BuDescripcion")
+	public int getBuDescripcion() {
+		return BuDescripcion;
+	}
+	public void setBuDescripcion(int buDescripcion) {
+		BuDescripcion = buDescripcion;
+	}
+	@JsonProperty("BuMarca")
+	public int getBuMarca() {
+		return BuMarca;
+	}
+	public void setBuMarca(int buMarca) {
+		BuMarca = buMarca;
+	}
+	@JsonProperty("TiSaId")
+	public int getTiSaId() {
+		return TiSaId;
+	}
+	public void setTiSaId(int tiSaId) {
+		TiSaId = tiSaId;
+	}
+	
+}

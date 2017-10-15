@@ -23,16 +23,23 @@ import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
+import com.godared.controlbus.bean.TiempoProgramado;
+import com.godared.controlbus.bean.TiempoSalida;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
+import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
 import com.godared.controlbus.dao.ITarjetaControlDao;
 import com.godared.controlbus.dao.ITarjetaControlDetalleDao;
+import com.godared.controlbus.dao.ITiempoProgramadoDao;
+import com.godared.controlbus.dao.ITiempoSalidaDao;
 
 @Service
 @Transactional
 public class TarjetaControlServiceImp implements ITarjetaControlService{
 	private ITarjetaControlDao tarjetaControlDao;
 	private ITarjetaControlDetalleDao tarjetaControlDetalleDao;
+	private ITiempoSalidaDao tiempoSalidaDao;
+	private ITiempoProgramadoDao tiempoProgramadoDao;
 	
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
@@ -49,6 +56,15 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		 this.tarjetaControlDetalleDao = tarjetaControlDetalleDao;
 		 
 	}
+	public void setTiempoSalidaDao(ITiempoSalidaDao tiempoSalidaDao) {
+		 this.tiempoSalidaDao = tiempoSalidaDao;
+		 
+	}
+	public void setTiempoProgramadoDao(ITiempoProgramadoDao tiempoProgramadoDao) {
+		 this.tiempoProgramadoDao = tiempoProgramadoDao;
+		 
+	}
+	
 	public List<TarjetaControl> findAll() {
 		// TODO Auto-generated method stub
 		return tarjetaControlDao.findAll();
@@ -305,6 +321,58 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			_programacionDetalle.setPrDeId(_prDeId);
 			
 			this.programacionService.UpdateFieldProgramacionDetalle(_programacionDetalle);
+	}
+	
+	//TiempoSalida
+	public List<TiempoSalida> findAllTiempoSalida(){
+		return tiempoSalidaDao.findAll();
+	}
+	public TiempoSalida findOneTiempoSalida(int tiSaId){
+		return tiempoSalidaDao.findOne(tiSaId);
+	}
+	public List<TiempoSalida> GetAllTiempoSalidaByEm(int emId){
+		return tiempoSalidaDao.GetAllTiempoSalidaByEm(emId);
+	}
+	public void DeleteTiempoSalida(int tiSaId){
+		this.tiempoSalidaDao.deleteById(tiSaId);
+	}
+	//void DeleteBusPersonaByBu(int buId);
+	public void SaveTiempoSalida(TiempoSalida tiempoSalida){
+		if (tiempoSalida.getTiSaId()>0)
+		{
+			this.tiempoSalidaDao.update(tiempoSalida);
+		}
+		else
+		{			
+			tiempoSalida.setUsFechaReg(new Date());
+			this.tiempoSalidaDao.create(tiempoSalida);
+		}
+	}
+	//TiempoProgramado	
+	public List<TiempoProgramado> findAllTiempoProgramado(){
+		return tiempoProgramadoDao.findAll();
+	}
+	
+	public List<Usp_S_TiPrGetAllTiempoProgramadoByTiSa> GetAllTiempoProgramadoByTiSa(int tiSaId){
+		return tiempoProgramadoDao.GetAllTiempoProgramadoByTiSa(tiSaId);
+	}
+	public TiempoProgramado findOneTiempoProgramado(int tiPrId){
+		return tiempoProgramadoDao.findOne(tiPrId);
+	}	
+	public void DeleteTiempoProgramado(int tiPrId){
+		this.tiempoProgramadoDao.deleteById(tiPrId);
+	}	
+	//void DeleteBusPersonaByBu(int buId);
+	public void SaveTiempoProgramado(TiempoProgramado tiempoProgramado){
+		if (tiempoProgramado.getTiSaId()>0)
+		{
+			this.tiempoProgramadoDao.update(tiempoProgramado);
+		}
+		else
+		{			
+			tiempoProgramado.setUsFechaReg(new Date());
+			this.tiempoProgramadoDao.create(tiempoProgramado);
+		}
 	}
 	
 }
