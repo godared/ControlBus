@@ -41,13 +41,13 @@
 		<property name="username" value="userQDI" />	 		
 		<property name="password" value="jFWwd66eXBGENx2L"/> 
 			
-		<!--					
+			<!--				
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3307/ControlBus"/>
 		<property name="username" value="userQDI" />		
 		<property name="password" value="jFWwd66eXBGENx2L" /> 	
-		
 		-->	
+		
 				
 				
 	</bean>
@@ -76,12 +76,12 @@
 	<bean id="tarjetaControlService" class="com.godared.controlbus.service.TarjetaControlServiceImp">
 	    <property name="tarjetaControlDao" ref="tarjetaControlDao"/>
 	    <property name="tarjetaControlDetalleDao" ref="tarjetaControlDetalleDao"/> 	
-	     <property name="tiempoSalidalDao" ref="tiempoSalidalDao"/>
+	     <property name="tiempoSalidaDao" ref="tiempoSalidaDao"/>
 	    <property name="tiempoProgramadoDao" ref="tiempoProgramadoDao"/> 	      
 	</bean>
 	<bean id="tarjetaControlDao" class="com.godared.controlbus.dao.TarjetaControlDaoImp"/>
 	<bean id="tarjetaControlDetalleDao" class="com.godared.controlbus.dao.TarjetaControlDetalleDaoImp"/>
-	<bean id="tiempoSalidalDao" class="com.godared.controlbus.dao.TiempoSalidaDaoImp"/>
+	<bean id="tiempoSalidaDao" class="com.godared.controlbus.dao.TiempoSalidaDaoImp"/>
 	<bean id="tiempoProgramadoDao" class="com.godared.controlbus.dao.TiempoProgramadoDaoImp"/>
 	
 	<!-- Bus -->

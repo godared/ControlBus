@@ -36,9 +36,13 @@ import com.godared.controlbus.dao.ITiempoSalidaDao;
 @Service
 @Transactional
 public class TarjetaControlServiceImp implements ITarjetaControlService{
+	
 	private ITarjetaControlDao tarjetaControlDao;
+	
 	private ITarjetaControlDetalleDao tarjetaControlDetalleDao;
+	
 	private ITiempoSalidaDao tiempoSalidaDao;
+	
 	private ITiempoProgramadoDao tiempoProgramadoDao;
 	
 	@PersistenceUnit
