@@ -155,7 +155,6 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setTaCoTipoHoraSalida(Boolean taCoTipoHoraSalida) {
 		TaCoTipoHoraSalida = taCoTipoHoraSalida;
-	}
-	
+	}	
 	
 }
