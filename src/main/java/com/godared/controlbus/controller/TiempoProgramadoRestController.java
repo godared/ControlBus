@@ -55,5 +55,4 @@ public class TiempoProgramadoRestController {
 		tarjetaControlService.DeleteTiempoProgramado(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
-
 }
