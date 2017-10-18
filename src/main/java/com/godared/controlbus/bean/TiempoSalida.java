@@ -34,7 +34,7 @@ public class TiempoSalida implements Serializable {
 	@GeneratedValue
 	private int TiSaId;
 	private String TiSaNombre;
-	private String TiSaValor;
+	private Date TiSaValor;
 	private int UsId;
 	private Date UsFechaReg;
 	private int SuEmId;
@@ -54,10 +54,10 @@ public class TiempoSalida implements Serializable {
 		TiSaNombre = tiSaNombre;
 	}
 	@JsonProperty("TiSaValor")
-	public String getTiSaValor() {
+	public Date getTiSaValor() {
 		return TiSaValor;
 	}
-	public void setTiSaValor(String tiSaValor) {
+	public void setTiSaValor(Date tiSaValor) {
 		TiSaValor = tiSaValor;
 	}
 	@JsonProperty("UsId")
