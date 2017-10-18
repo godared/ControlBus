@@ -337,6 +337,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	public List<TiempoSalida> GetAllTiempoSalidaByEm(int emId){
 		return tiempoSalidaDao.GetAllTiempoSalidaByEm(emId);
 	}
+	public List<TiempoSalida> GetValorSalidaByEmBu(int emId,int buId){
+		return tiempoSalidaDao.GetValorSalidaByEmBu(emId,buId);
+	}
 	public void DeleteTiempoSalida(int tiSaId){
 		this.tiempoSalidaDao.deleteById(tiSaId);
 	}

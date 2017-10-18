@@ -35,8 +35,12 @@ public class TiempoSalidaRestController {
 		return tiempoSalida;
 	}
 	@RequestMapping(value = "/tiemposalida/getalltiemposalidabyem",params = {"emId"}, method=RequestMethod.GET)
-	public List<TiempoSalida> GetAllTiempoSalidaByEm(@RequestParam("tiSaId") int emId) {
+	public List<TiempoSalida> GetAllTiempoSalidaByEm(@RequestParam("emId") int emId) {
 		return tarjetaControlService.GetAllTiempoSalidaByEm(emId);
+	}
+	@RequestMapping(value = "/tiemposalida/getvalorsalidabyembu",params = {"emId","buId"}, method=RequestMethod.GET)
+	public List<TiempoSalida> GetValorSalidaByEmBu(@RequestParam("emId") int emId,@RequestParam("buId") int buId) {
+		return tarjetaControlService.GetValorSalidaByEmBu(emId,buId);
 	}
 	
 	@RequestMapping(value="/tiemposalida/new", method=RequestMethod.GET)

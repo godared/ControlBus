@@ -35,6 +35,7 @@ public interface ITarjetaControlService {
 	List<TiempoSalida> findAllTiempoSalida();
 	TiempoSalida findOneTiempoSalida(int tiSaId);	
 	List<TiempoSalida> GetAllTiempoSalidaByEm(int emId);
+	List<TiempoSalida> GetValorSalidaByEmBu(int emId,int buId);
 	void DeleteTiempoSalida(int tiSaId);
 	void SaveTiempoSalida(TiempoSalida tiempoSalida);
 	//TiempoProgramado	

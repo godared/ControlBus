@@ -20,6 +20,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	resultClasses = TiempoSalida.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_TiSaGetValorSalidaByEmBu", 
+	procedureName = "Usp_S_TiSaGetValorSalidaByEmBu",
+	resultClasses = TiempoSalida.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId")
 	})
 })
 public class TiempoSalida implements Serializable {
