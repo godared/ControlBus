@@ -45,8 +45,7 @@
 		<property name="username" value="userQDI" />		
 		<property name="password" value="jFWwd66eXBGENx2L" /> 	
 		-->								
-	</bean>
-	 
+	</bean>	 
 	 <!-- ruta -->
 	<bean id="rutaService" class="com.godared.controlbus.service.RutaServiceImp">
 	    <property name="rutaDao" ref="rutaDao"/>
