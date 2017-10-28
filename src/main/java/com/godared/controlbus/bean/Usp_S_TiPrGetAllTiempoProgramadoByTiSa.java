@@ -25,9 +25,9 @@ public class Usp_S_TiPrGetAllTiempoProgramadoByTiSa implements Serializable {
 	@GeneratedValue
 	private int TiPrId;
 	private int BuId;
-	private int BuPlaca;
-	private int BuDescripcion;
-	private int BuMarca;
+	private String BuPlaca;
+	private String BuDescripcion;
+	private String BuMarca;
 	private int TiSaId;
 	
 	@JsonProperty("TiPrId")
@@ -45,24 +45,24 @@ public class Usp_S_TiPrGetAllTiempoProgramadoByTiSa implements Serializable {
 		BuId = buId;
 	}
 	@JsonProperty("BuPlaca")
-	public int getBuPlaca() {
+	public String getBuPlaca() {
 		return BuPlaca;
 	}
-	public void setBuPlaca(int buPlaca) {
+	public void setBuPlaca(String buPlaca) {
 		BuPlaca = buPlaca;
 	}
 	@JsonProperty("BuDescripcion")
-	public int getBuDescripcion() {
+	public String getBuDescripcion() {
 		return BuDescripcion;
 	}
-	public void setBuDescripcion(int buDescripcion) {
+	public void setBuDescripcion(String buDescripcion) {
 		BuDescripcion = buDescripcion;
 	}
 	@JsonProperty("BuMarca")
-	public int getBuMarca() {
+	public String getBuMarca() {
 		return BuMarca;
 	}
-	public void setBuMarca(int buMarca) {
+	public void setBuMarca(String buMarca) {
 		BuMarca = buMarca;
 	}
 	@JsonProperty("TiSaId")
