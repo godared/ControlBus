@@ -69,8 +69,8 @@
 	<!-- TarjetaControl -->
 	<bean id="tarjetaControlService" class="com.godared.controlbus.service.TarjetaControlServiceImp">
 	    <property name="tarjetaControlDao" ref="tarjetaControlDao"/>
-	    <property name="tarjetaControlDetalleDao" ref="tarjetaControlDetalleDao"/> 	
-	     <property name="tiempoSalidaDao" ref="tiempoSalidaDao"/>
+	    <property name="tarjetaControlDetalleDao" ref="tarjetaControlDetalleDao"/>
+	    <property name="tiempoSalidaDao" ref="tiempoSalidaDao"/>
 	    <property name="tiempoProgramadoDao" ref="tiempoProgramadoDao"/> 	      
 	</bean>
 	<bean id="tarjetaControlDao" class="com.godared.controlbus.dao.TarjetaControlDaoImp"/>
@@ -81,8 +81,29 @@
 	<!-- Bus -->
 	<bean id="busService" class="com.godared.controlbus.service.BusServiceImp">
 	    <property name="busDao" ref="busDao"/>
+	    <property name="busPersonaDao" ref="busPersonaDao"/>
+	    <property name="telefonoDao" ref="telefonoDao"/>
 	</bean>
 	<bean id="busDao" class="com.godared.controlbus.dao.BusDaoImp"/>
+	<bean id="busPersonaDao" class="com.godared.controlbus.dao.BusPersonaDaoImp"/>
+	<bean id="telefonoDao" class="com.godared.controlbus.dao.TelefonoDaoImp"/>
+	<!-- Persona -->
+	<bean id="personaService" class="com.godared.controlbus.service.PersonaServiceImp">
+	    <property name="personaDao" ref="personaDao"/>
+	    <property name="usuarioDao" ref="usuarioDao"/>
+	</bean>
+	<bean id="personaDao" class="com.godared.controlbus.dao.PersonaDaoImp"/>
+	<bean id="usuarioDao" class="com.godared.controlbus.dao.UsuarioDaoImp"/>
+	<!-- Empresa -->
+	<bean id="empresaService" class="com.godared.controlbus.service.EmpresaServiceImp">
+	    <property name="empresaDao" ref="empresaDao"/>
+	    <property name="subEmpresaDao" ref="subEmpresaDao"/>
+	    <property name="empresaPersonaDao" ref="empresaPersonaDao"/>
+	</bean>
+	<bean id="empresaDao" class="com.godared.controlbus.dao.EmpresaDaoImp"/>
+	<bean id="subEmpresaDao" class="com.godared.controlbus.dao.SubEmpresaDaoImp"/>
+	<bean id="empresaPersonaDao" class="com.godared.controlbus.dao.EmpresaPersonaDaoImp"/>
+		
 		
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	      <property name="entityManagerFactory" ref="entityManagerFactory" />
