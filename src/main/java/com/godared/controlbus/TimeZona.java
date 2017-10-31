@@ -105,7 +105,7 @@ public  class TimeZona {
 			 
 		 }		 
 		
-		return fechaConvertida;
+		return fechaorigen;//fechaConvertida;
 	}
 	public List<TimeZona> LlenarTimeZone(){
 				
