@@ -327,6 +327,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			this.programacionService.UpdateFieldProgramacionDetalle(_programacionDetalle);
 	}
 	
+	
 	//TiempoSalida
 	public List<TiempoSalida> findAllTiempoSalida(){
 		return tiempoSalidaDao.findAll();
