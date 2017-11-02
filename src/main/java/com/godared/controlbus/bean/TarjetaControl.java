@@ -81,7 +81,7 @@ public class TarjetaControl implements Serializable{
 		TimeZona timeZona=new TimeZona();
 		Date dateCovertida=null;
 		dateCovertida=timeZona.CalcularTimeZone(TaCoFecha,true);		
-		return TaCoFecha;//dato2;// calendar.getTime();//TaCoFecha;
+		return dateCovertida;//dato2;// calendar.getTime();//TaCoFecha;
 	}
 	public void setTaCoFecha(Date taCoFecha) {
 		
@@ -92,7 +92,7 @@ public class TarjetaControl implements Serializable{
 		TimeZona timeZona=new TimeZona();
 		Date dateCovertida=null;
 		dateCovertida=timeZona.CalcularTimeZone(TaCoHoraSalida,true);
-		return TaCoHoraSalida;
+		return dateCovertida;
 	}
 	public void setTaCoHoraSalida(Date taCoHoraSalida) {
 		TimeZona timeZona=new TimeZona();
