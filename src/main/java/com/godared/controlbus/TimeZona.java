@@ -35,7 +35,7 @@ public  class TimeZona {
 	public Date CalcularTimeZone(Date fechaorigen, boolean getMostrar ){
 		String zona;
 		if (getMostrar)
-			zona="America/Montevideo";
+			zona="America/New_York";//"America/New_York";//"America/Montevideo";
 		else
 			zona="America/Lima";
 		Date fechaConvertida=null;
@@ -73,6 +73,7 @@ public  class TimeZona {
 		 List<TimeZona> timeZonas=null;
 		 timeZonas=LlenarTimeZone();
 		 fechaConvertida=dateZona;
+		
 		 int c=1,c2=0, ano=0,ano2=0;
 		 for(TimeZona timeZona:timeZonas){
 			 //Este codigo es para lo especial del server openshift
@@ -105,7 +106,7 @@ public  class TimeZona {
 			 
 		 }		 
 		
-		return fechaorigen;//fechaConvertida;
+		return fechaConvertida;
 	}
 	public List<TimeZona> LlenarTimeZone(){
 				
