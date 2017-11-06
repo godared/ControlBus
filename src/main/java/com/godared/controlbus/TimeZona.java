@@ -35,9 +35,9 @@ public  class TimeZona {
 	public Date CalcularTimeZone(Date fechaorigen, boolean getMostrar ){
 		String zona;
 		if (getMostrar)
-			zona="Asia/Tokyo";//"America/New_York";//"America/Montevideo";
+			zona="America/New_York";//Asia/Tokyo";//"America/New_York";//"America/Montevideo";
 		else
-			zona="America/Lima";
+			zona="America/New_York";
 		Date fechaConvertida=null;
 		//HAcemos la COnversion y adicion segun zona horaria
 		TimeZone timeZone2 = TimeZone.getTimeZone(zona); //-3GMT		
