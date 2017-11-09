@@ -103,7 +103,15 @@
 	<bean id="empresaDao" class="com.godared.controlbus.dao.EmpresaDaoImp"/>
 	<bean id="subEmpresaDao" class="com.godared.controlbus.dao.SubEmpresaDaoImp"/>
 	<bean id="empresaPersonaDao" class="com.godared.controlbus.dao.EmpresaPersonaDaoImp"/>
-		
+	<!-- RegistroDiario -->
+	<bean id="registroDiarioService" class="com.godared.controlbus.service.RegistroDiarioServiceImp">
+	    <property name="registroDiarioDao" ref="registroDiarioDao"/>
+	    <property name="registroDiarioDetalleDao" ref="registroDiarioDetalleDao"/>
+	    <property name="registroRetenDao" ref="registroRetenDao"/>
+	</bean>
+	<bean id="registroDiarioDao" class="com.godared.controlbus.dao.RegistroDiarioDaoImp"/>
+	<bean id="registroDiarioDetalleDao" class="com.godared.controlbus.dao.RegistroDiarioDetalleDaoImp"/>
+	<bean id="registroRetenDao" class="com.godared.controlbus.dao.RegistroRetenDaoImp"/>	
 		
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 	      <property name="entityManagerFactory" ref="entityManagerFactory" />

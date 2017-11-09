@@ -246,12 +246,11 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		
 		//Sumanos una hora creo q es un problema del java no se pero le voy a sumar
 		cal.setTime(_horaInicio);
-		cal.add(Calendar.HOUR, 1);		
+		//cal.add(Calendar.HOUR, 1);		
 		_horaInicio2=cal.getTime();
 		
 		for(int i=0;i<_puntoControlDetalle.size();i++ ){
-			
-			
+					
 			//volvemos a asignar hora de inicio
 			_horaInicio=_horaInicio2;
 			
