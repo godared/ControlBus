@@ -9,9 +9,13 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
@@ -136,6 +140,8 @@ public class TarjetaControl implements Serializable{
 		TaCoNroVuelta = taCoNroVuelta;
 	}
 	@JsonProperty("PrId")
+	@ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn(name = "PrId")
 	public int getPrId() {
 		return PrId;
 	}
@@ -163,6 +169,7 @@ public class TarjetaControl implements Serializable{
 	public void setTaCoTipoHoraSalida(Boolean taCoTipoHoraSalida) {
 		TaCoTipoHoraSalida = taCoTipoHoraSalida;
 	}
+	@JsonProperty("ReDiDeId")
 	public int getReDiDeId() {
 		return ReDiDeId;
 	}
