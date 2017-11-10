@@ -1,5 +1,6 @@
 package com.godared.controlbus.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManagerFactory;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.RegistroDiarioDetalle;
 import com.godared.controlbus.bean.RegistroReten;
+import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.dao.IRegistroDiarioDao;
 import com.godared.controlbus.dao.IRegistroDiarioDetalleDao;
 import com.godared.controlbus.dao.IRegistroRetenDao;
@@ -22,6 +24,7 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 	private IRegistroDiarioDao registroDiarioDao;
 	private IRegistroDiarioDetalleDao registroDiarioDetalleDao;
 	private IRegistroRetenDao registroRetenDao;
+	
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
 //	injeccion de dependencias
@@ -49,7 +52,35 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 		registroDiarioDao.deleteById(reDiId);
 	}
 	public void Save(RegistroDiario registroDiario){
-		registroDiarioDao.create(registroDiario);
+		
+		if (registroDiario.getReDiId()>0)
+		{
+			this.registroDiarioDao.update(registroDiario);			
+			
+		}
+		else
+		{			
+			registroDiario.setUsFechaReg(new Date());
+			RegistroDiario _registroDiario=null;
+			_registroDiario=this.registroDiarioDao.createReturn(registroDiario);
+			//generando el detalle
+			int c=1;
+			RegistroDiarioDetalle registroDiarioDetalle;
+			for(Integer i=1; i<=registroDiario.getReDiTotalVuelta();i++){
+				registroDiarioDetalle=new RegistroDiarioDetalle();
+				registroDiarioDetalle.setReDiDeNroVuelta(i);
+				registroDiarioDetalle.setReDiDeNombreVuelta("VUELTA"+i.toString());
+				registroDiarioDetalle.setReDiId(_registroDiario.getReDiId());
+				registroDiarioDetalle.setUsFechaReg(new Date());
+				registroDiarioDetalle.setUsId(1);
+				if(i==1)
+					registroDiarioDetalle.setReDiDeEstado("02"); //ACTIVO
+				else
+					registroDiarioDetalle.setReDiDeEstado("01");//NO REALIZADO
+				this.registroDiarioDetalleDao.create(registroDiarioDetalle);
+				
+			}
+		}
 	}
 	
 	//RegistroDiarioDetalle
@@ -66,7 +97,16 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 		registroDiarioDetalleDao.deleteById(reDiDeId);
 	}
 	public void SaveRegistroDiarioDetalle(RegistroDiarioDetalle registroDiarioDetalle){
-		registroDiarioDetalleDao.create(registroDiarioDetalle);
+		
+		if (registroDiarioDetalle.getReDiDeId()>0)
+		{
+			this.registroDiarioDetalleDao.update(registroDiarioDetalle);
+		}
+		else
+		{			
+			registroDiarioDetalle.setUsFechaReg(new Date());
+			this.registroDiarioDetalleDao.create(registroDiarioDetalle);
+		}
 	}
 	
 	//RegistroReten
@@ -83,6 +123,14 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 		registroRetenDao.deleteById(reReId);
 	}
 	public void SaveRegistroReten(RegistroReten registroReten){
-		registroRetenDao.create(registroReten);
+		if (registroReten.getReReId()>0)
+		{
+			this.registroRetenDao.update(registroReten);
+		}
+		else
+		{			
+			registroReten.setUsFechaReg(new Date());
+			this.registroRetenDao.create(registroReten);
+		}		
 	}
 }

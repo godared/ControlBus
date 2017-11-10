@@ -26,7 +26,7 @@ public class RegistroDiarioDetalle implements Serializable {
 	@GeneratedValue
 	private int ReDiDeId;
 	private int ReDiId;
-	private short ReDiDeNroVuelta;
+	private int ReDiDeNroVuelta;
 	private String ReDiDeNombreVuelta;
 	private String ReDiDeEstado;
 	private int UsId;
@@ -47,10 +47,10 @@ public class RegistroDiarioDetalle implements Serializable {
 		ReDiId = reDiId;
 	}
 	@JsonProperty("ReDiDeNroVuelta")
-	public short getReDiDeNroVuelta() {
+	public int getReDiDeNroVuelta() {
 		return ReDiDeNroVuelta;
 	}
-	public void setReDiDeNroVuelta(short reDiDeNroVuelta) {
+	public void setReDiDeNroVuelta(int reDiDeNroVuelta) {
 		ReDiDeNroVuelta = reDiDeNroVuelta;
 	}
 	@JsonProperty("ReDiDeNombreVuelta")

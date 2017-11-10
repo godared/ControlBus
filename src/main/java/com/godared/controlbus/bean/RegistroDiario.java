@@ -28,7 +28,7 @@ public class RegistroDiario implements Serializable {
 	private int ReDiId;
 	private int EmId;
 	private Date ReDiFeha;
-	private short ReDiTotalVuelta;
+	private int ReDiTotalVuelta;
 	private Date ReDiTiempoVuelta;
 	private int UsId;
 	private Date UsFechaReg;
@@ -55,10 +55,10 @@ public class RegistroDiario implements Serializable {
 		ReDiFeha = reDiFeha;
 	}
 	@JsonProperty("ReDiTotalVuelta")
-	public short getReDiTotalVuelta() {
+	public int getReDiTotalVuelta() {
 		return ReDiTotalVuelta;
 	}
-	public void setReDiTotalVuelta(short reDiTotalVuelta) {
+	public void setReDiTotalVuelta(int reDiTotalVuelta) {
 		ReDiTotalVuelta = reDiTotalVuelta;
 	}
 	@JsonProperty("ReDiTiempoVuelta")
