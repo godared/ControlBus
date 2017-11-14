@@ -61,11 +61,17 @@ public class ProgramacionDetalleRestController {
 	public ProgramacionDetalle NewProgramacionDetalle(){
 		return new ProgramacionDetalle();
 	}
-	@RequestMapping(value = "/programaciondetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	@RequestMapping(value = "/programaciondetalle/save2", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	//@Consumes({ MediaType.APPLICATION_JSON })
     //@Produces({ MediaType.APPLICATION_JSON })
 	@ResponseBody
-	public ResponseEntity<Boolean> save(@RequestBody List<ProgramacionDetalle> programacionDetalle) {		
+	public ResponseEntity<Boolean> save2(@RequestBody List<ProgramacionDetalle> programacionDetalle) {		
+		programacionService.CreateProgramacionDetalle(programacionDetalle);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/programaciondetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")	
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody ProgramacionDetalle programacionDetalle) {		
 		programacionService.CreateProgramacionDetalle(programacionDetalle);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}

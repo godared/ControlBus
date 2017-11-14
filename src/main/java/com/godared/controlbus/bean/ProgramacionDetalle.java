@@ -50,6 +50,7 @@ public class ProgramacionDetalle implements Serializable {
 	private Date UsFechaReg;
 	private short PrDeAsignadoTarjeta;
 	private short PrDeCountVuelta;
+	private Date PrDeHoraBase;
 	
 	@JsonProperty("PrDeId")
 	public int getPrDeId() {
@@ -128,6 +129,13 @@ public class ProgramacionDetalle implements Serializable {
 	}
 	public void setPrDeCountVuelta(short prDeCountVuelta) {
 		PrDeCountVuelta = prDeCountVuelta;
+	}
+	@JsonProperty("PrDeHoraBase")
+	public Date getPrDeHoraBase() {
+		return PrDeHoraBase;
+	}
+	public void setPrDeHoraBase(Date prDeHoraBase) {
+		PrDeHoraBase = prDeHoraBase;
 	}	
 	
 

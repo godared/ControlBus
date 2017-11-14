@@ -345,7 +345,12 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return this.programacionDetalleDao.getAllProgramacionDetalleByPrFecha(prId,prDeFecha);
 	}
 	public void CreateProgramacionDetalle(ProgramacionDetalle programacionDetalle){
-		this.programacionDetalleDao.create(programacionDetalle);
+		if (programacionDetalle.getPrDeId()>0)
+		{
+		this.programacionDetalleDao.update(programacionDetalle);
+		}
+		else
+			this.programacionDetalleDao.create(programacionDetalle);
 	}
 	 public void CreateProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle){
 			EntityManager entityManager=entityManagerFactory.createEntityManager();
