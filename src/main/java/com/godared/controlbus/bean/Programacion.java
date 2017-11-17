@@ -24,6 +24,7 @@ public class Programacion implements Serializable {
 	private Boolean PrAleatorio;
 	private int UsId;
 	private Date UsFechaReg;
+	private String PrDiasIncluidos;
 	
 	@JsonProperty("PrId")
 	public int getPrId() {
@@ -118,4 +119,12 @@ public class Programacion implements Serializable {
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
 	}
+	@JsonProperty("PrDiasIncluidos")
+	public String getPrDiasIncluidos() {
+		return PrDiasIncluidos;
+	}
+	public void setPrDiasIncluidos(String prDiasIncluidos) {
+		PrDiasIncluidos = prDiasIncluidos;
+	}
+	
 }
