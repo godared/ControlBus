@@ -69,6 +69,14 @@ public class ProgramacionDetalleRestController {
 		programacionService.CreateProgramacionDetalle(programacionDetalle);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/programaciondetalle/registrahorabase", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	//@Consumes({ MediaType.APPLICATION_JSON })
+    //@Produces({ MediaType.APPLICATION_JSON })
+	@ResponseBody
+	public ResponseEntity<Boolean> RegistrarHoraBase(@RequestBody List<ProgramacionDetalle> programacionDetalle) {		
+		programacionService.RegistrarHoraBase(programacionDetalle);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
 	@RequestMapping(value = "/programaciondetalle/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")	
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody ProgramacionDetalle programacionDetalle) {		

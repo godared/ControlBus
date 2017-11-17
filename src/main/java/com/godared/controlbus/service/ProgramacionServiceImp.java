@@ -371,6 +371,29 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			}
 			
 		 }
+	 public void RegistrarHoraBase(List<ProgramacionDetalle> programacionDetalle){
+			EntityManager entityManager=entityManagerFactory.createEntityManager();
+			EntityTransaction transaction=entityManager.getTransaction();
+			ProgramacionDetalle _programacionDetalle2;
+			try {
+				transaction.begin();
+				for(ProgramacionDetalle _programacionDetalle : programacionDetalle) {
+					//_puntoControlDetalle.setRuId(_puntoControlDetalle.getRuId());
+					_programacionDetalle2=new ProgramacionDetalle();
+					_programacionDetalle2=this.findOneProgramacionDetalleId(_programacionDetalle.getPrDeId());
+					_programacionDetalle2.setPrDeHoraBase(_programacionDetalle.getPrDeHoraBase());
+					 this.programacionDetalleDao.update(_programacionDetalle2);
+		        }
+				transaction.commit();
+			}catch(Exception ex ){
+				transaction.rollback();
+			       throw new RuntimeException(ex);
+			}
+			finally{
+				entityManager.close();
+			}
+			
+		 }
 	public void UpdateProgramacionDetalle(int prDeId,ProgramacionDetalle programacionDetalle){
 		 ProgramacionDetalle _programacionDetalle=new ProgramacionDetalle();
 			_programacionDetalle=findOneProgramacionDetalleId(prDeId);
