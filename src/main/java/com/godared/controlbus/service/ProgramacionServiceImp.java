@@ -239,12 +239,33 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		//cal.add(Calendar.DAY_OF_MONTH, 1);
 		//_fechaInicio=cal.getTime();
 		//long DiasIncio=cal.get(Calendar.DAY_OF_YEAR);
-		String[] dias_semana = diasIncluidos.split(",");
+		//Este procedimiento es para separar lo enviado en DIasIncluir en un Array
+		//y despues hacemos que el 1 empiece en domingo
+		String[] dias_semana = diasIncluidos.split(",");		
+	  	Boolean[] dias_semana3=new Boolean[7]; 
+	  	//int c=1;
+	  	for(int i=0;i<dias_semana.length;i++){
+	  		System.out.println(dias_semana[i]);
+	  		if (i==6)
+	  			dias_semana3[0]=(dias_semana[i].equals("1"))?true:false;
+	  		else
+	  			dias_semana3[c]=(dias_semana[i].equals("1"))?true:false; 			
+	  		c=c+1;
+	  	}
+	  	
 		for(int i=2; i<=nroDias;i++){
 			cal.setTime(_fechaInicio);
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 			//Obtenemos el dia de la semana
-			int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);	
+			int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
+			//verificamos que no sea false el dia, si es asi avanza un dia 
+			while(dias_semana3[dayOfWeek-1].equals(false))//dias_semana3[dayOfWeek-1]!="1"
+		  	{
+		  		cal.add(Calendar.DAY_OF_MONTH, 1);
+		  		dayOfWeek=dayOfWeek+1;
+		  		//System.out.println(cal.getTime());
+		  	}
+			////
 			_fechaInicio=cal.getTime();
 			if ( i % 2==0){
 				//si la clumna  dia es par tonces invertimos de la columna inpar anterior 
