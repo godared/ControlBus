@@ -197,7 +197,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 					_programacionDetallesBD.add(obj);
 					}					
 					//_programacionService.CreateProgramacionDetalle(programaDet);
-			_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
+				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
 			}		
 			
 		}
@@ -243,14 +243,14 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		//y despues hacemos que el 1 empiece en domingo
 		String[] dias_semana = diasIncluidos.split(",");		
 	  	Boolean[] dias_semana3=new Boolean[7]; 
-	  	//int c=1;
+	  	int count1=1;
 	  	for(int i=0;i<dias_semana.length;i++){
 	  		System.out.println(dias_semana[i]);
 	  		if (i==6)
 	  			dias_semana3[0]=(dias_semana[i].equals("1"))?true:false;
 	  		else
-	  			dias_semana3[c]=(dias_semana[i].equals("1"))?true:false; 			
-	  		c=c+1;
+	  			dias_semana3[count1]=(dias_semana[i].equals("1"))?true:false; 			
+	  		count1=count1+1;
 	  	}
 	  	
 		for(int i=2; i<=nroDias;i++){
