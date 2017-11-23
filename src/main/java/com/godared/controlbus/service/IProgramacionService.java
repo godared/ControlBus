@@ -19,7 +19,7 @@ public interface IProgramacionService {
 	 void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,
 				int emId,int prId, Boolean aleatorio );
 	 List<ProgramacionDetalle> GenerarProgramacionMensual(int emId,int prId, 
-				List<ProgramacionDetalle> programacionDetalles,long nroDias, 
+				List<ProgramacionDetalle> programacionDetalles, Date fechaFin, 
 				Date fechaInicio,List<ProgramacionDetalle>programacionDetallesBD, String diasIncluidos);
 	//Programacion Detalle
 	 ProgramacionDetalle findOneProgramacionDetalleId(int prDeId);

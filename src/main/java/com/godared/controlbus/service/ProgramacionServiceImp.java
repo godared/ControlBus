@@ -161,8 +161,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		cal2.setTimeInMillis(timestamp2);
 		long DiasFin=cal2.get(Calendar.DAY_OF_YEAR);
 		String _diasIncluidos=_programacion.getPrDiasIncluidos();
+		//*OBTENIENDO LOS DIAS REALES DE LA PROGRAMACION
 				
-		long _nroDias=DiasFin-DiasIncio+1;
+		//long _nroDias=DiasFin-DiasIncio+1;
 		if (aleatorio==true){
 			_busAleatorio=busService.SortearAleatorio(emId);
 			for(Bus _bus:_busAleatorio){
@@ -185,7 +186,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 				obj.setPrDeFecha(_programacion.getPrFechaInicio());	
 				//this.programacionDetalleDao.create(programaDet);
 				_programacionDetallesBD.add(obj);}
-				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
+				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_programacion.getPrFechaFin(),_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
 			
 		}else{			
 			if (!programacionDetalles.isEmpty()){
@@ -197,7 +198,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 					_programacionDetallesBD.add(obj);
 					}					
 					//_programacionService.CreateProgramacionDetalle(programaDet);
-				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_nroDias,_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
+				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_programacion.getPrFechaFin(),_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
 			}		
 			
 		}
@@ -224,7 +225,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		}	
 	}
 	public List<ProgramacionDetalle> GenerarProgramacionMensual(int emId,int prId, 
-			List<ProgramacionDetalle> programacionDetalles,long nroDias, Date fechaInicio,
+			List<ProgramacionDetalle> programacionDetalles, Date fechaFin, Date fechaInicio,
 			List<ProgramacionDetalle>programacionDetallesBD, String diasIncluidos){		
 		int c= 2;
 		List<ProgramacionDetalle> _programacionDetalles=new ArrayList<ProgramacionDetalle>(programacionDetalles);
@@ -234,6 +235,8 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		
 		//long timestamp =fechaInicio.getTime();
 		Calendar cal = Calendar.getInstance();
+		Calendar calInicio = Calendar.getInstance();
+		Calendar calFin = Calendar.getInstance();
 		Date _fechaInicio=fechaInicio;
 		//cal.setTime(_fechaInicio);
 		//cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -252,7 +255,18 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	  			dias_semana3[count1]=(dias_semana[i].equals("1"))?true:false; 			
 	  		count1=count1+1;
 	  	}
-	  	
+	  	//obtenemos los dias reales descontando los dias no considerados
+	  	int nroDias=1;
+	  	calInicio.setTime(fechaInicio);
+	  	calFin.setTime(fechaFin);
+	  	//cal2.get(Calendar.DAY_OF_YEAR)
+	  	while(!calInicio.getTime().equals(calFin.getTime())){
+	  		int dayOfWeek = calInicio.get(Calendar.DAY_OF_WEEK);
+	  		if (dias_semana3[dayOfWeek-1].equals(true)){
+	  			nroDias=nroDias+1;
+	  		}
+	  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
+	  	}
 		for(int i=2; i<=nroDias;i++){
 			cal.setTime(_fechaInicio);
 			cal.add(Calendar.DAY_OF_MONTH, 1);
@@ -262,7 +276,10 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			while(dias_semana3[dayOfWeek-1].equals(false))//dias_semana3[dayOfWeek-1]!="1"
 		  	{
 		  		cal.add(Calendar.DAY_OF_MONTH, 1);
-		  		dayOfWeek=dayOfWeek+1;
+		  		if(dayOfWeek==7) 
+		  			dayOfWeek=1;
+		  		else
+		  			dayOfWeek=dayOfWeek+1;
 		  		//System.out.println(cal.getTime());
 		  	}
 			////
