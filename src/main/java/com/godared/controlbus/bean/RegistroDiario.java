@@ -29,7 +29,7 @@ public class RegistroDiario implements Serializable {
 	private int EmId;
 	private Date ReDiFeha;
 	private int ReDiTotalVuelta;
-	private Date ReDiTiempoVuelta;
+	private Date ReDiHoraInicioDiario;
 	private int UsId;
 	private Date UsFechaReg;
 	
@@ -61,12 +61,12 @@ public class RegistroDiario implements Serializable {
 	public void setReDiTotalVuelta(int reDiTotalVuelta) {
 		ReDiTotalVuelta = reDiTotalVuelta;
 	}
-	@JsonProperty("ReDiTiempoVuelta")
-	public Date getReDiTiempoVuelta() {
-		return ReDiTiempoVuelta;
+	@JsonProperty("ReDiHoraInicioDiario")
+	public Date getReDiHoraInicioDiario() {
+		return ReDiHoraInicioDiario;
 	}
-	public void setReDiTiempoVuelta(Date reDiTiempoVuelta) {
-		ReDiTiempoVuelta = reDiTiempoVuelta;
+	public void setReDiHoraInicioDiario(Date reDiHoraInicioDiario) {
+		ReDiHoraInicioDiario = reDiHoraInicioDiario;
 	}
 	@JsonProperty("UsId")
 	public int getUsId() {

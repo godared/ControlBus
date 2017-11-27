@@ -32,6 +32,7 @@ public class RegistroDiarioDetalle implements Serializable {
 	private int UsId;
 	private Date UsFechaReg;
 	
+	
 	@JsonProperty("ReDiDeId")
 	public int getReDiDeId() {
 		return ReDiDeId;
@@ -81,5 +82,5 @@ public class RegistroDiarioDetalle implements Serializable {
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
 	}
-	
+		
 }

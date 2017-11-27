@@ -8,6 +8,7 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.stereotype.Repository;
 
 import com.godared.controlbus.bean.TarjetaControl;
+import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 @Repository
@@ -29,6 +30,14 @@ public class TarjetaControlDaoImp extends AbstractJpaDAO<TarjetaControl> impleme
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_TaCoGetAllTarjetaControlByBuIdFecha");
 	 	   storedProcedure.setParameter("buId",buId);
 	 	   storedProcedure.setParameter("taCoFecha",taCoFecha);
+	 	   return storedProcedure.getResultList();
+	 }
+	 @SuppressWarnings("unchecked")
+	 public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_GetAllRegistroVueltasDiariasByEmPrFe");
+	 	   storedProcedure.setParameter("emId",emId);
+	 	  storedProcedure.setParameter("prId",prId);
+	 	   storedProcedure.setParameter("fechaDiario",fechaDiario);
 	 	   return storedProcedure.getResultList();
 	 }
 }

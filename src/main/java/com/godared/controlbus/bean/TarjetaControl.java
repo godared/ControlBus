@@ -32,7 +32,8 @@ import com.godared.controlbus.TimeZona;
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "taCoFecha")
-	})
+	})	
+	
 })
 public class TarjetaControl implements Serializable{
 	@Id 

@@ -21,6 +21,7 @@ public class PuntoControl implements Serializable {
 	private int  UsId;
 	private Date UsFechaReg;
 	private String PuCoDescripcion;
+	private Boolean PuCoActivo;
 	
 	@JsonProperty("PuCoId")
 	public int getPuCoId() {
@@ -77,6 +78,13 @@ public class PuntoControl implements Serializable {
 	}
 	public void setPuCoDescripcion(String puCoDescripcion) {
 		PuCoDescripcion = puCoDescripcion;
+	}
+	@JsonProperty("PuCoActivo")
+	public Boolean getPuCoActivo() {
+		return PuCoActivo;
+	}
+	public void setPuCoActivo(Boolean puCoActivo) {
+		PuCoActivo = puCoActivo;
 	}
 	
 	

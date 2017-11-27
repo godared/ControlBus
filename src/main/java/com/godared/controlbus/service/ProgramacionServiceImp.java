@@ -260,7 +260,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	  	calInicio.setTime(fechaInicio);
 	  	calFin.setTime(fechaFin);
 	  	//cal2.get(Calendar.DAY_OF_YEAR)
-	  	while(!calInicio.getTime().equals(calFin.getTime())){
+	  	while(calInicio.getTime().before(calFin.getTime()) ||  calInicio.getTime().equals(calFin.getTime())){ //!calInicio.getTime().equals(calFin.getTime())
 	  		int dayOfWeek = calInicio.get(Calendar.DAY_OF_WEEK);
 	  		if (dias_semana3[dayOfWeek-1].equals(true)){
 	  			nroDias=nroDias+1;
@@ -458,5 +458,6 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		_programacionDetalle.setPrDeCountVuelta(programacionDetalle.getPrDeCountVuelta());
 		return this.programacionDetalleDao.update(_programacionDetalle);
 	}
+	
 
 }

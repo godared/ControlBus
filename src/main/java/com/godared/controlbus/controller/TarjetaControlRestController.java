@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.TarjetaControl;
+import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.service.ITarjetaControlService;
 @RestController
@@ -72,6 +73,10 @@ public class TarjetaControlRestController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Date date=formatter.parse(taCoFecha);
 		return tarjetaControlService.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,date);
+	}
+	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprfe",params = {"emId","prId","fechaDiario"}, method=RequestMethod.GET)
+	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
+		return tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
 	}
 	@RequestMapping(value = "/tarjetacontrol/asignartarjeta", method=RequestMethod.POST)
 	@ResponseBody

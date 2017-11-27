@@ -25,6 +25,7 @@ import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
+import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
@@ -164,6 +165,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	 }
 	public List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(int emId,int puCoId){
 		return tarjetaControlDao.GetAllTarjetaControlByEmPuCo(emId,puCoId);
+	}
+	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
+		return tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
 	}
 	//Tarjeta de Control Detalle
 	public TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId){
