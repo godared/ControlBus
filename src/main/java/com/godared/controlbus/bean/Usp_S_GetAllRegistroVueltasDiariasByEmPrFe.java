@@ -1,6 +1,10 @@
 package com.godared.controlbus.bean;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -85,7 +89,77 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	}
 	@JsonProperty("HoraLlegada")
 	public Date getHoraLlegada() {
-		return HoraLlegada;
+		Calendar cal = Calendar.getInstance();
+		String fechaTimestamp="00:00:00";
+		String timeFormat = "kk:mm:ss"; //"yyyy-MM-dd kk:mm:ss";
+		DateFormat dateFormat2 = new SimpleDateFormat(timeFormat);
+		
+		Date _tiempoSalida=this.TaCoHoraSalida;
+		Date _tiempoTiempoVuelta=this.PuCoTiempoBus;
+		Date _tiempoReten=this.ReReTiempo;
+		Date _tiempoLlegada=null;
+		int _minuto=0,_segundo=0,_hora=0;
+		int _minutoVuelta=0,_segundoVuelta=0,_horaVuelta=0;
+		//Si en caso en tiempoSalida es null
+		if(_tiempoSalida==null){
+			//dateFormat2.setTimeZone(cal.getTimeZone());	
+			try{
+				_tiempoSalida=dateFormat2.parse(fechaTimestamp);
+			}
+			catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+		}
+		
+		//Agregamos el tiempo de Reten
+		if(_tiempoReten==null){
+			//dateFormat2.setTimeZone(cal.getTimeZone());	
+			try{
+				_tiempoReten=dateFormat2.parse(fechaTimestamp);
+			}
+			catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+		}
+		cal.setTime(_tiempoReten);
+		_minuto=cal.get(Calendar.MINUTE);			
+		_segundo=cal.get(Calendar.SECOND);
+		_hora=cal.get(Calendar.HOUR);
+		cal.setTime(_tiempoSalida);
+		cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+		cal.add(Calendar.SECOND, _segundo);
+		cal.add(Calendar.HOUR, _hora);
+		_tiempoSalida=cal.getTime();
+		//Agregamos el reten de Vuelta
+		if(_tiempoTiempoVuelta==null){
+			//dateFormat2.setTimeZone(cal.getTimeZone());	
+			try{
+				_tiempoTiempoVuelta=dateFormat2.parse(fechaTimestamp);
+			}
+			catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+		}
+		cal.setTime(_tiempoTiempoVuelta);
+		_minuto=cal.get(Calendar.MINUTE);			
+		_segundo=cal.get(Calendar.SECOND);
+		_hora=cal.get(Calendar.HOUR);
+		cal.setTime(_tiempoSalida);
+		cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+		cal.add(Calendar.SECOND, _segundo);
+		cal.add(Calendar.HOUR, _hora);
+		_tiempoSalida=cal.getTime();
+		_tiempoLlegada=_tiempoSalida;
+		if(_tiempoLlegada==null){
+			//dateFormat2.setTimeZone(cal.getTimeZone());	
+			try{
+			_tiempoLlegada=dateFormat2.parse(fechaTimestamp);
+			}
+			catch (ParseException e) {
+	            e.printStackTrace();
+	        }
+		}	
+		return _tiempoLlegada; //HoraLlegada;		
 	}
 	@JsonProperty("PuCoTiempoBus")
 	public Date getPuCoTiempoBus() {

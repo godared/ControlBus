@@ -30,6 +30,7 @@ public class Usp_S_PuCoGetAllPuntoControlByEmRu implements Serializable{
 	private String PuCoClase;
 	private String RuDescripcion;
 	private String PuCoDescripcion;
+	private Boolean PuCoActivo;
 	
 	@JsonProperty("PuCoId")
 	public int getPuCoId() {
@@ -58,6 +59,10 @@ public class Usp_S_PuCoGetAllPuntoControlByEmRu implements Serializable{
 	@JsonProperty("PuCoDescripcion")
 	public String getPuCoDescripcion() {
 		return PuCoDescripcion;
+	}
+	@JsonProperty("PuCoActivo")
+	public Boolean getPuCoActivo() {
+		return PuCoActivo;
 	}
 	
 	
