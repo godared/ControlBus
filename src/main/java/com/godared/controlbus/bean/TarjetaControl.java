@@ -53,6 +53,7 @@ public class TarjetaControl implements Serializable{
 	private String TaCoAsignado;
 	private Boolean TaCoTipoHoraSalida;
 	private int ReDiDeId;
+	private Boolean TaCoFinish;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -176,6 +177,13 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setReDiDeId(int reDiDeId) {
 		ReDiDeId = reDiDeId;
+	}
+	@JsonProperty("TaCoFinish")
+	public Boolean getTaCoFinish() {
+		return TaCoFinish;
+	}
+	public void setTaCoFinish(Boolean taCoFinish) {
+		TaCoFinish = taCoFinish;
 	}	
 	
 }
