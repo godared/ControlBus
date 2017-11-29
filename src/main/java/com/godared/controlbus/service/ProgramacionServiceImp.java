@@ -164,7 +164,8 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		//*OBTENIENDO LOS DIAS REALES DE LA PROGRAMACION
 				
 		//long _nroDias=DiasFin-DiasIncio+1;
-		if (aleatorio==true){
+		//Vamos a quitar el aleatorio porque esto lo esta haciendo en el frontend
+	/*	if (aleatorio==true){
 			_busAleatorio=busService.SortearAleatorio(emId);
 			for(Bus _bus:_busAleatorio){
 				ProgramacionDetalle obj=new ProgramacionDetalle();
@@ -188,7 +189,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 				_programacionDetallesBD.add(obj);}
 				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,_programacionDetalles,_programacion.getPrFechaFin(),_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
 			
-		}else{			
+		}else{	*/		
 			if (!programacionDetalles.isEmpty()){
 				for (ProgramacionDetalle programacionDet:programacionDetalles){
 					ProgramacionDetalle obj=new ProgramacionDetalle();
@@ -201,7 +202,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 				_programacionDetallesBD2=this.GenerarProgramacionMensual(emId,prId,programacionDetalles,_programacion.getPrFechaFin(),_programacion.getPrFechaInicio(),_programacionDetallesBD,_diasIncluidos);
 			}		
 			
-		}
+		//}
 		//Guardando en la Base de Datos
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
 		EntityTransaction transaction=entityManager.getTransaction();

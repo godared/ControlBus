@@ -234,57 +234,61 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		//Buscamos los puntos de control detalle para obtener todo el detalle
 		_puntoControlDetalle=rutaService.getAllPuntoControlDetalleByPuCo(puCoId);
 		/*insertamos en la tabla tarjetacontroldetalle*/
-		Calendar cal = Calendar.getInstance();
-		int _minuto=0,_segundo=0,_hora=0;
-		//int _sumaMinutos=0;
-		Date _puCoHora=null;
-		Date _horaInicio=_tarjetaControl.getTaCoHoraSalida();
-		Date _horaInicio2;
-		// ordenamos en forma ascendente de acuerdo al campo orden
-		Collections.sort(_puntoControlDetalle, new Comparator<PuntoControlDetalle>() {		               
-            public int compare(PuntoControlDetalle lhs, PuntoControlDetalle rhs) {
-                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-                return lhs.getPuCoDeOrden() < rhs.getPuCoDeOrden() ? -1 : (lhs.getPuCoDeOrden() > rhs.getPuCoDeOrden() ) ? 1 : 0;
-            }
-        });
-		
-		//Sumanos una hora creo q es un problema del java no se pero le voy a sumar
-		cal.setTime(_horaInicio);
-		//cal.add(Calendar.HOUR, 1);		
-		_horaInicio2=cal.getTime();
-		
-		for(int i=0;i<_puntoControlDetalle.size();i++ ){
-					
-			//volvemos a asignar hora de inicio
-			_horaInicio=_horaInicio2;
+		//solamente guardamos si asignado=1, mas no si es 2 y 3 que son ausente y sancionado
+		if (_tarjetaControl.getTaCoAsignado().compareTo("1")==0){
+			Calendar cal = Calendar.getInstance();
+			int _minuto=0,_segundo=0,_hora=0;
+			//int _sumaMinutos=0;
+			Date _puCoHora=null;
+			Date _horaInicio=_tarjetaControl.getTaCoHoraSalida();
+			Date _horaInicio2;
+			// ordenamos en forma ascendente de acuerdo al campo orden
+			Collections.sort(_puntoControlDetalle, new Comparator<PuntoControlDetalle>() {		               
+	            public int compare(PuntoControlDetalle lhs, PuntoControlDetalle rhs) {
+	                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+	                return lhs.getPuCoDeOrden() < rhs.getPuCoDeOrden() ? -1 : (lhs.getPuCoDeOrden() > rhs.getPuCoDeOrden() ) ? 1 : 0;
+	            }
+	        });
 			
-			//agregamos los valore sdel punto de control
-			_puCoHora=_puntoControlDetalle.get(i).getPuCoDeHora();
-					
-			cal.setTime(_puCoHora);
-			_minuto=cal.get(Calendar.MINUTE);			
-			_segundo=cal.get(Calendar.SECOND);
-			_hora=cal.get(Calendar.HOUR);
-			
+			//Sumanos una hora creo q es un problema del java no se pero le voy a sumar
 			cal.setTime(_horaInicio);
-			cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
-			cal.add(Calendar.SECOND, _segundo);
-			cal.add(Calendar.HOUR, _hora);
+			//cal.add(Calendar.HOUR, 1);		
+			_horaInicio2=cal.getTime();
 			
-			_horaInicio=cal.getTime();
-			//_sumaMinutos=_sumaMinutos+_minuto;
-			_tarjetaControlDetalle=new TarjetaControlDetalle();
-			_tarjetaControlDetalle.setTaCoId(_tarjetaControl.getTaCoId());
-			_tarjetaControlDetalle.setPuCoDeId(_puntoControlDetalle.get(i).getPuCoDeId());
-			_tarjetaControlDetalle.setTaCoDeFecha(null);
-			_tarjetaControlDetalle.setTaCoDeHora(_horaInicio);
-			_tarjetaControlDetalle.setTaCoDeLatitud(0);
-			_tarjetaControlDetalle.setTaCoDeLongitud(0);
-			_tarjetaControlDetalle.setTaCoDeTiempo(null);
-			_tarjetaControlDetalle.setTaCoDeDescripcion(_puntoControlDetalle.get(i).getPuCoDeDescripcion());
-			_tarjetaControlDetalle.setUsId(_puntoControlDetalle.get(i).getUsId());
-			_tarjetaControlDetalle.setUsFechaReg(new Date());
-			this.tarjetaControlDetalleDao.create(_tarjetaControlDetalle);	
+			for(int i=0;i<_puntoControlDetalle.size();i++ ){
+						
+				//volvemos a asignar hora de inicio
+				_horaInicio=_horaInicio2;
+				
+				//agregamos los valore sdel punto de control
+				_puCoHora=_puntoControlDetalle.get(i).getPuCoDeHora();
+						
+				cal.setTime(_puCoHora);
+				_minuto=cal.get(Calendar.MINUTE);			
+				_segundo=cal.get(Calendar.SECOND);
+				_hora=cal.get(Calendar.HOUR);
+				
+				cal.setTime(_horaInicio);
+				cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+				cal.add(Calendar.SECOND, _segundo);
+				cal.add(Calendar.HOUR, _hora);
+				
+				_horaInicio=cal.getTime();
+				//_sumaMinutos=_sumaMinutos+_minuto;
+				_tarjetaControlDetalle=new TarjetaControlDetalle();
+				_tarjetaControlDetalle.setTaCoId(_tarjetaControl.getTaCoId());
+				_tarjetaControlDetalle.setPuCoDeId(_puntoControlDetalle.get(i).getPuCoDeId());
+				_tarjetaControlDetalle.setTaCoDeFecha(null);
+				_tarjetaControlDetalle.setTaCoDeHora(_horaInicio);
+				_tarjetaControlDetalle.setTaCoDeLatitud(0);
+				_tarjetaControlDetalle.setTaCoDeLongitud(0);
+				_tarjetaControlDetalle.setTaCoDeTiempo(null);
+				_tarjetaControlDetalle.setTaCoDeDescripcion(_puntoControlDetalle.get(i).getPuCoDeDescripcion());
+				_tarjetaControlDetalle.setUsId(_puntoControlDetalle.get(i).getUsId());
+				_tarjetaControlDetalle.setUsFechaReg(new Date());
+				this.tarjetaControlDetalleDao.create(_tarjetaControlDetalle);	
+			
+		}
 			this.ActualizarEstadoTarjetaProgramacionDetalle(_tarjetaControl, true);
 					
 		}

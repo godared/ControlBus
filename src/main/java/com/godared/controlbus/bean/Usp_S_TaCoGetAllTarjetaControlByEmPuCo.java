@@ -32,6 +32,8 @@ public class Usp_S_TaCoGetAllTarjetaControlByEmPuCo implements Serializable {
 	private Date TaCoHoraSalida;	
 	private int BuId;
 	private int PuCoId;
+	private String TaCoAsignado;
+	private Boolean TaCoFinish;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -68,5 +70,14 @@ public class Usp_S_TaCoGetAllTarjetaControlByEmPuCo implements Serializable {
 	public int getPuCoId() {
 		return PuCoId;
 	}
+	@JsonProperty("TaCoAsignado")
+	public String getTaCoAsignado() {
+		return TaCoAsignado;
+	}
+	@JsonProperty("TaCoFinish")
+	public Boolean getTaCoFinish() {
+		return TaCoFinish;
+	}
+	
 	
 }
