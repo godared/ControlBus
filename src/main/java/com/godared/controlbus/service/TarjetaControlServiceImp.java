@@ -3,10 +3,12 @@ package com.godared.controlbus.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.Convert;
@@ -21,6 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControlDetalle;
+import com.godared.controlbus.bean.RegistroDiario;
+import com.godared.controlbus.bean.RegistroDiarioDetalle;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
@@ -52,6 +56,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	IRutaService rutaService;
 	@Autowired
 	IProgramacionService programacionService;
+	@Autowired
+	IRegistroDiarioService registroDiarioService;
 	//	injeccion de dependencias
 	public void setTarjetaControlDao(ITarjetaControlDao tarjetaControlDao) {
 		 this.tarjetaControlDao = tarjetaControlDao;
@@ -289,10 +295,84 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				this.tarjetaControlDetalleDao.create(_tarjetaControlDetalle);	
 			
 		}
+			
 			this.ActualizarEstadoTarjetaProgramacionDetalle(_tarjetaControl, true);
+			//Esto verifica y termina una vuelta
+			this.TerminarVuelta(_tarjetaControl);
 					
 		}
 		
+	}
+	private void TerminarVuelta(TarjetaControl tarjetaControl){
+		//primero obteniendo la vuelta actual
+		RegistroDiarioDetalle _registroDiarioDetalle=null;	
+		RegistroDiario _registroDiario=null;
+		Calendar cal = Calendar.getInstance();
+		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(tarjetaControl.getReDiDeId());
+		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
+		
+		//obteniendo las tarejtas para una fecha especificada
+		List<TarjetaControl> _tarjetaControls=null;
+		_tarjetaControls=this.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(0, _registroDiario.getReDiFeha());
+		//filtramos eliminando a los que son diferentes a tarjetaControl.getReDiDeId()
+		//este codigo filtra y el resultado lo devuelve en _tarjetaControls
+		Iterator<TarjetaControl> it = _tarjetaControls.iterator();
+		while (it.hasNext()) {
+			TarjetaControl current = it.next();
+		    if (current.getReDiDeId()!=tarjetaControl.getReDiDeId()) {
+		        it.remove();
+		    }
+		}
+		/*for (Iterator<TarjetaControl> it=tarjetaControls.iterator(); it.hasNext();) {
+		    if (!it.next()..contains("How"))
+		        it.remove(); // NOTE: Iterator's remove method, not ArrayList's, is used.
+		}*/
+		
+		//Obteneniendo la programacion detalle para una fecha especifica
+		List<ProgramacionDetalle> _programacionDetalles=null;
+		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(tarjetaControl.getPrId(),_registroDiario.getReDiFeha());
+		int count=_tarjetaControls.size();
+		int c=1,sw=0;
+		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
+			c=1;
+			for(TarjetaControl tarejetaControl: _tarjetaControls){
+				if(programacionDetalle.getBuId()==tarejetaControl.getBuId())
+					break;
+				c=c+1;
+			}
+			if (c==count){
+				//no esta completo la tarteta tons se activa sw=1			
+				sw=1;
+				break;
+			}
+			
+		}
+		if (sw==0){
+			//si es 0 entonces guardamos
+			this.TerminarVueltaBD(_registroDiarioDetalle,_programacionDetalles);
+		}
+	}
+	private void TerminarVueltaBD(RegistroDiarioDetalle _registroDiarioDetalle,List<ProgramacionDetalle> _programacionDetalles){
+		//Actualizamos a la siguiente vuelta
+		_registroDiarioDetalle.setReDiDeEstado("03");
+		registroDiarioService.SaveRegistroDiarioDetalle(_registroDiarioDetalle);
+		int idregistro=_registroDiarioDetalle.getReDiDeId();
+		//avanzamos a la sgte vuelta
+		idregistro=idregistro+1;
+		_registroDiarioDetalle=null;
+		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(idregistro);
+		_registroDiarioDetalle.setReDiDeEstado("02");
+		registroDiarioService.SaveRegistroDiarioDetalle(_registroDiarioDetalle);
+		//Reseteamos programacion detalle a 0			
+		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){
+			//programacionDetalle= new ProgramacionDetalle();
+			//programacionDetalle.setPrId(tarjetaControl.getPrId());
+			programacionDetalle.setPrDeCountVuelta((short)0);
+			programacionDetalle.setPrDeAsignadoTarjeta((short)0);
+			//programacionDetalle.setPrDeId(_prDeId);
+			
+			this.programacionService.UpdateFieldProgramacionDetalle(programacionDetalle);
+		}
 	}
 	private void ActualizarEstadoTarjetaProgramacionDetalle(TarjetaControl tarjetaControl,Boolean asignado){
 		//actualizamos la tabla programacionDetalle asignar tarta y contador de vueltas
