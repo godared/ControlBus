@@ -84,4 +84,9 @@ public class TarjetaControlRestController {
 		this.tarjetaControlService.AsignarTarjetaControl(tarjetaControl);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/tarjetacontrol/terminarvuelta/{id}", method=RequestMethod.POST)	
+	public ResponseEntity<Boolean> TerminarVuelta(@PathVariable("id") int reDiDeId){
+		this.tarjetaControlService.TerminarVuelta(reDiDeId);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
 }

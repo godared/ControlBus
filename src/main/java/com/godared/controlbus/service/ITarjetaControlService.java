@@ -22,6 +22,8 @@ public interface ITarjetaControlService {
 	 void Save(TarjetaControl tarjetaControl,List<TarjetaControlDetalle> tarjetaControlDetalle);
 	 List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(int emId,int puCoId);
 	 List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario);
+	 void AsignarTarjetaControl(TarjetaControl tarjetaControl);
+	 void TerminarVuelta(int reDiDeId);
 	//TarjetaControl Detalle
 	 TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId);
 	 TarjetaControlDetalle findOneTarjetaControlDetalleBytaCoId(int taCoId);
@@ -31,7 +33,7 @@ public interface ITarjetaControlService {
 	 void UpdateTarjetaControlDetalleOfMovil(int taCoId,TarjetaControlDetalle tarjetaControlDetalle);
 	 void DeleteTarjetaControlDetalle(int taCoDeId);
 	 void DeleteTarjetaControlDetalleBytaCoId(int taCoId);
-	 void AsignarTarjetaControl(TarjetaControl tarjetaControl);
+	 
 	 
 	//TiempoSalida
 	List<TiempoSalida> findAllTiempoSalida();

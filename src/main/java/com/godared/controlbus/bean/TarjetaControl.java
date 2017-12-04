@@ -32,8 +32,16 @@ import com.godared.controlbus.TimeZona;
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "taCoFecha")
-	})	
+	}),
 	
+	@NamedStoredProcedureQuery(name = "Usp_S_GetAllRegistroVueltasDiariasByEmPrFe", 
+	procedureName = "Usp_S_GetAllRegistroVueltasDiariasByEmPrFe",
+	resultClasses = Usp_S_GetAllRegistroVueltasDiariasByEmPrFe.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "fechaDiario")
+	})
 })
 public class TarjetaControl implements Serializable{
 	@Id 
@@ -54,6 +62,7 @@ public class TarjetaControl implements Serializable{
 	private Boolean TaCoTipoHoraSalida;
 	private int ReDiDeId;
 	private Boolean TaCoFinish;
+	private Boolean TaCoMultiple;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -184,6 +193,13 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setTaCoFinish(Boolean taCoFinish) {
 		TaCoFinish = taCoFinish;
+	}
+	@JsonProperty("TaCoMultiple")
+	public Boolean getTaCoMultiple() {
+		return TaCoMultiple;
+	}
+	public void setTaCoMultiple(Boolean taCoMultiple) {
+		TaCoMultiple = taCoMultiple;
 	}	
 	
 }

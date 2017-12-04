@@ -155,10 +155,12 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			transaction.begin();
 			TarjetaControl tarjetaControl;
 			tarjetaControl=this.findOne(id);
-			this.DeleteTarjetaControlDetalleBytaCoId(id);
+			//solamente eliminamos detalle cuando es 1=asignado
+			if (tarjetaControl.getTaCoAsignado().compareTo("1")==0)
+				this.DeleteTarjetaControlDetalleBytaCoId(id);
 			this.tarjetaControlDao.deleteById(id);
 			
-			this.ActualizarEstadoTarjetaProgramacionDetalle(tarjetaControl, false);
+			//this.ActualizarEstadoTarjetaProgramacionDetalle(tarjetaControl, false);
 			transaction.commit();
 		}
 		catch(Exception ex ){
@@ -234,81 +236,98 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		TarjetaControlDetalle _tarjetaControlDetalle=null;
 		
 		List<PuntoControlDetalle> _puntoControlDetalle=null; 
-		_tarjetaControl=this.tarjetaControlDao.createReturn(tarjetaControl);	
-		int puCoId=_tarjetaControl.getPuCoId();
 		
-		//Buscamos los puntos de control detalle para obtener todo el detalle
-		_puntoControlDetalle=rutaService.getAllPuntoControlDetalleByPuCo(puCoId);
-		/*insertamos en la tabla tarjetacontroldetalle*/
-		//solamente guardamos si asignado=1, mas no si es 2 y 3 que son ausente y sancionado
-		if (_tarjetaControl.getTaCoAsignado().compareTo("1")==0){
-			Calendar cal = Calendar.getInstance();
-			int _minuto=0,_segundo=0,_hora=0;
-			//int _sumaMinutos=0;
-			Date _puCoHora=null;
-			Date _horaInicio=_tarjetaControl.getTaCoHoraSalida();
-			Date _horaInicio2;
-			// ordenamos en forma ascendente de acuerdo al campo orden
-			Collections.sort(_puntoControlDetalle, new Comparator<PuntoControlDetalle>() {		               
-	            public int compare(PuntoControlDetalle lhs, PuntoControlDetalle rhs) {
-	                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
-	                return lhs.getPuCoDeOrden() < rhs.getPuCoDeOrden() ? -1 : (lhs.getPuCoDeOrden() > rhs.getPuCoDeOrden() ) ? 1 : 0;
-	            }
-	        });
-			
-			//Sumanos una hora creo q es un problema del java no se pero le voy a sumar
-			cal.setTime(_horaInicio);
-			//cal.add(Calendar.HOUR, 1);		
-			_horaInicio2=cal.getTime();
-			
-			for(int i=0;i<_puntoControlDetalle.size();i++ ){
-						
-				//volvemos a asignar hora de inicio
-				_horaInicio=_horaInicio2;
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {
+			transaction.begin();
 				
-				//agregamos los valore sdel punto de control
-				_puCoHora=_puntoControlDetalle.get(i).getPuCoDeHora();
-						
-				cal.setTime(_puCoHora);
-				_minuto=cal.get(Calendar.MINUTE);			
-				_segundo=cal.get(Calendar.SECOND);
-				_hora=cal.get(Calendar.HOUR);
+			_tarjetaControl=this.tarjetaControlDao.createReturn(tarjetaControl);	
+			int puCoId=_tarjetaControl.getPuCoId();
+			
+			//Buscamos los puntos de control detalle para obtener todo el detalle
+			_puntoControlDetalle=rutaService.getAllPuntoControlDetalleByPuCo(puCoId);
+			/*insertamos en la tabla tarjetacontroldetalle*/
+			//solamente guardamos si asignado=1, mas no si es 2 y 3 que son ausente y sancionado
+			if (_tarjetaControl.getTaCoAsignado().compareTo("1")==0){
+				Calendar cal = Calendar.getInstance();
+				int _minuto=0,_segundo=0,_hora=0;
+				//int _sumaMinutos=0;
+				Date _puCoHora=null;
+				Date _horaInicio=_tarjetaControl.getTaCoHoraSalida();
+				Date _horaInicio2;
+				// ordenamos en forma ascendente de acuerdo al campo orden
+				Collections.sort(_puntoControlDetalle, new Comparator<PuntoControlDetalle>() {		               
+		            public int compare(PuntoControlDetalle lhs, PuntoControlDetalle rhs) {
+		                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+		                return lhs.getPuCoDeOrden() < rhs.getPuCoDeOrden() ? -1 : (lhs.getPuCoDeOrden() > rhs.getPuCoDeOrden() ) ? 1 : 0;
+		            }
+		        });
 				
+				//Sumanos una hora creo q es un problema del java no se pero le voy a sumar
 				cal.setTime(_horaInicio);
-				cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
-				cal.add(Calendar.SECOND, _segundo);
-				cal.add(Calendar.HOUR, _hora);
+				//cal.add(Calendar.HOUR, 1);		
+				_horaInicio2=cal.getTime();
 				
-				_horaInicio=cal.getTime();
-				//_sumaMinutos=_sumaMinutos+_minuto;
-				_tarjetaControlDetalle=new TarjetaControlDetalle();
-				_tarjetaControlDetalle.setTaCoId(_tarjetaControl.getTaCoId());
-				_tarjetaControlDetalle.setPuCoDeId(_puntoControlDetalle.get(i).getPuCoDeId());
-				_tarjetaControlDetalle.setTaCoDeFecha(null);
-				_tarjetaControlDetalle.setTaCoDeHora(_horaInicio);
-				_tarjetaControlDetalle.setTaCoDeLatitud(0);
-				_tarjetaControlDetalle.setTaCoDeLongitud(0);
-				_tarjetaControlDetalle.setTaCoDeTiempo(null);
-				_tarjetaControlDetalle.setTaCoDeDescripcion(_puntoControlDetalle.get(i).getPuCoDeDescripcion());
-				_tarjetaControlDetalle.setUsId(_puntoControlDetalle.get(i).getUsId());
-				_tarjetaControlDetalle.setUsFechaReg(new Date());
-				this.tarjetaControlDetalleDao.create(_tarjetaControlDetalle);	
-			
-		}
-			
-			this.ActualizarEstadoTarjetaProgramacionDetalle(_tarjetaControl, true);
-			//Esto verifica y termina una vuelta
-			this.TerminarVuelta(_tarjetaControl);
+				for(int i=0;i<_puntoControlDetalle.size();i++ ){
+							
+					//volvemos a asignar hora de inicio
+					_horaInicio=_horaInicio2;
 					
+					//agregamos los valore sdel punto de control
+					_puCoHora=_puntoControlDetalle.get(i).getPuCoDeHora();
+							
+					cal.setTime(_puCoHora);
+					_minuto=cal.get(Calendar.MINUTE);			
+					_segundo=cal.get(Calendar.SECOND);
+					_hora=cal.get(Calendar.HOUR);
+					
+					cal.setTime(_horaInicio);
+					cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+					cal.add(Calendar.SECOND, _segundo);
+					cal.add(Calendar.HOUR, _hora);
+					
+					_horaInicio=cal.getTime();
+					//_sumaMinutos=_sumaMinutos+_minuto;
+					_tarjetaControlDetalle=new TarjetaControlDetalle();
+					_tarjetaControlDetalle.setTaCoId(_tarjetaControl.getTaCoId());
+					_tarjetaControlDetalle.setPuCoDeId(_puntoControlDetalle.get(i).getPuCoDeId());
+					_tarjetaControlDetalle.setTaCoDeFecha(null);
+					_tarjetaControlDetalle.setTaCoDeHora(_horaInicio);
+					_tarjetaControlDetalle.setTaCoDeLatitud(0);
+					_tarjetaControlDetalle.setTaCoDeLongitud(0);
+					_tarjetaControlDetalle.setTaCoDeTiempo(null);
+					_tarjetaControlDetalle.setTaCoDeDescripcion(_puntoControlDetalle.get(i).getPuCoDeDescripcion());
+					_tarjetaControlDetalle.setUsId(_puntoControlDetalle.get(i).getUsId());
+					_tarjetaControlDetalle.setUsFechaReg(new Date());
+					this.tarjetaControlDetalleDao.create(_tarjetaControlDetalle);	
+				
+				}		
+				//this.ActualizarEstadoTarjetaProgramacionDetalle(_tarjetaControl, true); esto ya se quito el asignado se maneja en la tarjeta
+				//Esto verifica y termina una vuelta
+			}
+			this.TerminarVuelta(_tarjetaControl.getReDiDeId());	
+			transaction.commit();
+		}		
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
 		}
+		finally{
+			entityManager.close();
+		}	
 		
 	}
-	private void TerminarVuelta(TarjetaControl tarjetaControl){
+	public void TerminarVuelta(int reDiDeId){
 		//primero obteniendo la vuelta actual
 		RegistroDiarioDetalle _registroDiarioDetalle=null;	
 		RegistroDiario _registroDiario=null;
 		Calendar cal = Calendar.getInstance();
-		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(tarjetaControl.getReDiDeId());
+		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(reDiDeId);
+		//Verificamos que sea la la vuelta actual
+		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
+			throw new ArithmeticException("La vuelta debe ser la de estado actual");
+		
 		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
 		
 		//obteniendo las tarejtas para una fecha especificada
@@ -319,7 +338,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		Iterator<TarjetaControl> it = _tarjetaControls.iterator();
 		while (it.hasNext()) {
 			TarjetaControl current = it.next();
-		    if (current.getReDiDeId()!=tarjetaControl.getReDiDeId()) {
+		    if (current.getReDiDeId()!=reDiDeId) {
 		        it.remove();
 		    }
 		}
@@ -330,15 +349,16 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		
 		//Obteneniendo la programacion detalle para una fecha especifica
 		List<ProgramacionDetalle> _programacionDetalles=null;
-		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(tarjetaControl.getPrId(),_registroDiario.getReDiFeha());
+		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControls.get(0).getPrId(),_registroDiario.getReDiFeha());
 		int count=_tarjetaControls.size();
 		int c=1,sw=0;
 		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
-			c=1;
+			c=0;
 			for(TarjetaControl tarejetaControl: _tarjetaControls){
 				if(programacionDetalle.getBuId()==tarejetaControl.getBuId())
 					break;
-				c=c+1;
+				else
+					c=c+1;
 			}
 			if (c==count){
 				//no esta completo la tarteta tons se activa sw=1			
@@ -374,6 +394,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			this.programacionService.UpdateFieldProgramacionDetalle(programacionDetalle);
 		}
 	}
+	
+	//Esto ya se usa xq ya se maneja en la tarejeta
 	private void ActualizarEstadoTarjetaProgramacionDetalle(TarjetaControl tarjetaControl,Boolean asignado){
 		//actualizamos la tabla programacionDetalle asignar tarta y contador de vueltas
 		ProgramacionDetalle _programacionDetalle=null;

@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
@@ -17,7 +18,7 @@ import javax.persistence.StoredProcedureParameter;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@NamedStoredProcedureQueries({
+/*@NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name = "Usp_S_GetAllRegistroVueltasDiariasByEmPrFe", 
 	procedureName = "Usp_S_GetAllRegistroVueltasDiariasByEmPrFe",
 	resultClasses = Usp_S_GetAllRegistroVueltasDiariasByEmPrFe.class , 
@@ -26,15 +27,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "fechaDiario")
 	})
-})
+})*/
 public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable {
+	//aqui hay algo muy importante para el @id tiene que ser la columna que se quiere se muestre pe. 365 y 365 son los unicos 
+	// valores pero estos a su vez tienen un conjuntos de registros es como un detalle.
 	@Id
+	
+	//@GeneratedValue
+	private int Id;	
 	private int PrDeId;
 	private int BuId;
 	private int PrDeOrden;
 	private String BuPlaca;
 	private int ReDiId;
-	private int ReDiDeId;
+	private int ReDiDeId;	
 	private int ReDiDeNroVuelta;
 	private int ReReId;
 	private Date ReReTiempo;
@@ -44,6 +50,10 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	private Date PuCoTiempoBus;
 	private String TaCoAsignado;
 	
+	@JsonProperty("Id")
+	public int getId() {
+		return Id;
+	}
 	@JsonProperty("PrDeId")
 	public int getPrDeId() {
 		return PrDeId;

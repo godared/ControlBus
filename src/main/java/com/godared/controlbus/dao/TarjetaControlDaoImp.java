@@ -1,5 +1,6 @@
 package com.godared.controlbus.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,7 +38,9 @@ public class TarjetaControlDaoImp extends AbstractJpaDAO<TarjetaControl> impleme
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_GetAllRegistroVueltasDiariasByEmPrFe");
 	 	   storedProcedure.setParameter("emId",emId);
 	 	  storedProcedure.setParameter("prId",prId);
-	 	   storedProcedure.setParameter("fechaDiario",fechaDiario);
-	 	   return storedProcedure.getResultList();
+	 	  storedProcedure.setParameter("fechaDiario",fechaDiario);
+	 	  List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> usp_S_GetAllRegistroVueltasDiariasByEmPrFe=storedProcedure.getResultList();
+	 	  //ArrayList valor=storedProcedure.getResultList();
+	 	   return usp_S_GetAllRegistroVueltasDiariasByEmPrFe;//storedProcedure.getResultList();
 	 }
 }
