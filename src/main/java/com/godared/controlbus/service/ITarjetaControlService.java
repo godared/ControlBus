@@ -3,6 +3,7 @@ package com.godared.controlbus.service;
 import java.util.Date;
 import java.util.List;
 
+import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.Telefono;
@@ -49,4 +50,11 @@ public interface ITarjetaControlService {
 	void DeleteTiempoProgramado(int tiPrId);
 	//void DeleteBusPersonaByBu(int buId);
 	void SaveTiempoProgramado(TiempoProgramado tiempoProgramado);
+	//Georeferencia
+	Georeferencia findOneGeoreferencia(int geid);    
+    List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId);    
+    void SaveGeoreferencia(Georeferencia georeferencia);
+    Georeferencia createReturnGeoreferencia(Georeferencia georeferencia);
+    void deleteGeoreferenciaById(int geId);
+	
 }

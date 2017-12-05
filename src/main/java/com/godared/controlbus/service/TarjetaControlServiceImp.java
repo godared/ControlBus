@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.RegistroDiario;
@@ -33,6 +34,7 @@ import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
+import com.godared.controlbus.dao.IGeoreferenciaDao;
 import com.godared.controlbus.dao.ITarjetaControlDao;
 import com.godared.controlbus.dao.ITarjetaControlDetalleDao;
 import com.godared.controlbus.dao.ITiempoProgramadoDao;
@@ -49,6 +51,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	private ITiempoSalidaDao tiempoSalidaDao;
 	
 	private ITiempoProgramadoDao tiempoProgramadoDao;
+	
+	private IGeoreferenciaDao georeferenciaDao;
 	
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
@@ -73,6 +77,10 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	}
 	public void setTiempoProgramadoDao(ITiempoProgramadoDao tiempoProgramadoDao) {
 		 this.tiempoProgramadoDao = tiempoProgramadoDao;
+		 
+	}
+	public void setGeoreferenciaDao(IGeoreferenciaDao georeferenciaDao) {
+		 this.georeferenciaDao = georeferenciaDao;
 		 
 	}
 	
@@ -491,5 +499,29 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			this.tiempoProgramadoDao.create(tiempoProgramado);
 		}
 	}
+	//Georeferencia
+	public Georeferencia findOneGeoreferencia(int id){		
+		return georeferenciaDao.findOne(id);
+	}
+    public List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId){
+    	return georeferenciaDao.GetAllGeoreferenciaByTaCo(taCoId);
+    }
+    public void SaveGeoreferencia(Georeferencia georeferencia){
+    	if (georeferencia.getGeId()>0)
+		{
+			this.georeferenciaDao.update(georeferencia);
+		}
+		else
+		{			
+			georeferencia.setUsFechaReg(new Date());
+			this.georeferenciaDao.create(georeferencia);
+		}
+    }
+    public Georeferencia createReturnGeoreferencia(Georeferencia georeferencia){
+    	return georeferenciaDao.createReturn(georeferencia);
+    }
+    public void deleteGeoreferenciaById(int geId){
+    	this.georeferenciaDao.deleteById(geId);
+    }
 	
 }
