@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.RegistroDiario;
+import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.service.IRegistroDiarioService;
 import com.godared.controlbus.service.ITarjetaControlService;
 
@@ -44,9 +45,15 @@ public class GeoreferenciaRestController {
 	public Georeferencia New(){
 		return new Georeferencia();
 	}
-	@RequestMapping(value = "/georeferencia/save", method=RequestMethod.POST)
+	@RequestMapping(value = "/georeferencia/save", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	@ResponseBody
-	public ResponseEntity<Georeferencia> save(@Valid @RequestBody Georeferencia georeferencia) {
+	public ResponseEntity<Boolean> save(@RequestBody List<Georeferencia> georeferencia) {		
+		tarjetaControlService.SaveGeoreferenciaOfMovil(georeferencia);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/georeferencia/saveone", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Georeferencia> saveOne(@Valid @RequestBody Georeferencia georeferencia) {
 		tarjetaControlService.SaveGeoreferencia(georeferencia);
 		return new ResponseEntity<Georeferencia>(georeferencia, HttpStatus.OK);
 	}

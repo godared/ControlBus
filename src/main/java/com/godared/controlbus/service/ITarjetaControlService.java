@@ -52,7 +52,8 @@ public interface ITarjetaControlService {
 	void SaveTiempoProgramado(TiempoProgramado tiempoProgramado);
 	//Georeferencia
 	Georeferencia findOneGeoreferencia(int geid);    
-    List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId);    
+    List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId); 
+    void SaveGeoreferenciaOfMovil(List<Georeferencia> georeferencias);
     void SaveGeoreferencia(Georeferencia georeferencia);
     Georeferencia createReturnGeoreferencia(Georeferencia georeferencia);
     void deleteGeoreferenciaById(int geId);

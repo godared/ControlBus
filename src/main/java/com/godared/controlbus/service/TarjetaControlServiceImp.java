@@ -506,6 +506,25 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
     public List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId){
     	return georeferenciaDao.GetAllGeoreferenciaByTaCo(taCoId);
     }
+    /*Este procedimiento permite guardar desde el movil, al finalizar la vuelta, 
+     * si ya existe es orque lo guardo en linea  si no lo guarda */
+    public void SaveGeoreferenciaOfMovil(List<Georeferencia> georeferencias){
+    	//primero buscamos si existe
+    	Georeferencia _georeferencia=null;
+    	for(Georeferencia georeferencia: georeferencias){
+    		_georeferencia=null;
+    		_georeferencia=georeferenciaDao.findOne(georeferencia.getGeId());
+    		if(_georeferencia.getGeId()>0){
+    			//this.georeferenciaDao.update(georeferencia);
+    		}
+    		else
+    		{
+    			georeferencia.setUsFechaReg(new Date());
+    			this.georeferenciaDao.create(georeferencia);
+    		}
+    	}
+    	
+    }
     public void SaveGeoreferencia(Georeferencia georeferencia){
     	if (georeferencia.getGeId()>0)
 		{
