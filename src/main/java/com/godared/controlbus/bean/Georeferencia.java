@@ -6,10 +6,22 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(name = "Usp_S_GeGetAllGeoreferenciaByTaCo", 
+	procedureName = "Usp_S_GeGetAllGeoreferenciaByTaCo",
+	resultClasses = Georeferencia.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
+	})
+})
 public class Georeferencia implements Serializable {
 	@Id 
 	@GeneratedValue

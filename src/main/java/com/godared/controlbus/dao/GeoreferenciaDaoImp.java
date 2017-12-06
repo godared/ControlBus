@@ -16,9 +16,9 @@ public class GeoreferenciaDaoImp extends AbstractJpaDAO<Georeferencia> implement
 	        setClazz(Georeferencia.class);
 	    }
 	 @SuppressWarnings("unchecked")
-	 public List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCo){
+	 public List<Georeferencia> GetAllGeoreferenciaByTaCo(int taCoId){
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_GeGetAllGeoreferenciaByTaCo");
-	 	    storedProcedure.setParameter("taCo",taCo);
+	 	    storedProcedure.setParameter("taCoId",taCoId);
 	 	    return storedProcedure.getResultList();
 	 }
 }
