@@ -10,10 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Empresa;
 import com.godared.controlbus.bean.EmpresaPersona;
 import com.godared.controlbus.bean.SubEmpresa;
 import com.godared.controlbus.bean.Usp_S_PeGetAllPersonaByEmSuEm;
+import com.godared.controlbus.dao.IConfiguraDao;
 import com.godared.controlbus.dao.IEmpresaDao;
 import com.godared.controlbus.dao.IEmpresaPersonaDao;
 import com.godared.controlbus.dao.ISubEmpresaDao;
@@ -27,6 +29,8 @@ public class EmpresaServiceImp implements IEmpresaService  {
 	private ISubEmpresaDao subEmpresaDao;
 	@Autowired
 	private IEmpresaPersonaDao empresaPersonaDao;
+	@Autowired
+	private IConfiguraDao configuraDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
 	//injeccion de dependencias
@@ -38,6 +42,9 @@ public class EmpresaServiceImp implements IEmpresaService  {
 	}
 	public void setEmpresaPersonaDao(IEmpresaPersonaDao empresaPersonaDao) {
 		 this.empresaPersonaDao = empresaPersonaDao;		 
+	}
+	public void setConfiguraDao(IConfiguraDao configuraDao) {
+		 this.configuraDao = configuraDao;		 
 	}
 	
 	public List<Empresa> findAll(){
@@ -106,6 +113,28 @@ public class EmpresaServiceImp implements IEmpresaService  {
 		{			
 			empresaPersona.setUsFechaReg(new Date());
 			this.empresaPersonaDao.create(empresaPersona);
+		}
+	}
+	
+	//Configura	
+	public Configura findOneConfigura(int coId){
+		return this.configuraDao.findOne(coId);
+	}
+	public List<Configura> GetAllConfiguraByEmPeriodo(int emId,int coPeriodo){
+		return this.configuraDao.GetAllConfiguraByEmPeriodo(emId, coPeriodo);
+	}
+	public void DeleteConfigura(int coId){
+		this.configuraDao.deleteById(coId);
+	}
+	public void SaveConfigura(Configura configura){
+		if (configura.getCoId()>0)
+		{
+			this.configuraDao.update(configura);
+		}
+		else
+		{			
+			configura.setUsFechaReg(new Date());
+			this.configuraDao.create(configura);
 		}
 	}
 	

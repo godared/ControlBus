@@ -42,6 +42,7 @@ public class TarjetaControlDetalle implements Serializable {
 	private String TaCoDeDescripcion;
 	private int  UsId;
 	private Date UsFechaReg;
+	private int TaCoDeCodEnvioMovil;
 	
 	@JsonProperty("TaCoDeId")
 	public int getTaCoDeId() {
@@ -134,5 +135,13 @@ public class TarjetaControlDetalle implements Serializable {
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
 	}
+	@JsonProperty("TaCoDeCodEnvioMovil")
+	public int getTaCoDeCodEnvioMovil() {
+		return TaCoDeCodEnvioMovil;
+	}
+	public void setTaCoDeCodEnvioMovil(int taCoDeCodEnvioMovil) {
+		TaCoDeCodEnvioMovil = taCoDeCodEnvioMovil;
+	}
+	
 	
 }

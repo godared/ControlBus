@@ -525,6 +525,11 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
     	}
     	
     }
+  /*  public int CreateGeoreferenciaOneOfMovil(Georeferencia georeferencia){
+    	Georeferencia _georeferencia=null;
+    	_georeferencia=this.georeferenciaDao.createReturn(georeferencia);
+    	return _georeferencia.getGeId();
+    }*/
     public void SaveGeoreferencia(Georeferencia georeferencia){
     	if (georeferencia.getGeId()>0)
 		{
@@ -537,6 +542,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		}
     }
     public Georeferencia createReturnGeoreferencia(Georeferencia georeferencia){
+    	georeferencia.setUsFechaReg(new Date());
     	return georeferenciaDao.createReturn(georeferencia);
     }
     public void deleteGeoreferenciaById(int geId){

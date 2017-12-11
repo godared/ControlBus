@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.EmpresaPersona;
-import com.godared.controlbus.bean.Persona;
 import com.godared.controlbus.bean.Usp_S_PeGetAllPersonaByEmSuEm;
 import com.godared.controlbus.service.IEmpresaService;
 

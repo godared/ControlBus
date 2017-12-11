@@ -17,9 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Georeferencia;
-import com.godared.controlbus.bean.RegistroDiario;
-import com.godared.controlbus.bean.TarjetaControlDetalle;
-import com.godared.controlbus.service.IRegistroDiarioService;
 import com.godared.controlbus.service.ITarjetaControlService;
 
 @RestController
@@ -51,11 +48,13 @@ public class GeoreferenciaRestController {
 		tarjetaControlService.SaveGeoreferenciaOfMovil(georeferencia);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
+	//esto lo guarda del movil, y obtiene el su id para poder controlar el envio
 	@RequestMapping(value = "/georeferencia/saveone", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Georeferencia> saveOne(@Valid @RequestBody Georeferencia georeferencia) {
-		tarjetaControlService.SaveGeoreferencia(georeferencia);
-		return new ResponseEntity<Georeferencia>(georeferencia, HttpStatus.OK);
+	public ResponseEntity<Integer> saveOne(@Valid @RequestBody Georeferencia georeferencia) {
+		Georeferencia _georeferencia=null;
+		_georeferencia =tarjetaControlService.createReturnGeoreferencia(georeferencia);
+		return new ResponseEntity<Integer>(_georeferencia.getGeId(), HttpStatus.OK);
 	}
 	@RequestMapping(value="/georeferencia/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {

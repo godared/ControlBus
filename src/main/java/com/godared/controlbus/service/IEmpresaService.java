@@ -2,6 +2,7 @@ package com.godared.controlbus.service;
 
 import java.util.List;
 
+import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Empresa;
 import com.godared.controlbus.bean.EmpresaPersona;
 import com.godared.controlbus.bean.SubEmpresa;
@@ -24,4 +25,9 @@ public interface IEmpresaService {
 	void DeleteEmpresaPersona(int emPeId);
 	void DeleteEmpresaPersonaBySuEm(int suEmId);
 	void Save(EmpresaPersona empresaPersona);
+	//Configura	
+	Configura findOneConfigura(int coId);
+	List<Configura> GetAllConfiguraByEmPeriodo(int emId,int coPeriodo);
+	void DeleteConfigura(int coId);
+	void SaveConfigura(Configura configura);
 }

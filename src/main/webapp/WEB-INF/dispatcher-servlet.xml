@@ -101,10 +101,12 @@
 	    <property name="empresaDao" ref="empresaDao"/>
 	    <property name="subEmpresaDao" ref="subEmpresaDao"/>
 	    <property name="empresaPersonaDao" ref="empresaPersonaDao"/>
+	    <property name="configuraDao" ref="configuraDao"/>
 	</bean>
 	<bean id="empresaDao" class="com.godared.controlbus.dao.EmpresaDaoImp"/>
 	<bean id="subEmpresaDao" class="com.godared.controlbus.dao.SubEmpresaDaoImp"/>
 	<bean id="empresaPersonaDao" class="com.godared.controlbus.dao.EmpresaPersonaDaoImp"/>
+	<bean id="configuraDao" class="com.godared.controlbus.dao.ConfiguraDaoImp"/>
 	<!-- RegistroDiario -->
 	<bean id="registroDiarioService" class="com.godared.controlbus.service.RegistroDiarioServiceImp">
 	    <property name="registroDiarioDao" ref="registroDiarioDao"/>
