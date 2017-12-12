@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.ProgramacionDetalle;
+import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.RegistroDiarioDetalle;
@@ -62,6 +63,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	IProgramacionService programacionService;
 	@Autowired
 	IRegistroDiarioService registroDiarioService;
+	
 	//	injeccion de dependencias
 	public void setTarjetaControlDao(ITarjetaControlDao tarjetaControlDao) {
 		 this.tarjetaControlDao = tarjetaControlDao;
@@ -236,6 +238,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	public void DeleteTarjetaControlDetalleBytaCoId(int taCoId){
 		 this.tarjetaControlDetalleDao.deleteByTaCoId(taCoId);
 	}
+
 	//Asigna la tarjeta de control a un bus
 
 	public void AsignarTarjetaControl(TarjetaControl tarjetaControl){
@@ -326,6 +329,27 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		}	
 		
 	}
+	public void AsignarTarjetaMultiple(TarjetaControl tarjetaControl, int countTarjeta, Date reten1,Date reten2 ){
+		TarjetaControl _tarjetaControl=null;
+		_tarjetaControl=tarjetaControl;
+		//primero obteniendo la vuelta actual
+		RegistroDiarioDetalle _registroDiarioDetalle=null;	
+		RegistroDiario _registroDiario=null;
+		Calendar cal = Calendar.getInstance();
+		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(_tarjetaControl.getReDiDeId());
+		//Verificamos que sea la la vuelta actual
+		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
+			throw new ArithmeticException("La vuelta debe ser la de estado actual");
+		
+		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
+		//Obtenemos el tiempo de la vuelta
+		PuntoControl _puntoControl=null;
+		_puntoControl=rutaService.findOnePuntoControl(_tarjetaControl.getPuCoId());
+		
+				
+		//_tarjetaControl
+		
+	}
 	public void TerminarVuelta(int reDiDeId){
 		//primero obteniendo la vuelta actual
 		RegistroDiarioDetalle _registroDiarioDetalle=null;	
@@ -360,6 +384,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControls.get(0).getPrId(),_registroDiario.getReDiFeha());
 		int count=_tarjetaControls.size();
 		int c=1,sw=0;
+		//verificamos que de acuerdo a los buses de la programacion se hayan creado tarjetas
 		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
 			c=0;
 			for(TarjetaControl tarejetaControl: _tarjetaControls){
