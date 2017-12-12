@@ -339,14 +339,28 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(_tarjetaControl.getReDiDeId());
 		//Verificamos que sea la la vuelta actual
 		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
-			throw new ArithmeticException("La vuelta debe ser la de estado actual");
-		
+			throw new ArithmeticException("La vuelta debe ser la de estado actual");		
 		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
 		//Obtenemos el tiempo de la vuelta
+		Date timeVuelta=null;
 		PuntoControl _puntoControl=null;
 		_puntoControl=rutaService.findOnePuntoControl(_tarjetaControl.getPuCoId());
+		timeVuelta=_puntoControl.getPuCoTiempoBus();
+		//Obteneniendo el IDProgramacionDetalle paraguardarlo en reten
+		int prDeId=0;
+		List<ProgramacionDetalle> _programacionDetalles=null;
+		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControl.getPrId(),_registroDiario.getReDiFeha());
+		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){
+			if (programacionDetalle.getBuId()==_tarjetaControl.getBuId()){
+				prDeId=programacionDetalle.getPrDeId();
+				break;
+			}
+		}		
+		for(int i=1;i<=countTarjeta;i++){
+			//procedimiento de control de datos 
+			//como parte de la misam estrategia de control de datos como parte de la
+		}
 		
-				
 		//_tarjetaControl
 		
 	}
