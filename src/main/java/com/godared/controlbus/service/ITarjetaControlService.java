@@ -23,7 +23,8 @@ public interface ITarjetaControlService {
 	 void Save(TarjetaControl tarjetaControl,List<TarjetaControlDetalle> tarjetaControlDetalle);
 	 List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(int emId,int puCoId);
 	 List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario);
-	 void AsignarTarjetaControl(TarjetaControl tarjetaControl);
+	 void AsignarTarjetaControl(TarjetaControl tarjetaControl, boolean tarjetaMulti);
+	 void AsignarTarjetaMultiple(TarjetaControl tarjetaControl, Date reten1,Date reten2,boolean tarjetaMulti);
 	 void TerminarVuelta(int reDiDeId);
 	//TarjetaControl Detalle
 	 TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId);

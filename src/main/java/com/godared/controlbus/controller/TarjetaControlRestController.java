@@ -81,7 +81,13 @@ public class TarjetaControlRestController {
 	@RequestMapping(value = "/tarjetacontrol/asignartarjeta", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> AsignarTarjetaControl(@RequestBody TarjetaControl tarjetaControl){
-		this.tarjetaControlService.AsignarTarjetaControl(tarjetaControl);
+		this.tarjetaControlService.AsignarTarjetaControl(tarjetaControl,false);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
+	@RequestMapping(value = "/tarjetacontrol/asignartarjetamultiple/{tarjetaControl}/{reten1}/{reten2}", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> AsignarTarjetaControlMultiple(@RequestParam("tarjetaControl")  TarjetaControl tarjetaControl, @RequestParam("reten1")Date reten1,@RequestParam("reten2") Date reten2){
+		this.tarjetaControlService.AsignarTarjetaMultiple(tarjetaControl,reten1,reten2,true);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	@RequestMapping(value = "/tarjetacontrol/terminarvuelta/{id}", method=RequestMethod.POST)	

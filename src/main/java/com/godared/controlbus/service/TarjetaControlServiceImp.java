@@ -27,6 +27,7 @@ import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.RegistroDiarioDetalle;
+import com.godared.controlbus.bean.RegistroReten;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
@@ -241,7 +242,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 
 	//Asigna la tarjeta de control a un bus
 
-	public void AsignarTarjetaControl(TarjetaControl tarjetaControl){
+	public void AsignarTarjetaControl(TarjetaControl tarjetaControl, boolean tarjetaMulti){
 		//Primero guardamos la tarjeta de controlCabecera
 		TarjetaControl _tarjetaControl=null;
 		TarjetaControlDetalle _tarjetaControlDetalle=null;
@@ -317,7 +318,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				//this.ActualizarEstadoTarjetaProgramacionDetalle(_tarjetaControl, true); esto ya se quito el asignado se maneja en la tarjeta
 				//Esto verifica y termina una vuelta
 			}
-			this.TerminarVuelta(_tarjetaControl.getReDiDeId());	
+			//solo termina vuelta si no es tarjeta multiple
+			if(!tarjetaMulti)
+				this.TerminarVuelta(_tarjetaControl.getReDiDeId());	
 			transaction.commit();
 		}		
 		catch(Exception ex ){
@@ -329,13 +332,13 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		}	
 		
 	}
-	public void AsignarTarjetaMultiple(TarjetaControl tarjetaControl, int countTarjeta, Date reten1,Date reten2 ){
+	public void AsignarTarjetaMultiple(TarjetaControl tarjetaControl, Date reten1,Date reten2,boolean tarjetaMulti ){
 		TarjetaControl _tarjetaControl=null;
 		_tarjetaControl=tarjetaControl;
 		//primero obteniendo la vuelta actual
 		RegistroDiarioDetalle _registroDiarioDetalle=null;	
 		RegistroDiario _registroDiario=null;
-		Calendar cal = Calendar.getInstance();
+		//Calendar cal = Calendar.getInstance();
 		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(_tarjetaControl.getReDiDeId());
 		//Verificamos que sea la la vuelta actual
 		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
@@ -347,22 +350,108 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		_puntoControl=rutaService.findOnePuntoControl(_tarjetaControl.getPuCoId());
 		timeVuelta=_puntoControl.getPuCoTiempoBus();
 		//Obteneniendo el IDProgramacionDetalle paraguardarlo en reten
-		int prDeId=0;
+		int _prDeId=0;
 		List<ProgramacionDetalle> _programacionDetalles=null;
 		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControl.getPrId(),_registroDiario.getReDiFeha());
 		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){
 			if (programacionDetalle.getBuId()==_tarjetaControl.getBuId()){
-				prDeId=programacionDetalle.getPrDeId();
+				_prDeId=programacionDetalle.getPrDeId();
 				break;
 			}
-		}		
-		for(int i=1;i<=countTarjeta;i++){
-			//procedimiento de control de datos 
-			//como parte de la misam estrategia de control de datos como parte de la
 		}
+		Calendar cal = Calendar.getInstance();
+		Date _tiempoSalida=null; //this.TaCoHoraSalida;
+		Date _tiempoTiempoVuelta=_puntoControl.getPuCoTiempoBus();
+		Date _tiempoReten=null;
+		Date _tiempoLlegada=null;
+		int _minuto=0,_segundo=0,_hora=0;
+		int _minutoVuelta=0,_segundoVuelta=0,_horaVuelta=0;
+		int _nroVuelta=_registroDiarioDetalle.getReDiDeNroVuelta();
+		int _reDiDeId=_registroDiarioDetalle.getReDiDeId();
 		
-		//_tarjetaControl
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {
+			transaction.begin();
 		
+			for(int i=1;i<=tarjetaControl.getTaCoCountMultiple();i++){
+				//si es el prime se agrega la tarjeta como lo envia 
+				if (i<=1){
+					 _tiempoSalida=_tarjetaControl.getTaCoHoraSalida();
+					_tiempoReten=reten1;//segunindican sies la primera tarjeta el reten es diferente				
+				}
+				else
+				{	//pero si es mas de 1 tonces se incrementa en la tarjeta la hora de reten
+					//mas el nro de vualta y 
+					_tiempoSalida= _tiempoLlegada;
+					_tiempoReten=reten2;//de la segunda a mas vuelta el reten es otro
+					_tarjetaControl=new TarjetaControl();
+					_tarjetaControl.setTaCoId(0);
+					_tarjetaControl.setPuCoId(tarjetaControl.getPuCoId());
+					_tarjetaControl.setRuId(tarjetaControl.getRuId());
+					_tarjetaControl.setBuId(tarjetaControl.getBuId());
+					_tarjetaControl.setTaCoFecha(tarjetaControl.getTaCoFecha());
+					_tarjetaControl.setTaCoHoraSalida(_tiempoSalida);
+					_tarjetaControl.setUsId(tarjetaControl.getUsId());
+					_tarjetaControl.setUsFechaReg(tarjetaControl.getUsFechaReg());
+					_tarjetaControl.setTaCoNroVuelta(_nroVuelta);
+					_tarjetaControl.setPrId(tarjetaControl.getPrId());
+					_tarjetaControl.setTiSaId(tarjetaControl.getTiSaId());
+					_tarjetaControl.setTaCoAsignado(tarjetaControl.getTaCoAsignado());
+					_tarjetaControl.setTaCoTipoHoraSalida(tarjetaControl.getTaCoTipoHoraSalida());
+					_tarjetaControl.setReDiDeId(_reDiDeId);
+					_tarjetaControl.setTaCoFinish(tarjetaControl.getTaCoFinish());
+					_tarjetaControl.setTaCoMultiple(tarjetaControl.getTaCoMultiple());
+					_tarjetaControl.setTaCoCodEnvioMovil(tarjetaControl.getTaCoCodEnvioMovil());				
+					
+				}
+				
+				//Agregamos el tiempo reten a tiemposalida
+				cal.setTime(_tiempoReten);
+				_minuto=cal.get(Calendar.MINUTE);			
+				_segundo=cal.get(Calendar.SECOND);
+				_hora=cal.get(Calendar.HOUR);
+				cal.setTime(_tiempoSalida);
+				cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+				cal.add(Calendar.SECOND, _segundo);
+				cal.add(Calendar.HOUR, _hora);
+				_tiempoSalida=cal.getTime();
+				//agregamos el tiempo de la vuelta
+				cal.setTime(_tiempoTiempoVuelta);
+				_minuto=cal.get(Calendar.MINUTE);			
+				_segundo=cal.get(Calendar.SECOND);
+				_hora=cal.get(Calendar.HOUR);
+				cal.setTime(_tiempoSalida);
+				cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
+				cal.add(Calendar.SECOND, _segundo);
+				cal.add(Calendar.HOUR, _hora);
+				_tiempoSalida=cal.getTime();
+				_tiempoLlegada=_tiempoSalida;
+				
+				this.AsignarTarjetaControl(_tarjetaControl, tarjetaMulti);
+				//Registramos el reten
+				RegistroReten _registroReten=new RegistroReten();
+				_registroReten.setReReId(0);
+				_registroReten.setPrDeId(_prDeId);
+				_registroReten.setReDiDeId(_reDiDeId);
+				_registroReten.setReReTiempo(_tiempoReten);
+				_registroReten.setUsId(tarjetaControl.getUsId());
+				_registroReten.setUsFechaReg(new Date());
+				registroDiarioService.SaveRegistroReten(_registroReten);
+				
+				_nroVuelta=_nroVuelta+1;
+				_reDiDeId=_reDiDeId+1;		
+				
+			}
+			transaction.commit();
+		}
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}	
 	}
 	public void TerminarVuelta(int reDiDeId){
 		//primero obteniendo la vuelta actual
