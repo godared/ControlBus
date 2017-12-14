@@ -180,7 +180,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			//solamente eliminamos detalle cuando es 1=asignado
 			if (tarjetaControl.getTaCoAsignado().compareTo("1")==0){
 				this.DeleteTarjetaControlDetalleBytaCoId(id);
-				registroDiarioService.DeleteRegistroReten(_reReId);
+				if (_reReId>0)
+					registroDiarioService.DeleteRegistroReten(_reReId);
 			}
 			this.tarjetaControlDao.deleteById(id);
 			
@@ -201,8 +202,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		//Calendar cal = Calendar.getInstance();
 		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(tarjetaControl.getReDiDeId());
 		//Verificamos que sea la la vuelta actual
-		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
-			throw new ArithmeticException("La vuelta debe ser la de estado actual");		
+		//if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
+		//	throw new ArithmeticException("La vuelta debe ser la de estado actual");		
 		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
 		//Obtenemos el tiempo de la vuelta
 		Date timeVuelta=null;		
