@@ -166,9 +166,22 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			transaction.begin();
 			TarjetaControl tarjetaControl;
 			tarjetaControl=this.findOne(id);
+			//obtenemos el ID PrDeId
+			int _prDeId=this.GetPrDeIdReten(tarjetaControl);
+			List<RegistroReten> _registroRetenes=null;
+			_registroRetenes=registroDiarioService.GetAllRegistroRetenByReDiDe(tarjetaControl.getReDiDeId());
+			int _reReId=0;
+			for(RegistroReten registroReten: _registroRetenes){
+				if(registroReten.getPrDeId()==_prDeId){
+					_reReId=registroReten.getReReId();
+					break;
+				}
+			}
 			//solamente eliminamos detalle cuando es 1=asignado
-			if (tarjetaControl.getTaCoAsignado().compareTo("1")==0)
+			if (tarjetaControl.getTaCoAsignado().compareTo("1")==0){
 				this.DeleteTarjetaControlDetalleBytaCoId(id);
+				registroDiarioService.DeleteRegistroReten(_reReId);
+			}
 			this.tarjetaControlDao.deleteById(id);
 			
 			//this.ActualizarEstadoTarjetaProgramacionDetalle(tarjetaControl, false);
@@ -182,6 +195,30 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			entityManager.close();
 		}
 	 }
+	private int GetPrDeIdReten(TarjetaControl tarjetaControl){
+		RegistroDiarioDetalle _registroDiarioDetalle=null;	
+		RegistroDiario _registroDiario=null;
+		//Calendar cal = Calendar.getInstance();
+		_registroDiarioDetalle=registroDiarioService.findOneRegistroDiarioDetalle(tarjetaControl.getReDiDeId());
+		//Verificamos que sea la la vuelta actual
+		if (_registroDiarioDetalle.getReDiDeEstado().compareTo("02")==1) //osea no es igual
+			throw new ArithmeticException("La vuelta debe ser la de estado actual");		
+		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
+		//Obtenemos el tiempo de la vuelta
+		Date timeVuelta=null;		
+		//Obteneniendo el IDProgramacionDetalle paraguardarlo en reten
+		int _prDeId=0;
+		List<ProgramacionDetalle> _programacionDetalles=null;
+		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(tarjetaControl.getPrId(),_registroDiario.getReDiFeha());
+		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){
+			if (programacionDetalle.getBuId()==tarjetaControl.getBuId()){
+				_prDeId=programacionDetalle.getPrDeId();
+				break;
+			}
+		}
+		return _prDeId;
+	}
+	
 	public List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(int emId,int puCoId){
 		return tarjetaControlDao.GetAllTarjetaControlByEmPuCo(emId,puCoId);
 	}
