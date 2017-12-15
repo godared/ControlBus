@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
+import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 @Repository
 public class TarjetaControlDaoImp extends AbstractJpaDAO<TarjetaControl> implements ITarjetaControlDao {
@@ -27,7 +28,7 @@ public class TarjetaControlDaoImp extends AbstractJpaDAO<TarjetaControl> impleme
 	 	   return storedProcedure.getResultList();
 	 }
 	 @SuppressWarnings("unchecked")
-	 public List<TarjetaControl> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
+	 public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_TaCoGetAllTarjetaControlByBuIdFecha");
 	 	   storedProcedure.setParameter("buId",buId);
 	 	   storedProcedure.setParameter("taCoFecha",taCoFecha);

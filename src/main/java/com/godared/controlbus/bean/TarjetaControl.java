@@ -28,7 +28,7 @@ import com.godared.controlbus.TimeZona;
 @NamedStoredProcedureQueries({
 	@NamedStoredProcedureQuery(name = "Usp_S_TaCoGetAllTarjetaControlByBuIdFecha", 
 	procedureName = "Usp_S_TaCoGetAllTarjetaControlByBuIdFecha",
-	resultClasses = TarjetaControl.class , 
+	resultClasses = Usp_S_TaCoGetAllTarjetaControlByBuIdFecha.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "taCoFecha")

@@ -10,6 +10,7 @@ import com.godared.controlbus.bean.Telefono;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.bean.Usp_S_TeGetAllTelefonoByBuImei;
 import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
@@ -17,7 +18,7 @@ import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
 public interface ITarjetaControlService {
 	 List<TarjetaControl> findAll();
 	 TarjetaControl findOne(int taCoId);
-	 List<TarjetaControl> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha);
+	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha);
 	 void Delete(int taCoId);
 	 TarjetaControl Save(TarjetaControl tarjetaControl);
 	 void Save(TarjetaControl tarjetaControl,List<TarjetaControlDetalle> tarjetaControlDetalle);

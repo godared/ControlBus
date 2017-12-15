@@ -34,6 +34,7 @@ import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
+import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
 import com.godared.controlbus.dao.IGeoreferenciaDao;
@@ -96,7 +97,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		// TODO Auto-generated method stub
 		return tarjetaControlDao.findOne(id);
 	}
-	public List<TarjetaControl> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
+	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
 		return tarjetaControlDao.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,taCoFecha);
 	}
 	public TarjetaControl Save(TarjetaControl tarjetaControl){
@@ -504,13 +505,13 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		_registroDiario=registroDiarioService.findOne(_registroDiarioDetalle.getReDiId());
 		
 		//obteniendo las tarejtas para una fecha especificada
-		List<TarjetaControl> _tarjetaControls=null;
+		List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> _tarjetaControls=null;
 		_tarjetaControls=this.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(0, _registroDiario.getReDiFeha());
 		//filtramos eliminando a los que son diferentes a tarjetaControl.getReDiDeId()
 		//este codigo filtra y el resultado lo devuelve en _tarjetaControls
-		Iterator<TarjetaControl> it = _tarjetaControls.iterator();
+		Iterator<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> it = _tarjetaControls.iterator();
 		while (it.hasNext()) {
-			TarjetaControl current = it.next();
+			Usp_S_TaCoGetAllTarjetaControlByBuIdFecha current = it.next();
 		    if (current.getReDiDeId()!=reDiDeId) {
 		        it.remove();
 		    }
@@ -528,7 +529,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		//verificamos que de acuerdo a los buses de la programacion se hayan creado tarjetas
 		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
 			c=0;
-			for(TarjetaControl tarejetaControl: _tarjetaControls){
+			for(Usp_S_TaCoGetAllTarjetaControlByBuIdFecha tarejetaControl: _tarjetaControls){
 				if(programacionDetalle.getBuId()==tarejetaControl.getBuId())
 					break;
 				else
