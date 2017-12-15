@@ -107,7 +107,7 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 		
 		Date _tiempoSalida=this.TaCoHoraSalida;
 		Date _tiempoTiempoVuelta=this.PuCoTiempoBus;
-		Date _tiempoReten=this.ReReTiempo;
+		//Date _tiempoReten=this.ReReTiempo;
 		Date _tiempoLlegada=null;
 		int _minuto=0,_segundo=0,_hora=0;
 		int _minutoVuelta=0,_segundoVuelta=0,_horaVuelta=0;
@@ -121,7 +121,7 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	            e.printStackTrace();
 	        }
 		}
-		
+		/*
 		//Agregamos el tiempo de Reten
 		if(_tiempoReten==null){
 			//dateFormat2.setTimeZone(cal.getTimeZone());	
@@ -140,7 +140,7 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 		cal.add(Calendar.MINUTE, _minuto); // agrega 20 minutos
 		cal.add(Calendar.SECOND, _segundo);
 		cal.add(Calendar.HOUR, _hora);
-		_tiempoSalida=cal.getTime();
+		_tiempoSalida=cal.getTime();*/
 		//Agregamos el reten de Vuelta
 		if(_tiempoTiempoVuelta==null){
 			//dateFormat2.setTimeZone(cal.getTimeZone());	
