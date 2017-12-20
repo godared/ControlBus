@@ -183,6 +183,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				this.DeleteTarjetaControlDetalleBytaCoId(id);
 				if (_reReId>0)
 					registroDiarioService.DeleteRegistroReten(_reReId);
+				this.Usp_D_GeEliminaByTaCo(tarjetaControl.getTaCoId());
 			}
 			this.tarjetaControlDao.deleteById(id);
 			
@@ -714,6 +715,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
     }
     public void deleteGeoreferenciaById(int geId){
     	this.georeferenciaDao.deleteById(geId);
+    }
+    public void Usp_D_GeEliminaByTaCo(int taCoId){
+    	this.georeferenciaDao.Usp_D_GeEliminaByTaCo(taCoId);
     }
 	
 }

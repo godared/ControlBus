@@ -21,4 +21,10 @@ public class GeoreferenciaDaoImp extends AbstractJpaDAO<Georeferencia> implement
 	 	    storedProcedure.setParameter("taCoId",taCoId);
 	 	    return storedProcedure.getResultList();
 	 }
+	 public void Usp_D_GeEliminaByTaCo(int taCoId){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_D_GeEliminaByTaCo");
+	 	    storedProcedure.setParameter("taCoId",taCoId);
+	 	    storedProcedure.execute();
+	 }
+	 
 }

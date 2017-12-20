@@ -13,4 +13,5 @@ public interface IGeoreferenciaDao {
     Georeferencia update(Georeferencia entity);
     void delete(Georeferencia entity);
     void deleteById(int entityId);
+    void Usp_D_GeEliminaByTaCo(int taCoId);
 }

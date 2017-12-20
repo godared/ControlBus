@@ -59,5 +59,6 @@ public interface ITarjetaControlService {
     void SaveGeoreferencia(Georeferencia georeferencia);
     Georeferencia createReturnGeoreferencia(Georeferencia georeferencia);
     void deleteGeoreferenciaById(int geId);
+    void Usp_D_GeEliminaByTaCo(int taCoId);
 	
 }

@@ -20,6 +20,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	resultClasses = Georeferencia.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_D_GeEliminaByTaCo", 
+	procedureName = "Usp_D_GeEliminaByTaCo",
+	//resultClasses = Georeferencia.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
 	})
 })
 public class Georeferencia implements Serializable {
