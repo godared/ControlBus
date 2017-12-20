@@ -28,6 +28,7 @@ import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.RegistroDiarioDetalle;
 import com.godared.controlbus.bean.RegistroReten;
+import com.godared.controlbus.bean.Ruta;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
@@ -271,6 +272,14 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			//_tarjetaControlDetalle.setTaCoDeDescripcion(tarjetaControlDetalle.getTaCoDeDescripcion());
 			//_tarjetaControlDetalle.setUsId(tarjetaControlDetalle.getUsId());
 			//_tarjetaControlDetalle.setUsFechaReg(tarjetaControlDetalle.getUsFechaReg());
+			
+			//Buscamos el codigo de actualizacion
+			TarjetaControl _tarjetaControl=new TarjetaControl();
+			_tarjetaControl=this.findOne(_tarjetaControlDetalle.getTaCoId());
+			Ruta _ruta=new Ruta();
+			_ruta=this.rutaService.findOne(_tarjetaControl.getRuId());
+			
+			_tarjetaControlDetalle.setTaCoDeCodEnvioMovil(1);
 			this.tarjetaControlDetalleDao.update(_tarjetaControlDetalle);	
 	}
 	public void DeleteTarjetaControlDetalle(int taCoDeId){
