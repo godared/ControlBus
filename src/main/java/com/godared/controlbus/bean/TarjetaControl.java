@@ -65,6 +65,7 @@ public class TarjetaControl implements Serializable{
 	private Boolean TaCoMultiple;
 	private int TaCoCodEnvioMovil;
 	private int TaCoCountMultiple;
+	private int CoId;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -216,6 +217,13 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setTaCoCountMultiple(int taCoCountMultiple) {
 		TaCoCountMultiple = taCoCountMultiple;
+	}
+	@JsonProperty("CoId")
+	public int getCoId() {
+		return CoId;
+	}
+	public void setCoId(int coId) {
+		CoId = coId;
 	}	
 	
 	

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControl;
@@ -66,7 +67,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	IProgramacionService programacionService;
 	@Autowired
 	IRegistroDiarioService registroDiarioService;
-	
+	@Autowired
+	IEmpresaService empresaService;
 	//	injeccion de dependencias
 	public void setTarjetaControlDao(ITarjetaControlDao tarjetaControlDao) {
 		 this.tarjetaControlDao = tarjetaControlDao;
@@ -260,7 +262,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			entityManager.close();
 		}
 	}
-	public void UpdateTarjetaControlDetalleOfMovil(int taCoDeId,TarjetaControlDetalle tarjetaControlDetalle){
+	public int UpdateTarjetaControlDetalleOfMovil(int taCoDeId,TarjetaControlDetalle tarjetaControlDetalle){
 		 TarjetaControlDetalle _tarjetaControlDetalle=new TarjetaControlDetalle();
 			_tarjetaControlDetalle=findOneTarjetaControlDetalleId(taCoDeId);
 			//_tarjetaControlDetalle.setPuCoDeId(tarjetaControlDetalle.getPuCoDeId());
@@ -273,14 +275,19 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			//_tarjetaControlDetalle.setUsId(tarjetaControlDetalle.getUsId());
 			//_tarjetaControlDetalle.setUsFechaReg(tarjetaControlDetalle.getUsFechaReg());
 			
-			//Buscamos el codigo de actualizacion
+			//Buscamos el codigo de actualizacion y lo actualizamos
 			TarjetaControl _tarjetaControl=new TarjetaControl();
 			_tarjetaControl=this.findOne(_tarjetaControlDetalle.getTaCoId());
-			Ruta _ruta=new Ruta();
-			_ruta=this.rutaService.findOne(_tarjetaControl.getRuId());
+			Configura _configura =new Configura();
+			_configura=this.empresaService.findOneConfigura(_tarjetaControl.getCoId());
+			int codEnvio=_configura.getCoCountMovilTaCo();
+			codEnvio=codEnvio+1;
+			_configura.setCoCountMovilTaCo(codEnvio);
+			this.empresaService.SaveConfigura(_configura);
 			
-			_tarjetaControlDetalle.setTaCoDeCodEnvioMovil(1);
-			this.tarjetaControlDetalleDao.update(_tarjetaControlDetalle);	
+			_tarjetaControlDetalle.setTaCoDeCodEnvioMovil(codEnvio);
+			this.tarjetaControlDetalleDao.update(_tarjetaControlDetalle);
+			return codEnvio;
 	}
 	public void DeleteTarjetaControlDetalle(int taCoDeId){
 		this.tarjetaControlDetalleDao.deleteById(taCoDeId);

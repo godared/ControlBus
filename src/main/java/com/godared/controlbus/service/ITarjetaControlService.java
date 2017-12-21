@@ -33,7 +33,7 @@ public interface ITarjetaControlService {
 	 List<TarjetaControlDetalle> getAllTarjetaControlDetalleByTaCo(int taCoId);
 	 void CreateTarjetaControlDetalle(TarjetaControlDetalle tarjetaControlDetalle);
 	 void CreateTarjetaControlDetalle(List<TarjetaControlDetalle> tarjetaControlDetalle);
-	 void UpdateTarjetaControlDetalleOfMovil(int taCoId,TarjetaControlDetalle tarjetaControlDetalle);
+	 int UpdateTarjetaControlDetalleOfMovil(int taCoId,TarjetaControlDetalle tarjetaControlDetalle);
 	 void DeleteTarjetaControlDetalle(int taCoDeId);
 	 void DeleteTarjetaControlDetalleBytaCoId(int taCoId);
 	 
