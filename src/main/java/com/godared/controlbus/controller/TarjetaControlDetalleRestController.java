@@ -53,14 +53,13 @@ public class TarjetaControlDetalleRestController {
 	//para guardar desde el movil
 	@RequestMapping(value = "/tarjetacontroldetalle/saveone", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	@ResponseBody
-	public ResponseEntity<Boolean> saveOne(@RequestBody TarjetaControlDetalle tarjetaControlDetalle) {
+	public ResponseEntity<Integer> saveOne(@RequestBody TarjetaControlDetalle tarjetaControlDetalle) {
+		int codEnvio=0;
 		if(tarjetaControlDetalle.getTaCoDeId()>0){
-			tarjetaControlService.UpdateTarjetaControlDetalleOfMovil(tarjetaControlDetalle.getTaCoDeId(), tarjetaControlDetalle);
-		}else{
-			tarjetaControlService.CreateTarjetaControlDetalle(tarjetaControlDetalle);
+			codEnvio=tarjetaControlService.UpdateTarjetaControlDetalleOfMovil(tarjetaControlDetalle.getTaCoDeId(), tarjetaControlDetalle);
 		}
 		
-		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+		return new ResponseEntity<Integer>(codEnvio, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value="/tarjetacontroldetalle/delete/tacoid/{taCoDeId}", method=RequestMethod.GET)
