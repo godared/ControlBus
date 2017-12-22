@@ -49,6 +49,7 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	private Date HoraLlegada;
 	private Date PuCoTiempoBus;
 	private String TaCoAsignado;
+	private Boolean TaCoMultiple;
 	
 	@JsonProperty("Id")
 	public int getId() {
@@ -179,6 +180,10 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	@JsonProperty("TaCoAsignado")
 	public String getTaCoAsignado() {
 		return TaCoAsignado;
+	}
+	@JsonProperty("TaCoMultiple")
+	public Boolean getTaCoMultiple() {
+		return TaCoMultiple;
 	}
 	
 	
