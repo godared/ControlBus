@@ -559,7 +559,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			}
 			
 		}
-		if (sw==0){
+		if (sw==0 & _registroDiario.getReDiTotalVuelta()!=_registroDiarioDetalle.getReDiDeNroVuelta())  {
 			//si es 0 entonces guardamos
 			this.TerminarVueltaBD(_registroDiarioDetalle,_programacionDetalles);
 		}
