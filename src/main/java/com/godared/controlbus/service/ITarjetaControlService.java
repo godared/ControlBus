@@ -19,9 +19,11 @@ public interface ITarjetaControlService {
 	 List<TarjetaControl> findAll();
 	 TarjetaControl findOne(int taCoId);
 	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha);
+	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(int emId,int reDiDe);
 	 void Delete(int taCoId);
 	 TarjetaControl Save(TarjetaControl tarjetaControl);
 	 void Save(TarjetaControl tarjetaControl,List<TarjetaControlDetalle> tarjetaControlDetalle);
+	 int UpdateTarjetaControlOfMovil(int taCoId,TarjetaControl tarjetaControl);
 	 List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(int emId,int puCoId);
 	 List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario);
 	 void AsignarTarjetaControl(TarjetaControl tarjetaControl, boolean tarjetaMulti);

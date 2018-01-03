@@ -103,6 +103,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
 		return tarjetaControlDao.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,taCoFecha);
 	}
+	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(int emId,int reDiDe){
+		return tarjetaControlDao.GetAllTarjetaControlByEmReDiDe(emId,reDiDe);
+	}
 	public TarjetaControl Save(TarjetaControl tarjetaControl){
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
 		EntityTransaction transaction=entityManager.getTransaction();
@@ -162,6 +165,37 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		finally{
 			entityManager.close();
 		}
+	}
+	public int UpdateTarjetaControlOfMovil(int taCoId,TarjetaControl tarjetaControl){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		int codEnvio;
+		try {
+			transaction.begin();
+			TarjetaControl _tarjetaControl;
+			_tarjetaControl=this.findOne(taCoId);
+			_tarjetaControl.setTaCoFinish(true);
+			
+			//Buscamos el codigo de actualizacion y lo actualizamos
+			Configura _configura =new Configura();
+			_configura=this.empresaService.findOneConfigura(_tarjetaControl.getCoId());
+			codEnvio=_configura.getCoCountMovilTaCo();
+			codEnvio=codEnvio+1;
+			_configura.setCoCountMovilTaCo(codEnvio);
+			this.empresaService.SaveConfigura(_configura);
+			_tarjetaControl.setTaCoCodEnvioMovil(codEnvio);
+			this.tarjetaControlDao.update(_tarjetaControl);
+			transaction.commit();
+		}		
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}	
+		return codEnvio;
+		
 	}
 	public void Delete(int id){
 		EntityManager entityManager=entityManagerFactory.createEntityManager();
@@ -263,7 +297,12 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		}
 	}
 	public int UpdateTarjetaControlDetalleOfMovil(int taCoDeId,TarjetaControlDetalle tarjetaControlDetalle){
-		 TarjetaControlDetalle _tarjetaControlDetalle=new TarjetaControlDetalle();
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		int codEnvio;
+		try {
+			transaction.begin();
+			TarjetaControlDetalle _tarjetaControlDetalle=new TarjetaControlDetalle();
 			_tarjetaControlDetalle=findOneTarjetaControlDetalleId(taCoDeId);
 			//_tarjetaControlDetalle.setPuCoDeId(tarjetaControlDetalle.getPuCoDeId());
 			_tarjetaControlDetalle.setTaCoDeFecha(tarjetaControlDetalle.getTaCoDeFecha());
@@ -280,14 +319,23 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			_tarjetaControl=this.findOne(_tarjetaControlDetalle.getTaCoId());
 			Configura _configura =new Configura();
 			_configura=this.empresaService.findOneConfigura(_tarjetaControl.getCoId());
-			int codEnvio=_configura.getCoCountMovilTaCo();
+			codEnvio=_configura.getCoCountMovilTaCoDe();
 			codEnvio=codEnvio+1;
-			_configura.setCoCountMovilTaCo(codEnvio);
+			_configura.setCoCountMovilTaCoDe(codEnvio);
 			this.empresaService.SaveConfigura(_configura);
 			
 			_tarjetaControlDetalle.setTaCoDeCodEnvioMovil(codEnvio);
 			this.tarjetaControlDetalleDao.update(_tarjetaControlDetalle);
-			return codEnvio;
+			transaction.commit();
+		}		
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}	
+		return codEnvio;
 	}
 	public void DeleteTarjetaControlDetalle(int taCoDeId){
 		this.tarjetaControlDetalleDao.deleteById(taCoDeId);
@@ -375,7 +423,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				//Esto verifica y termina una vuelta
 			}
 			//solo termina vuelta si no es tarjeta multiple
-			if(!tarjetaMulti)
+			//if(!tarjetaMulti)
 				this.TerminarVuelta(_tarjetaControl.getReDiDeId());	
 			transaction.commit();
 		}		

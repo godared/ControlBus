@@ -44,4 +44,11 @@ public class TarjetaControlDaoImp extends AbstractJpaDAO<TarjetaControl> impleme
 	 	  //ArrayList valor=storedProcedure.getResultList();
 	 	   return usp_S_GetAllRegistroVueltasDiariasByEmPrFe;//storedProcedure.getResultList();
 	 }
+	 @SuppressWarnings("unchecked")
+	 public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(int emId,int reDiDe){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_TaCoGetAllTarjetaControlByEmReDiDe");
+	 	   storedProcedure.setParameter("emId",emId);
+	 	   storedProcedure.setParameter("reDiDe",reDiDe);
+	 	   return storedProcedure.getResultList();
+	 }
 }

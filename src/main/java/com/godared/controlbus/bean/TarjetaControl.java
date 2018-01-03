@@ -41,6 +41,13 @@ import com.godared.controlbus.TimeZona;
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "fechaDiario")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_TaCoGetAllTarjetaControlByEmReDiDe", 
+	procedureName = "Usp_S_TaCoGetAllTarjetaControlByEmReDiDe",
+	resultClasses = Usp_S_TaCoGetAllTarjetaControlByBuIdFecha.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "reDiDe")
 	})
 })
 public class TarjetaControl implements Serializable{

@@ -51,6 +51,15 @@ public class TarjetaControlRestController {
 		//tarjetaControlService.Save(tarjetaControl);
 		return tarjetaControlService.Save(tarjetaControl);
 	}
+	@RequestMapping(value = "/tarjetacontrol/savemovil", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Integer> saveMovil(@RequestBody TarjetaControl tarjetaControl){
+		//tarjetaControlService.Save(tarjetaControl);
+		int codEnvio=0;
+		if(tarjetaControl.getTaCoId()>0)
+			codEnvio= tarjetaControlService.UpdateTarjetaControlOfMovil(tarjetaControl.getTaCoId(),tarjetaControl);
+		return new ResponseEntity<Integer>(codEnvio, HttpStatus.OK);
+	}
 	@RequestMapping(value = "/tarjetacontrol/saveTaDe", method=RequestMethod.POST)
 	@ResponseBody
 	public ResponseEntity<Boolean> save(@RequestBody RequestWrapper requestWrapper) {
@@ -74,6 +83,11 @@ public class TarjetaControlRestController {
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Date date=formatter.parse(taCoFecha);
 		return tarjetaControlService.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,date);
+	}
+	@RequestMapping(value = "/tarjetacontrol/getalltarjetacontrolbyemredide",params = {"emId","reDiDe"}, method=RequestMethod.GET)
+	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(@RequestParam("emId") int buId,@RequestParam("reDiDe") int reDiDe) throws ParseException{
+		
+		return tarjetaControlService.GetAllTarjetaControlByEmReDiDe(buId,reDiDe);
 	}
 	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprfe",params = {"emId","prId","fechaDiario"}, method=RequestMethod.GET)
 	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
