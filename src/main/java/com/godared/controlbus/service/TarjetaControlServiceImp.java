@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.ProgramacionDetalle;
@@ -69,6 +70,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	IRegistroDiarioService registroDiarioService;
 	@Autowired
 	IEmpresaService empresaService;
+	@Autowired
+	IBusService busService;
 	//	injeccion de dependencias
 	public void setTarjetaControlDao(ITarjetaControlDao tarjetaControlDao) {
 		 this.tarjetaControlDao = tarjetaControlDao;
@@ -585,25 +588,47 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		    if (!it.next()..contains("How"))
 		        it.remove(); // NOTE: Iterator's remove method, not ArrayList's, is used.
 		}*/
-		
+		 
 		//Obteneniendo la programacion detalle para una fecha especifica
 		List<ProgramacionDetalle> _programacionDetalles=null;
 		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControls.get(0).getPrId(),_registroDiario.getReDiFeha());
 		int count=_tarjetaControls.size();
 		int c=1,sw=0;
-		//verificamos que de acuerdo a los buses de la programacion se hayan creado tarjetas
-		for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
-			c=0;
-			for(Usp_S_TaCoGetAllTarjetaControlByBuIdFecha tarejetaControl: _tarjetaControls){
-				if(programacionDetalle.getBuId()==tarejetaControl.getBuId())
+		if (_programacionDetalles.size()>0){ //sii es que no tinene programacion entonces es registro sin programacion
+			
+			//verificamos que de acuerdo a los buses de la programacion se hayan creado tarjetas
+			for(ProgramacionDetalle programacionDetalle: _programacionDetalles){	
+				c=0;
+				for(Usp_S_TaCoGetAllTarjetaControlByBuIdFecha tarejetaControl: _tarjetaControls){
+					if(programacionDetalle.getBuId()==tarejetaControl.getBuId())
+						break;
+					else
+						c=c+1;
+				}
+				if (c==count){
+					//no esta completo la tarteta tons se activa sw=1			
+					sw=1;
 					break;
-				else
-					c=c+1;
+				}
+				
 			}
-			if (c==count){
-				//no esta completo la tarteta tons se activa sw=1			
-				sw=1;
-				break;
+		}else
+		{
+			//buscamos los buses activos
+			List<Bus> _busActivos=this.busService.GetAllBusActivo(_registroDiario.getEmId());
+			for(Bus bus:_busActivos){
+				c=0;
+				for(Usp_S_TaCoGetAllTarjetaControlByBuIdFecha tarejetaControl: _tarjetaControls){
+					if(bus.getBuId()==tarejetaControl.getBuId())
+						break;
+					else
+						c=c+1;
+				}
+				if (c==count){
+					//no esta completo la tarteta tons se activa sw=1			
+					sw=1;
+					break;
+				}
 			}
 			
 		}
