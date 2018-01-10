@@ -73,6 +73,7 @@ public class TarjetaControl implements Serializable{
 	private int TaCoCodEnvioMovil;
 	private int TaCoCountMultiple;
 	private int CoId;
+	private Date TaCoTiempoReten;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -231,6 +232,13 @@ public class TarjetaControl implements Serializable{
 	}
 	public void setCoId(int coId) {
 		CoId = coId;
+	}
+	@JsonProperty("TaCoTiempoReten")
+	public Date getTaCoTiempoReten() {
+		return TaCoTiempoReten;
+	}
+	public void setTaCoTiempoReten(Date taCoTiempoReten) {
+		TaCoTiempoReten = taCoTiempoReten;
 	}	
 	
 	
