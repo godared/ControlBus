@@ -39,6 +39,7 @@ public class Georeferencia implements Serializable {
 	private int UsId;
 	private Date UsFechaReg;
 	private int GeOrden;
+	private Boolean GeEnviadoMovil;
 	
 	@JsonProperty("GeId")
 	public int getGeId() {
@@ -95,6 +96,13 @@ public class Georeferencia implements Serializable {
 	}
 	public void setGeOrden(int geOrden) {
 		GeOrden = geOrden;
+	}
+	@JsonProperty("GeEnviadoMovil")
+	public Boolean getGeEnviadoMovil() {
+		return GeEnviadoMovil;
+	}
+	public void setGeEnviadoMovil(Boolean geEnviadoMovil) {
+		GeEnviadoMovil = geEnviadoMovil;
 	}
 	
 	

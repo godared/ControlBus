@@ -51,10 +51,10 @@ public class GeoreferenciaRestController {
 	//esto lo guarda del movil, y obtiene el su id para poder controlar el envio
 	@RequestMapping(value = "/georeferencia/saveone", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Integer> saveOne(@Valid @RequestBody Georeferencia georeferencia) {
+	public ResponseEntity<Boolean> saveOne(@Valid @RequestBody Georeferencia georeferencia) {
 		Georeferencia _georeferencia=null;
 		_georeferencia =tarjetaControlService.createReturnGeoreferencia(georeferencia);
-		return new ResponseEntity<Integer>(_georeferencia.getGeId(), HttpStatus.OK);
+		return new ResponseEntity<Boolean>(_georeferencia.getGeEnviadoMovil(), HttpStatus.OK);
 	}
 	@RequestMapping(value="/georeferencia/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
