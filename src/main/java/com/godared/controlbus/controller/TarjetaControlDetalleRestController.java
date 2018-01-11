@@ -51,7 +51,7 @@ public class TarjetaControlDetalleRestController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	//para guardar desde el movil
-	@RequestMapping(value = "/tarjetacontroldetalle/saveone", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	@RequestMapping(value = "/tarjetacontroldetalle/saveonemovil", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
 	@ResponseBody
 	public ResponseEntity<Integer> saveOne(@RequestBody TarjetaControlDetalle tarjetaControlDetalle) {
 		int codEnvio=0;
@@ -61,7 +61,13 @@ public class TarjetaControlDetalleRestController {
 		
 		return new ResponseEntity<Integer>(codEnvio, HttpStatus.OK);
 	}
-	
+	//para guardar desde el movil
+	@RequestMapping(value = "/tarjetacontroldetalle/saveallmovil", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	@ResponseBody
+	public List<TarjetaControlDetalle>saveAllMovil(@RequestBody List<TarjetaControlDetalle> tarjetaControlDetalles) {		
+		return	tarjetaControlService.UpdateTarjetaControlDetalleOfMovil(tarjetaControlDetalles);		
+		//return new ResponseEntity<Integer>(codEnvio, HttpStatus.OK);
+	}
 	@RequestMapping(value="/tarjetacontroldetalle/delete/tacoid/{taCoDeId}", method=RequestMethod.GET)
 	@ResponseBody
 	public ResponseEntity<Boolean> Delete(@PathVariable("taCoId")int taCoId){

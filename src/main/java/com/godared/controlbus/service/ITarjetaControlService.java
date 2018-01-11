@@ -36,10 +36,10 @@ public interface ITarjetaControlService {
 	 void CreateTarjetaControlDetalle(TarjetaControlDetalle tarjetaControlDetalle);
 	 void CreateTarjetaControlDetalle(List<TarjetaControlDetalle> tarjetaControlDetalle);
 	 int UpdateTarjetaControlDetalleOfMovil(int taCoId,TarjetaControlDetalle tarjetaControlDetalle);
+	 List<TarjetaControlDetalle> UpdateTarjetaControlDetalleOfMovil(List<TarjetaControlDetalle> tarjetaControlDetalle);
 	 void DeleteTarjetaControlDetalle(int taCoDeId);
 	 void DeleteTarjetaControlDetalleBytaCoId(int taCoId);
-	 
-	 
+	 	 
 	//TiempoSalida
 	List<TiempoSalida> findAllTiempoSalida();
 	TiempoSalida findOneTiempoSalida(int tiSaId);	

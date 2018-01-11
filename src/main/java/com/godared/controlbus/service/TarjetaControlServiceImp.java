@@ -340,6 +340,18 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		}	
 		return codEnvio;
 	}
+	public List<TarjetaControlDetalle> UpdateTarjetaControlDetalleOfMovil(List<TarjetaControlDetalle> tarjetaControlDetalles){
+		List<TarjetaControlDetalle> _tarjetaControlDetalles=new ArrayList<TarjetaControlDetalle>();
+		int codEnvio;
+		for(TarjetaControlDetalle tarjetaControlDetalle:tarjetaControlDetalles){
+			if(tarjetaControlDetalle.getTaCoDeCodEnvioMovil()<=0){
+				codEnvio=this.UpdateTarjetaControlDetalleOfMovil(tarjetaControlDetalle.getTaCoDeId(), tarjetaControlDetalle);
+				tarjetaControlDetalle.setTaCoDeCodEnvioMovil(codEnvio);
+				_tarjetaControlDetalles.add(tarjetaControlDetalle);
+			}
+		}
+		return _tarjetaControlDetalles;
+	}
 	public void DeleteTarjetaControlDetalle(int taCoDeId){
 		this.tarjetaControlDetalleDao.deleteById(taCoDeId);
 	}
@@ -348,7 +360,6 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	}
 
 	//Asigna la tarjeta de control a un bus
-
 	public void AsignarTarjetaControl(TarjetaControl tarjetaControl, boolean tarjetaMulti){
 		//Primero guardamos la tarjeta de controlCabecera
 		TarjetaControl _tarjetaControl=null;
@@ -485,7 +496,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				//si es el prime se agrega la tarjeta como lo envia 
 				if (i<=1){
 					 _tiempoSalida=_tarjetaControl.getTaCoHoraSalida();
-					_tiempoReten=reten1;//segunindican sies la primera tarjeta el reten es diferente				
+					_tiempoReten=reten1;//segunindican sies la primera tarjeta el reten es diferente	
+					_tarjetaControl.setTaCoTiempoReten(_tiempoReten);
 				}
 				else
 				{	//pero si es mas de 1 tonces se incrementa en la tarjeta la hora de reten
@@ -510,7 +522,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 					_tarjetaControl.setTaCoFinish(tarjetaControl.getTaCoFinish());
 					_tarjetaControl.setTaCoMultiple(tarjetaControl.getTaCoMultiple());
 					_tarjetaControl.setTaCoCodEnvioMovil(tarjetaControl.getTaCoCodEnvioMovil());				
-					
+					_tarjetaControl.setTaCoTiempoReten(_tiempoReten);
 				}
 				
 				//Agregamos el tiempo reten a tiemposalida
