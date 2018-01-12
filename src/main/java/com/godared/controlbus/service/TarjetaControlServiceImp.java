@@ -549,14 +549,14 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				
 				this.AsignarTarjetaControl(_tarjetaControl, tarjetaMulti);
 				//Registramos el reten
-				RegistroReten _registroReten=new RegistroReten();
+				/*RegistroReten _registroReten=new RegistroReten();
 				_registroReten.setReReId(0);
 				_registroReten.setPrDeId(_prDeId);
 				_registroReten.setReDiDeId(_reDiDeId);
 				_registroReten.setReReTiempo(_tiempoReten);
 				_registroReten.setUsId(tarjetaControl.getUsId());
 				_registroReten.setUsFechaReg(new Date());
-				registroDiarioService.SaveRegistroReten(_registroReten);
+				registroDiarioService.SaveRegistroReten(_registroReten);*/
 				
 				_nroVuelta=_nroVuelta+1;
 				_reDiDeId=_reDiDeId+1;		
