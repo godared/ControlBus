@@ -26,7 +26,7 @@ public class RegistroRetenRestController {
 	@Autowired
 	IRegistroDiarioService registroDiarioService;
 	
-	@RequestMapping(value="/registroreten/{id}", method=RequestMethod.GET)
+	/*@RequestMapping(value="/registroreten/{id}", method=RequestMethod.GET)
 	public RegistroReten Get(@PathVariable("id") int reReId) {
 		RegistroReten registroReten=registroDiarioService.findOneRegistroReten(reReId);
 		if(registroReten==null)
@@ -53,5 +53,5 @@ public class RegistroRetenRestController {
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
 		registroDiarioService.DeleteRegistroReten(id);
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
-	}
+	}*/
 }

@@ -108,7 +108,7 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 			this.registroDiarioDetalleDao.create(registroDiarioDetalle);
 		}
 	}
-	
+	/*
 	//RegistroReten
 	public List<RegistroReten> findAllRegistroReten(){
 		return registroRetenDao.findAll();
@@ -132,5 +132,5 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 			registroReten.setUsFechaReg(new Date());
 			this.registroRetenDao.create(registroReten);
 		}		
-	}
+	}*/
 }

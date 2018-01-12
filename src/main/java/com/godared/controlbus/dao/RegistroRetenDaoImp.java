@@ -11,11 +11,11 @@ public class RegistroRetenDaoImp extends AbstractJpaDAO<RegistroReten> implement
 	        super();
 	        setClazz(RegistroReten.class);
 	    }
-	 @SuppressWarnings("unchecked")
+	 /* @SuppressWarnings("unchecked")
 	 public List<RegistroReten> GetAllRegistroRetenByReDiDe(int reDiDeId){
 		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_ReReGetAllRegistroRetenByReDiDe");
 	 	    storedProcedure.setParameter("reDiDeId",reDiDeId);
 	 	    return storedProcedure.getResultList();
-	 }
+	 }*/
 	 
 }

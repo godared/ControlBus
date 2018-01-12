@@ -21,10 +21,10 @@ public interface IRegistroDiarioService {
 		void DeleteRegistroDiarioDetalle(int reDiDeId);
 		void SaveRegistroDiarioDetalle(RegistroDiarioDetalle registroDiarioDetalle);
 		
-		//RegistroReten
-		List<RegistroReten> findAllRegistroReten();
-		RegistroReten findOneRegistroReten(int reReId);	
-		List<RegistroReten> GetAllRegistroRetenByReDiDe(int reDiDeId);		
-		void DeleteRegistroReten(int reReId);
-		void SaveRegistroReten(RegistroReten registroReten);
+		//RegistroReten(ya no se usa, lo voy  a eliminar)
+		//List<RegistroReten> findAllRegistroReten();
+		//RegistroReten findOneRegistroReten(int reReId);	
+		//List<RegistroReten> GetAllRegistroRetenByReDiDe(int reDiDeId);		
+		//void DeleteRegistroReten(int reReId);
+		//void SaveRegistroReten(RegistroReten registroReten);
 }

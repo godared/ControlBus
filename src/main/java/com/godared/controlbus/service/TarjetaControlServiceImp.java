@@ -208,7 +208,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			TarjetaControl tarjetaControl;
 			tarjetaControl=this.findOne(id);
 			//obtenemos el ID PrDeId
-			int _prDeId=this.GetPrDeIdReten(tarjetaControl);
+			/*int _prDeId=this.GetPrDeIdReten(tarjetaControl);
 			List<RegistroReten> _registroRetenes=null;
 			_registroRetenes=registroDiarioService.GetAllRegistroRetenByReDiDe(tarjetaControl.getReDiDeId());
 			int _reReId=0;
@@ -217,12 +217,12 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 					_reReId=registroReten.getReReId();
 					break;
 				}
-			}
+			}*/
 			//solamente eliminamos detalle cuando es 1=asignado
 			if (tarjetaControl.getTaCoAsignado().compareTo("1")==0){
 				this.DeleteTarjetaControlDetalleBytaCoId(id);
-				if (_reReId>0)
-					registroDiarioService.DeleteRegistroReten(_reReId);
+				//if (_reReId>0)
+					//registroDiarioService.DeleteRegistroReten(_reReId);
 				this.Usp_D_GeEliminaByTaCo(tarjetaControl.getTaCoId());
 			}
 			this.tarjetaControlDao.deleteById(id);
