@@ -18,7 +18,7 @@ import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
 public interface ITarjetaControlService {
 	 List<TarjetaControl> findAll();
 	 TarjetaControl findOne(int taCoId);
-	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha);
+	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int emId,int buId,Date taCoFecha);
 	 List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(int emId,int reDiDe);
 	 void Delete(int taCoId);
 	 TarjetaControl Save(TarjetaControl tarjetaControl);

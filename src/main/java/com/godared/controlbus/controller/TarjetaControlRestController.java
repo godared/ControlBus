@@ -78,11 +78,11 @@ public class TarjetaControlRestController {
 	public List<Usp_S_TaCoGetAllTarjetaControlByEmPuCo> GetAllTarjetaControlByEmPuCo(@RequestParam("emId") int emId,@RequestParam("puCoId") int puCoId) {
 		return tarjetaControlService.GetAllTarjetaControlByEmPuCo(emId,puCoId);
 	}
-	@RequestMapping(value = "/tarjetacontrol/getalltarjetacontrolbybuidfecha",params = {"buId","taCoFecha"}, method=RequestMethod.GET)
-	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(@RequestParam("buId") int buId,@RequestParam("taCoFecha") String taCoFecha) throws ParseException{
+	@RequestMapping(value = "/tarjetacontrol/getalltarjetacontrolbybuidfecha",params = {"emId","buId","taCoFecha"}, method=RequestMethod.GET)
+	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(@RequestParam("emId") int emId,@RequestParam("buId") int buId,@RequestParam("taCoFecha") String taCoFecha) throws ParseException{
 		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 		Date date=formatter.parse(taCoFecha);
-		return tarjetaControlService.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,date);
+		return tarjetaControlService.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(emId,buId,date);
 	}
 	@RequestMapping(value = "/tarjetacontrol/getalltarjetacontrolbyemredide",params = {"emId","reDiDe"}, method=RequestMethod.GET)
 	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(@RequestParam("emId") int buId,@RequestParam("reDiDe") int reDiDe) throws ParseException{
