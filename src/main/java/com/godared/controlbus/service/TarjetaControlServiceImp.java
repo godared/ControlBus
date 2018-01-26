@@ -812,6 +812,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
     }
     public Georeferencia createReturnGeoreferencia(Georeferencia georeferencia){
     	georeferencia.setUsFechaReg(new Date());
+    	georeferencia.setGeEnviadoMovil(true);
     	return georeferenciaDao.createReturn(georeferencia);
     }
     public void deleteGeoreferenciaById(int geId){
