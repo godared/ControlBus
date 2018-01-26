@@ -103,8 +103,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		// TODO Auto-generated method stub
 		return tarjetaControlDao.findOne(id);
 	}
-	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int buId,Date taCoFecha){
-		return tarjetaControlDao.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(buId,taCoFecha);
+	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(int emId,int buId,Date taCoFecha){
+		return tarjetaControlDao.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(emId,buId,taCoFecha);
 	}
 	public List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> GetAllTarjetaControlByEmReDiDe(int emId,int reDiDe){
 		return tarjetaControlDao.GetAllTarjetaControlByEmReDiDe(emId,reDiDe);
@@ -496,8 +496,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				//si es el prime se agrega la tarjeta como lo envia 
 				if (i<=1){
 					 _tiempoSalida=_tarjetaControl.getTaCoHoraSalida();
-					_tiempoReten=reten1;//segunindican sies la primera tarjeta el reten es diferente	
-					_tarjetaControl.setTaCoTiempoReten(_tiempoReten);
+					_tiempoReten=reten2;//segunindican sies la primera tarjeta el reten es diferente	
+					//_tarjetaControl.setTaCoTiempoReten(_tiempoReten);
 				}
 				else
 				{	//pero si es mas de 1 tonces se incrementa en la tarjeta la hora de reten
@@ -586,7 +586,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		
 		//obteniendo las tarejtas para una fecha especificada
 		List<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> _tarjetaControls=null;
-		_tarjetaControls=this.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(0, _registroDiario.getReDiFeha());
+		_tarjetaControls=this.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha(_registroDiario.getEmId(),0, _registroDiario.getReDiFeha());
 		//filtramos eliminando a los que son diferentes a tarjetaControl.getReDiDeId()
 		//este codigo filtra y el resultado lo devuelve en _tarjetaControls
 		Iterator<Usp_S_TaCoGetAllTarjetaControlByBuIdFecha> it = _tarjetaControls.iterator();

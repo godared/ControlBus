@@ -30,6 +30,7 @@ import com.godared.controlbus.TimeZona;
 	procedureName = "Usp_S_TaCoGetAllTarjetaControlByBuIdFecha",
 	resultClasses = Usp_S_TaCoGetAllTarjetaControlByBuIdFecha.class , 
 	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "taCoFecha")
 	}),
