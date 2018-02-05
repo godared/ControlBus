@@ -266,7 +266,35 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		return tarjetaControlDao.GetAllTarjetaControlByEmPuCo(emId,puCoId);
 	}
 	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
-		return tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+		Configura _configura =new Configura();
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaDiario);
+		int year = c.get(Calendar.YEAR);
+		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
+		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=null;
+		if (_configura.getCoSiId()==1) //Si el 1 entonce no considera dos programaciones 
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+		else if(_configura.getCoSiId()==2) { // si es 2 entonces tiene la cantidad de programaciones por subempresas y el orden en registrodiario para concatenar y generar el registro de vueltas
+			//Buscamos el orden de las subempresas
+			List<RegistroDiario> _registroDiarios=null;
+			_registroDiarios=registroDiarioService.GetAllRegistroDiarioByEm(emId);
+			//este codigo filtra y el resultado lo devuelve en _registroDiarios
+			Iterator<RegistroDiario> it = _registroDiarios.iterator();
+			while (it.hasNext()) {
+				RegistroDiario current = it.next();
+			    if (current.getReDiFeha()!=fechaDiario) {
+			        it.remove();
+			    }
+			}
+			//Obtenemos el orden de las subempresas
+			String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
+			String[] _subEmpresas = _ordenSubEmpresas.split(",");
+			
+			
+		}
+		else
+			return null;
+		return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 	}
 	//Tarjeta de Control Detalle
 	public TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId){

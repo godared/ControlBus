@@ -35,6 +35,7 @@ public class Configura implements Serializable {
 	private String CoMembreReporte;
 	private int UsId; 
 	private Date UsFechaReg;
+	private int CoSiId;
 	@JsonProperty("CoId")
 	public int getCoId() {
 		return CoId;
@@ -104,6 +105,13 @@ public class Configura implements Serializable {
 	}
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
+	}
+	@JsonProperty("CoSiId")
+	public int getCoSiId() {
+		return CoSiId;
+	}
+	public void setCoSiId(int coSiId) {
+		CoSiId = coSiId;
 	}
 	
 

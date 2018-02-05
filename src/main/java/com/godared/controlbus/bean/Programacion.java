@@ -25,6 +25,7 @@ public class Programacion implements Serializable {
 	private int UsId;
 	private Date UsFechaReg;
 	private String PrDiasIncluidos;
+	private int SuEmId;
 	
 	@JsonProperty("PrId")
 	public int getPrId() {
@@ -125,6 +126,13 @@ public class Programacion implements Serializable {
 	}
 	public void setPrDiasIncluidos(String prDiasIncluidos) {
 		PrDiasIncluidos = prDiasIncluidos;
+	}
+	@JsonProperty("SuEmId")
+	public int getSuEmId() {
+		return SuEmId;
+	}
+	public void setSuEmId(int suEmId) {
+		SuEmId = suEmId;
 	}
 	
 }
