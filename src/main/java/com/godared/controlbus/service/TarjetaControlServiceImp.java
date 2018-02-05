@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Georeferencia;
+import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.PuntoControlDetalle;
@@ -36,6 +37,7 @@ import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
@@ -289,7 +291,24 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			//Obtenemos el orden de las subempresas
 			String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
 			String[] _subEmpresas = _ordenSubEmpresas.split(",");
-			
+			int c1=0;
+			while(c1<_subEmpresas.length){
+				//Obtenemos y filtramos la programacion por SubEmpresa
+				List<Usp_S_PrGetAllProgramacionByEm> _programaciones=null;			
+				_programaciones=programacionService.GetAllProgramacionByEm(emId,year);
+				//este codigo filtra y el resultado lo devuelve en _registroDiarios
+				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
+				while (it2.hasNext()) {
+					Usp_S_PrGetAllProgramacionByEm current = it2.next();
+				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[0])) {
+				        it2.remove();
+				    }
+				}
+				//Ahora si agregamos de acuerdo al orden especificado de las subempresas 
+				List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);
+				_usp_S_GetAllRegistroVueltasDiariasByEmPrFe.addAll(_getAllRegistroVueltasDiariasByEmPrFe);
+				c1=c1+1;
+			}
 			
 		}
 		else

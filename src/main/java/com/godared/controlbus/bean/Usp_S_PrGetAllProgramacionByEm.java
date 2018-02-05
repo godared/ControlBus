@@ -37,6 +37,8 @@ public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
 	private Boolean PrAleatorio;	
 	private String EmConsorcio;
 	private String PrDiasIncluidos;
+	private int SuEmId;
+	private String SuEmRSocial;
 	
 	@JsonProperty("prId")
 	public int getPrId() {
@@ -118,6 +120,14 @@ public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
 	@JsonProperty("PrDiasIncluidos")
 	public String getPrDiasIncluidos() {
 		return PrDiasIncluidos;
+	}
+	@JsonProperty("SuEmId")
+	public int getSuEmId() {
+		return SuEmId;
+	}
+	@JsonProperty("SuEmRSocial")
+	public String getSuEmRSocial() {
+		return SuEmRSocial;
 	}
 	
 	
