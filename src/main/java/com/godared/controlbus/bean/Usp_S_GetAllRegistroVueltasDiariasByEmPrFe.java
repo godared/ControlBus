@@ -185,6 +185,55 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	public Boolean getTaCoMultiple() {
 		return TaCoMultiple;
 	}
+	//TODOS LOS SETTTER-- jejeje
+	public void setId(int id) {
+		Id = id;
+	}
+	public void setPrDeId(int prDeId) {
+		PrDeId = prDeId;
+	}
+	public void setBuId(int buId) {
+		BuId = buId;
+	}
+	public void setPrDeOrden(int prDeOrden) {
+		PrDeOrden = prDeOrden;
+	}
+	public void setBuPlaca(String buPlaca) {
+		BuPlaca = buPlaca;
+	}
+	public void setReDiId(int reDiId) {
+		ReDiId = reDiId;
+	}
+	public void setReDiDeId(int reDiDeId) {
+		ReDiDeId = reDiDeId;
+	}
+	public void setReDiDeNroVuelta(int reDiDeNroVuelta) {
+		ReDiDeNroVuelta = reDiDeNroVuelta;
+	}
+	public void setReReId(int reReId) {
+		ReReId = reReId;
+	}
+	public void setReReTiempo(Date reReTiempo) {
+		ReReTiempo = reReTiempo;
+	}
+	public void setTaCoId(int taCoId) {
+		TaCoId = taCoId;
+	}
+	public void setTaCoHoraSalida(Date taCoHoraSalida) {
+		TaCoHoraSalida = taCoHoraSalida;
+	}
+	public void setHoraLlegada(Date horaLlegada) {
+		HoraLlegada = horaLlegada;
+	}
+	public void setPuCoTiempoBus(Date puCoTiempoBus) {
+		PuCoTiempoBus = puCoTiempoBus;
+	}
+	public void setTaCoAsignado(String taCoAsignado) {
+		TaCoAsignado = taCoAsignado;
+	}
+	public void setTaCoMultiple(Boolean taCoMultiple) {
+		TaCoMultiple = taCoMultiple;
+	}
 	
 	
 }
