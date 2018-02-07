@@ -2,7 +2,10 @@ package com.godared.controlbus.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +20,29 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
+import com.godared.controlbus.bean.Configura;
+import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
+import com.godared.controlbus.service.IEmpresaService;
+import com.godared.controlbus.service.IProgramacionService;
+import com.godared.controlbus.service.IRegistroDiarioService;
 import com.godared.controlbus.service.ITarjetaControlService;
+import com.godared.controlbus.service.TarjetaControlServiceImp;
 @RestController
 @RequestMapping("/rest")
 public class TarjetaControlRestController {
 	@Autowired
 	ITarjetaControlService tarjetaControlService;
-	
+	@Autowired
+	IEmpresaService empresaService;
+	@Autowired
+	IRegistroDiarioService registroDiarioService;
+	@Autowired
+	IProgramacionService programacionService;
 	@RequestMapping(value = "/tarjetacontrol", method=RequestMethod.GET)	
 	public List<TarjetaControl> List() {
 		return tarjetaControlService.findAll();
@@ -91,7 +106,99 @@ public class TarjetaControlRestController {
 	}
 	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprfe",params = {"emId","prId","fechaDiario"}, method=RequestMethod.GET)
 	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
-		return tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+		// el porque lo hago aqui y no en service es que cuando hago la peticion del dao GetAllRegistroVueltasDiariasByEmPrFe
+		// para el tipo _configura.getCoSiId()==2 no se que hace se sobreescribe y sobrepone la lista de vuelta(esto debido a que se realiza la llamada por subempresa
+		//y puede ser de dos a mas y unir las listas).
+		Configura _configura =new Configura();
+		Calendar c = Calendar.getInstance();
+		c.setTime(fechaDiario);
+		int year = c.get(Calendar.YEAR);
+		
+		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+		
+		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
+		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
+		if (_configura.getCoSiId()==1) //Si el 1 entonce no considera dos programaciones 
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+			
+		else if(_configura.getCoSiId()==2) { // si es 2 entonces tiene la cantidad de programaciones por subempresas y el orden en registrodiario para concatenar y generar el registro de vueltas
+			//Buscamos el orden de las subempresas
+			List<RegistroDiario> _registroDiarios=null;
+			_registroDiarios=registroDiarioService.GetAllRegistroDiarioByEm(emId);
+			//este codigo filtra y el resultado lo devuelve en _registroDiarios
+			Iterator<RegistroDiario> it = _registroDiarios.iterator();
+			while (it.hasNext()) {
+				RegistroDiario current = it.next();
+			    if (current.getReDiFeha().compareTo(fechaDiario)!=0) {
+			        it.remove();
+			    }
+			}
+			//Obtenemos el orden de las subempresas
+			String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
+			String[] _subEmpresas = _ordenSubEmpresas.split(",");
+			int c1=0;
+			while(c1<_subEmpresas.length){
+				//Obtenemos y filtramos la programacion por SubEmpresa
+				List<Usp_S_PrGetAllProgramacionByEm> _programaciones=null;			
+				_programaciones=programacionService.GetAllProgramacionByEm(emId,year);
+				//este codigo filtra y el resultado lo devuelve en _registroDiarios
+				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
+				while (it2.hasNext()) {
+					Usp_S_PrGetAllProgramacionByEm current = it2.next();
+				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[c1])) {
+				        it2.remove();
+				    }
+				}
+				//Ahora si agregamos de acuerdo al orden especificado de las subempresas
+
+				_getAllRegistroVueltasDiariasByEmPrFe.removeAll(_getAllRegistroVueltasDiariasByEmPrFe);							
+				_getAllRegistroVueltasDiariasByEmPrFe=tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);
+				
+				_usp_S_GetAllRegistroVueltasDiariasByEmPrFe.addAll(_getAllRegistroVueltasDiariasByEmPrFe);
+				c1=c1+1;
+			}
+			//Ahora si modificamos e correlativo del id
+			List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+			//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.addAll(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
+			int nroVueltas=_registroDiarios.get(0).getReDiTotalVuelta();
+			int count=1;
+			int vuelta=0;
+			int subEmpresa=0;
+			int c5=1;
+			int valorOrden=0;
+			for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe: _usp_S_GetAllRegistroVueltasDiariasByEmPrFe){
+				Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=new Usp_S_GetAllRegistroVueltasDiariasByEmPrFe();
+				usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=org.apache.commons.lang3.SerializationUtils.clone(usp_S_GetAllRegistroVueltasDiariasByEmPrFe);
+				usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setId(count);
+				
+				if (count==1){
+					vuelta=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta();
+					subEmpresa=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getSuEmId();
+					valorOrden=0;
+				}
+				if(subEmpresa!= usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getSuEmId()){
+					valorOrden=valorOrden+c5-1;
+					subEmpresa=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getSuEmId();
+				}
+				if( vuelta!=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()){
+					c5=valorOrden+1;
+					vuelta=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta();
+					}
+				usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeOrden(c5);
+				c5=c5+1;
+				
+				_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.add(usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
+				count=count+1;
+			}
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2;
+		}
+		else
+			return null;
+		
+		
+		return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+		
+		//return tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
 	}
 	@RequestMapping(value = "/tarjetacontrol/asignartarjeta", method=RequestMethod.POST)
 	@ResponseBody

@@ -50,6 +50,7 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	private Date PuCoTiempoBus;
 	private String TaCoAsignado;
 	private Boolean TaCoMultiple;
+	private int SuEmId;
 	
 	@JsonProperty("Id")
 	public int getId() {
@@ -233,6 +234,13 @@ public class Usp_S_GetAllRegistroVueltasDiariasByEmPrFe implements Serializable 
 	}
 	public void setTaCoMultiple(Boolean taCoMultiple) {
 		TaCoMultiple = taCoMultiple;
+	}
+	@JsonProperty("SuEmId")
+	public int getSuEmId() {
+		return SuEmId;
+	}
+	public void setSuEmId(int suEmId) {
+		SuEmId = suEmId;
 	}
 	
 	

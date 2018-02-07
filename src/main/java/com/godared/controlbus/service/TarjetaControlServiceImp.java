@@ -269,87 +269,9 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		return tarjetaControlDao.GetAllTarjetaControlByEmPuCo(emId,puCoId);
 	}
 	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
-		Configura _configura =new Configura();
-		Calendar c = Calendar.getInstance();
-		c.setTime(fechaDiario);
-		int year = c.get(Calendar.YEAR);
-		int count=1;
-		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
-		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe2= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
-		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
-		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
-		if (_configura.getCoSiId()==1) //Si el 1 entonce no considera dos programaciones 
-			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
-			
-		else if(_configura.getCoSiId()==2) { // si es 2 entonces tiene la cantidad de programaciones por subempresas y el orden en registrodiario para concatenar y generar el registro de vueltas
-			//Buscamos el orden de las subempresas
-			List<RegistroDiario> _registroDiarios=null;
-			_registroDiarios=registroDiarioService.GetAllRegistroDiarioByEm(emId);
-			//este codigo filtra y el resultado lo devuelve en _registroDiarios
-			Iterator<RegistroDiario> it = _registroDiarios.iterator();
-			while (it.hasNext()) {
-				RegistroDiario current = it.next();
-			    if (current.getReDiFeha().compareTo(fechaDiario)!=0) {
-			        it.remove();
-			    }
-			}
-			//Obtenemos el orden de las subempresas
-			String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
-			String[] _subEmpresas = _ordenSubEmpresas.split(",");
-			int c1=0;
-			while(c1<_subEmpresas.length){
-				//Obtenemos y filtramos la programacion por SubEmpresa
-				List<Usp_S_PrGetAllProgramacionByEm> _programaciones=null;			
-				_programaciones=programacionService.GetAllProgramacionByEm(emId,year);
-				//este codigo filtra y el resultado lo devuelve en _registroDiarios
-				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
-				while (it2.hasNext()) {
-					Usp_S_PrGetAllProgramacionByEm current = it2.next();
-				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[c1])) {
-				        it2.remove();
-				    }
-				}
-				//Ahora si agregamos de acuerdo al orden especificado de las subempresas 
-				Usp_S_GetAllRegistroVueltasDiariasByEmPrFe _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2;
-				
-				_getAllRegistroVueltasDiariasByEmPrFe.removeAll(_getAllRegistroVueltasDiariasByEmPrFe);
-				//tarjetaControlDao=null;
-				TarjetaControlServiceImp ts=new TarjetaControlServiceImp();
-				if(count==1)					
-					_getAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);
-				else
-					_getAllRegistroVueltasDiariasByEmPrFe2=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);	
-				for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe _usp_S_GetAllRegistroVueltasDiariasByEmPrFe1: _getAllRegistroVueltasDiariasByEmPrFe){
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=new Usp_S_GetAllRegistroVueltasDiariasByEmPrFe() ;
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=org.apache.commons.lang3.SerializationUtils.clone(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1);
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setId(count);
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeOrden(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeOrden());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuPlaca(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuPlaca());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeNroVuelta(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeNroVuelta());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReTiempo(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReTiempo());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoId());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoHoraSalida(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoHoraSalida());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setHoraLlegada(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getHoraLlegada());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPuCoTiempoBus(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPuCoTiempoBus());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoAsignado(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoAsignado());
-					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoMultiple(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoMultiple());
-					
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe.add(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
-					count=count+1;
-				}
-				
-				c1=c1+1;
-			}			
-		}
-		else
-			return null;
-		return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
-	}
+ 		return tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+ 	}
+		
 	//Tarjeta de Control Detalle
 	public TarjetaControlDetalle findOneTarjetaControlDetalleId(int taCoDeId){
 		 return this.tarjetaControlDetalleDao.findOne(taCoDeId);
