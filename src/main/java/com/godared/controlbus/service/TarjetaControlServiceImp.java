@@ -47,6 +47,7 @@ import com.godared.controlbus.dao.ITarjetaControlDao;
 import com.godared.controlbus.dao.ITarjetaControlDetalleDao;
 import com.godared.controlbus.dao.ITiempoProgramadoDao;
 import com.godared.controlbus.dao.ITiempoSalidaDao;
+import com.godared.controlbus.dao.TarjetaControlDaoImp;
 
 @Service
 @Transactional
@@ -273,6 +274,8 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		c.setTime(fechaDiario);
 		int year = c.get(Calendar.YEAR);
 		int count=1;
+		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe2= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
 		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
 		if (_configura.getCoSiId()==1) //Si el 1 entonce no considera dos programaciones 
@@ -307,26 +310,34 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 				    }
 				}
 				//Ahora si agregamos de acuerdo al orden especificado de las subempresas 
-				List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
-				_getAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);
+				Usp_S_GetAllRegistroVueltasDiariasByEmPrFe _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2;
+				
+				_getAllRegistroVueltasDiariasByEmPrFe.removeAll(_getAllRegistroVueltasDiariasByEmPrFe);
+				//tarjetaControlDao=null;
+				TarjetaControlServiceImp ts=new TarjetaControlServiceImp();
+				if(count==1)					
+					_getAllRegistroVueltasDiariasByEmPrFe=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);
+				else
+					_getAllRegistroVueltasDiariasByEmPrFe2=tarjetaControlDao.GetAllRegistroVueltasDiariasByEmPrFe(emId,_programaciones.get(0).getPrId(),fechaDiario);	
 				for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe _usp_S_GetAllRegistroVueltasDiariasByEmPrFe1: _getAllRegistroVueltasDiariasByEmPrFe){
-					Usp_S_GetAllRegistroVueltasDiariasByEmPrFe _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=new Usp_S_GetAllRegistroVueltasDiariasByEmPrFe() ;
+					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=new Usp_S_GetAllRegistroVueltasDiariasByEmPrFe() ;
+					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2=org.apache.commons.lang3.SerializationUtils.clone(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1);
 					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setId(count);
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeOrden(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeOrden());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuPlaca(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuPlaca());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeNroVuelta(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeNroVuelta());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReTiempo(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReTiempo());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoId());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoHoraSalida(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoHoraSalida());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setHoraLlegada(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getHoraLlegada());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPuCoTiempoBus(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPuCoTiempoBus());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoAsignado(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoAsignado());
-					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoMultiple(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoMultiple());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPrDeOrden(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPrDeOrden());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setBuPlaca(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getBuPlaca());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReDiDeNroVuelta(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReDiDeNroVuelta());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setReReTiempo(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getReReTiempo());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoId(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoId());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoHoraSalida(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoHoraSalida());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setHoraLlegada(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getHoraLlegada());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setPuCoTiempoBus(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getPuCoTiempoBus());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoAsignado(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoAsignado());
+					//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoMultiple(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe1.getTaCoMultiple());
 					
 					_usp_S_GetAllRegistroVueltasDiariasByEmPrFe.add(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
 					count=count+1;
