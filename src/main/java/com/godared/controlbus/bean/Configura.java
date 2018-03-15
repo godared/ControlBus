@@ -36,6 +36,8 @@ public class Configura implements Serializable {
 	private int UsId; 
 	private Date UsFechaReg;
 	private int CoSiId;
+	private Date CoTiempoActual;
+	
 	@JsonProperty("CoId")
 	public int getCoId() {
 		return CoId;
@@ -112,6 +114,13 @@ public class Configura implements Serializable {
 	}
 	public void setCoSiId(int coSiId) {
 		CoSiId = coSiId;
+	}
+	@JsonProperty("CoTiempoActual")
+	public Date getCoTiempoActual() {
+		return new Date();
+	}
+	public void setCoTiempoActual(Date coTiempoActual) {
+		CoTiempoActual = coTiempoActual;
 	}
 	
 
