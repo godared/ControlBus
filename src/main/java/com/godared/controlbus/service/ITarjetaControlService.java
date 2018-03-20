@@ -9,6 +9,7 @@ import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.Telefono;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
+import com.godared.controlbus.bean.Usp_S_GeGetAllUbicacionActualByEmTiempo;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
@@ -62,5 +63,6 @@ public interface ITarjetaControlService {
     Georeferencia createReturnGeoreferencia(Georeferencia georeferencia);
     void deleteGeoreferenciaById(int geId);
     void Usp_D_GeEliminaByTaCo(int taCoId);
-	
+    List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllUbicacionActualByEmTiempo(int emId,int periodo,Date tiempo);
+    List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllRecorridoVueltaByEmBuReDi(int emId,int periodo,int buId, int reDiDeId);
 }

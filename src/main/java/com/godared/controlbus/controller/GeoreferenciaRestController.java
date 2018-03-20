@@ -1,5 +1,6 @@
 package com.godared.controlbus.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Georeferencia;
+import com.godared.controlbus.bean.Usp_S_GeGetAllUbicacionActualByEmTiempo;
 import com.godared.controlbus.service.ITarjetaControlService;
 
 @RestController
@@ -38,6 +40,15 @@ public class GeoreferenciaRestController {
 	public List<Georeferencia> GetAllGeoreferenciaByTaCo(@RequestParam("taCoId") int taCoId) {
 		return tarjetaControlService.GetAllGeoreferenciaByTaCo(taCoId);
 	}
+	@RequestMapping(value = "/georeferencia/getallubicacionactualbyemtiempo",params = {"emId","periodo","tiempo"}, method=RequestMethod.GET)
+	public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllUbicacionActualByEmTiempo(@RequestParam("emId") int emId,@RequestParam("periodo") int periodo,@RequestParam("tiempo") Date tiempo) {
+		return tarjetaControlService.GetAllUbicacionActualByEmTiempo(emId, periodo, tiempo);
+	}
+	@RequestMapping(value = "/georeferencia/getallrecorridovueltabyemburedi",params = {"emId","periodo","buId","reDiDeId"}, method=RequestMethod.GET)
+	public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllRecorridoVueltaByEmBuReDi(@RequestParam("emId") int emId,@RequestParam("periodo") int periodo,@RequestParam("buId") int buId,@RequestParam("reDiDeId") int reDiDeId) {
+		return tarjetaControlService.GetAllRecorridoVueltaByEmBuReDi(emId, periodo, buId, reDiDeId);
+	}
+	
 	@RequestMapping(value="/georeferencia/new", method=RequestMethod.GET)
 	public Georeferencia New(){
 		return new Georeferencia();

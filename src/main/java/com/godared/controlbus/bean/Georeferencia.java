@@ -27,6 +27,25 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
 	})
+	,
+	@NamedStoredProcedureQuery(name = "Usp_S_GeGetAllUbicacionActualByEmTiempo", 
+	procedureName = "Usp_S_GeGetAllUbicacionActualByEmTiempo",
+	resultClasses = Usp_S_GeGetAllUbicacionActualByEmTiempo.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "periodo"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "tiempo")
+	})
+	,
+	@NamedStoredProcedureQuery(name = "Usp_S_GeGetAllRecorridoVueltaByEmBuReDi", 
+	procedureName = "Usp_S_GeGetAllRecorridoVueltaByEmBuReDi",
+	resultClasses = Usp_S_GeGetAllUbicacionActualByEmTiempo.class , 
+	parameters = {
+			@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+			@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "periodo"),
+			@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "buId"),			
+			@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "reDiDeId")
+	})
 })
 public class Georeferencia implements Serializable {
 	@Id 
