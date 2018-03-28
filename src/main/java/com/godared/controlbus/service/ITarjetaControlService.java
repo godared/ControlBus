@@ -3,6 +3,7 @@ package com.godared.controlbus.service;
 import java.util.Date;
 import java.util.List;
 
+import com.godared.controlbus.bean.AlertaIncidencia;
 import com.godared.controlbus.bean.Georeferencia;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
@@ -65,4 +66,11 @@ public interface ITarjetaControlService {
     void Usp_D_GeEliminaByTaCo(int taCoId);
     List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllUbicacionActualByEmTiempo(int emId,int periodo,Date tiempo);
     List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllRecorridoVueltaByEmBuReDi(int emId,int periodo,int buId, int reDiDeId);
+    
+  //AlertaIncidencia
+    AlertaIncidencia findOneAlertaIncidencia(int AlInId);
+  	//List<Usp_S_TeGetAllTelefonoByBuImei> getAllTelefonoByBuImei(int buId, String teImei);	
+  	void DeleteAlertaIncidencia(int AlInId);
+  	//void DeleteBusPersonaByBu(int buId);
+  	void Save(AlertaIncidencia alertaIncidencia);
 }
