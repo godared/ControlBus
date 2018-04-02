@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.godared.controlbus.bean.AlertaIncidencia;
 import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Georeferencia;
@@ -43,6 +44,7 @@ import com.godared.controlbus.bean.Usp_S_RuGetAllRutaByEm;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByEmPuCo;
 import com.godared.controlbus.bean.Usp_S_TiPrGetAllTiempoProgramadoByTiSa;
+import com.godared.controlbus.dao.IAlertaIncidenciaDao;
 import com.godared.controlbus.dao.IGeoreferenciaDao;
 import com.godared.controlbus.dao.ITarjetaControlDao;
 import com.godared.controlbus.dao.ITarjetaControlDetalleDao;
@@ -63,6 +65,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	private ITiempoProgramadoDao tiempoProgramadoDao;
 	
 	private IGeoreferenciaDao georeferenciaDao;
+	private IAlertaIncidenciaDao alertaIncidenciaDao;
 	
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
@@ -95,6 +98,10 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 	}
 	public void setGeoreferenciaDao(IGeoreferenciaDao georeferenciaDao) {
 		 this.georeferenciaDao = georeferenciaDao;
+		 
+	}
+	public void setAlertaIncidenciaDao(IAlertaIncidenciaDao alertaIncidenciaDao) {
+		 this.alertaIncidenciaDao = alertaIncidenciaDao;
 		 
 	}
 	
@@ -832,5 +839,29 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
     public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllRecorridoVueltaByEmBuReDi(int emId,int periodo,int buId, int reDiDeId){
     	return georeferenciaDao.GeGetAllRecorridoVueltaByEmBuReDi(emId, periodo, buId, reDiDeId);
     }
-	
+    
+    //AlertaIncidencia
+    public AlertaIncidencia findOneAlertaIncidencia(int AlInId){
+    	return this.alertaIncidenciaDao.findOne(AlInId);
+    }
+  	public List<AlertaIncidencia> GetAllAlertaIncidenciaByEmTaCo(int emId,int taCoId){
+  		return this.alertaIncidenciaDao.Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo(emId, taCoId);
+  	}
+  	public List<AlertaIncidencia> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha){
+  		return this.alertaIncidenciaDao.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha(emId, fecha);
+  	}
+  	public void DeleteAlertaIncidencia(int AlInId){
+  		this.alertaIncidenciaDao.deleteById(AlInId);
+  	}  	
+  	public void Save(AlertaIncidencia alertaIncidencia){
+  		if (alertaIncidencia.getAlInId()>0)
+		{
+			this.alertaIncidenciaDao.update(alertaIncidencia);
+		}
+		else
+		{			
+			alertaIncidencia.setUsFechaReg(new Date());
+			this.alertaIncidenciaDao.create(alertaIncidencia);
+		}
+  	}
 }

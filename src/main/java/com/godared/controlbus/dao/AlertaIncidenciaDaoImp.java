@@ -1,5 +1,6 @@
 package com.godared.controlbus.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.StoredProcedureQuery;
@@ -15,10 +16,18 @@ public class AlertaIncidenciaDaoImp  extends AbstractJpaDAO<AlertaIncidencia> im
 	        super();
 	        setClazz(AlertaIncidencia.class);
 	    }
-	/* public List<Usp_S_TeGetAllTelefonoByBuImei> GetAllTelefonoByBuImei(int buId,String teImei){
-		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_TeGetAllTelefonoByBuImei");
-	 	    storedProcedure.setParameter("buId",buId);
-	 	   storedProcedure.setParameter("teImei",teImei);
+	public List<AlertaIncidencia> Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo(int emId,int taCoId){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo");
+	 	    storedProcedure.setParameter("emId",emId);
+	 	   storedProcedure.setParameter("taCoId",taCoId);
 	 	    return storedProcedure.getResultList();
-	 }*/
+	 }
+	public List<AlertaIncidencia> Usp_S_AlInGetAllAlertaIncidenciaByEmFecha(int emId,Date fecha){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_AlInGetAllAlertaIncidenciaByEmFecha");
+	 	    storedProcedure.setParameter("emId",emId);
+	 	   storedProcedure.setParameter("fecha",fecha);
+	 	    return storedProcedure.getResultList();
+	 }
+	 
+	    
 }

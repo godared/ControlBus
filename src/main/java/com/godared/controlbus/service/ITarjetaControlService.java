@@ -69,7 +69,8 @@ public interface ITarjetaControlService {
     
   //AlertaIncidencia
     AlertaIncidencia findOneAlertaIncidencia(int AlInId);
-  	//List<Usp_S_TeGetAllTelefonoByBuImei> getAllTelefonoByBuImei(int buId, String teImei);	
+  	List<AlertaIncidencia> GetAllAlertaIncidenciaByEmTaCo(int emId,int taCoId);
+  	List<AlertaIncidencia> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha);
   	void DeleteAlertaIncidencia(int AlInId);
   	//void DeleteBusPersonaByBu(int buId);
   	void Save(AlertaIncidencia alertaIncidencia);

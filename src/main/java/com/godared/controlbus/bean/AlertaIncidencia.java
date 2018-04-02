@@ -6,10 +6,30 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
+import javax.persistence.StoredProcedureParameter;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
+@NamedStoredProcedureQueries({
+	@NamedStoredProcedureQuery(name = "Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo", 
+	procedureName = "Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo",
+	resultClasses = AlertaIncidencia.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "taCoId")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_AlInGetAllAlertaIncidenciaByEmFecha", 
+	procedureName = "Usp_S_AlInGetAllAlertaIncidenciaByEmFecha",
+	resultClasses = AlertaIncidencia.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "fecha")
+	})
+})
 public class AlertaIncidencia implements Serializable{
 	@Id 
 	@GeneratedValue
