@@ -1,5 +1,6 @@
 package com.godared.controlbus.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -41,8 +42,10 @@ public class GeoreferenciaRestController {
 		return tarjetaControlService.GetAllGeoreferenciaByTaCo(taCoId);
 	}
 	@RequestMapping(value = "/georeferencia/getallubicacionactualbyemtiempo",params = {"emId","periodo","tiempo"}, method=RequestMethod.GET)
-	public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllUbicacionActualByEmTiempo(@RequestParam("emId") int emId,@RequestParam("periodo") int periodo,@RequestParam("tiempo") Date tiempo) {
-		return tarjetaControlService.GetAllUbicacionActualByEmTiempo(emId, periodo, tiempo);
+	public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllUbicacionActualByEmTiempo(@RequestParam("emId") int emId,@RequestParam("periodo") int periodo,@RequestParam("tiempo") Long tiempo) {
+		Calendar cal =Calendar.getInstance();
+		cal.setTimeInMillis(tiempo);
+		return tarjetaControlService.GetAllUbicacionActualByEmTiempo(emId, periodo, cal.getTime());
 	}
 	@RequestMapping(value = "/georeferencia/getallrecorridovueltabyemburedi",params = {"emId","periodo","buId","reDiDeId"}, method=RequestMethod.GET)
 	public List<Usp_S_GeGetAllUbicacionActualByEmTiempo> GetAllRecorridoVueltaByEmBuReDi(@RequestParam("emId") int emId,@RequestParam("periodo") int periodo,@RequestParam("buId") int buId,@RequestParam("reDiDeId") int reDiDeId) {
