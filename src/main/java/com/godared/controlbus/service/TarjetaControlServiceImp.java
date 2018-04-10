@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.godared.controlbus.bean.AlertaIncidencia;
+import com.godared.controlbus.bean.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha;
 import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Configura;
 import com.godared.controlbus.bean.Georeferencia;
@@ -37,6 +38,7 @@ import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
+import com.godared.controlbus.bean.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha;
 import com.godared.controlbus.bean.Usp_S_GeGetAllUbicacionActualByEmTiempo;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
@@ -847,7 +849,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
   	public List<AlertaIncidencia> GetAllAlertaIncidenciaByEmTaCo(int emId,int taCoId){
   		return this.alertaIncidenciaDao.Usp_S_AlInGetAllAlertaIncidenciaByEmTaCo(emId, taCoId);
   	}
-  	public List<AlertaIncidencia> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha){
+  	public List<Usp_S_AlInGetAllAlertaIncidenciaByEmFecha> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha){
   		return this.alertaIncidenciaDao.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha(emId, fecha);
   	}
   	public void DeleteAlertaIncidencia(int AlInId){
@@ -864,4 +866,26 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			this.alertaIncidenciaDao.create(alertaIncidencia);
 		}
   	}
+  	public AlertaIncidencia CreateAlertaIncidencia(AlertaIncidencia alertaIncidencia){
+  		alertaIncidencia.setUsFechaReg(new Date());
+		return this.alertaIncidenciaDao.createReturn(alertaIncidencia);
+  	}
+  	public void CreateAlertaIncidencias(List<AlertaIncidencia> alertaIncidencias){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {
+			transaction.begin();
+			for(AlertaIncidencia alertaIncidencia:alertaIncidencias){
+				this.alertaIncidenciaDao.create(alertaIncidencia);
+			}
+			transaction.commit();
+		}		
+		catch(Exception ex ){
+			transaction.rollback();
+			throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+	}
 }

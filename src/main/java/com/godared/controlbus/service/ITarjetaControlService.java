@@ -10,6 +10,7 @@ import com.godared.controlbus.bean.TarjetaControlDetalle;
 import com.godared.controlbus.bean.Telefono;
 import com.godared.controlbus.bean.TiempoProgramado;
 import com.godared.controlbus.bean.TiempoSalida;
+import com.godared.controlbus.bean.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha;
 import com.godared.controlbus.bean.Usp_S_GeGetAllUbicacionActualByEmTiempo;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
 import com.godared.controlbus.bean.Usp_S_TaCoGetAllTarjetaControlByBuIdFecha;
@@ -70,8 +71,10 @@ public interface ITarjetaControlService {
   //AlertaIncidencia
     AlertaIncidencia findOneAlertaIncidencia(int AlInId);
   	List<AlertaIncidencia> GetAllAlertaIncidenciaByEmTaCo(int emId,int taCoId);
-  	List<AlertaIncidencia> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha);
+  	List<Usp_S_AlInGetAllAlertaIncidenciaByEmFecha> GetAllAlertaIncidenciaByEmFecha(int emId,Date fecha);
   	void DeleteAlertaIncidencia(int AlInId);
   	//void DeleteBusPersonaByBu(int buId);
   	void Save(AlertaIncidencia alertaIncidencia);
+  	AlertaIncidencia CreateAlertaIncidencia(AlertaIncidencia alertaIncidencia);
+  	void CreateAlertaIncidencias(List<AlertaIncidencia> alertaIncidencias);
 }

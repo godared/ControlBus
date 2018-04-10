@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Empresa;
+import com.godared.controlbus.bean.TarjetaControlDetalle;
+import com.godared.controlbus.bean.Usp_S_AlInGetAllAlertaIncidenciaByEmFecha;
 import com.godared.controlbus.bean.AlertaIncidencia;
 import com.godared.controlbus.bean.Usp_S_TeGetAllTelefonoByBuImei;
 import com.godared.controlbus.service.IBusService;
@@ -42,7 +44,7 @@ public class AlertaIncidenciaRestController {
 		return tarjetaControlService.GetAllAlertaIncidenciaByEmTaCo(emId,taCoId);
 	}
 	@RequestMapping(value = "/alertaincidencia/getallalertaincidenciabyemfecha",params = {"emId","fecha"}, method=RequestMethod.GET)
-	public List<AlertaIncidencia> GetAllAlertaIncidenciaByEmFecha(@RequestParam("emId") int emId,@RequestParam("fecha") Date fecha) {
+	public List<Usp_S_AlInGetAllAlertaIncidenciaByEmFecha> GetAllAlertaIncidenciaByEmFecha(@RequestParam("emId") int emId,@RequestParam("fecha") Date fecha) {
 		return tarjetaControlService.GetAllAlertaIncidenciaByEmFecha(emId,fecha);
 	}
 	@RequestMapping(value="/alertaincidencia/new", method=RequestMethod.GET)
@@ -51,9 +53,16 @@ public class AlertaIncidenciaRestController {
 	}
 	@RequestMapping(value = "/alertaincidencia/save", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<AlertaIncidencia> save(@Valid @RequestBody AlertaIncidencia alertaIncidencia) {
-		tarjetaControlService.Save(alertaIncidencia);
-		return new ResponseEntity<AlertaIncidencia>(alertaIncidencia, HttpStatus.OK);
+	public ResponseEntity<Integer> save(@Valid @RequestBody AlertaIncidencia alertaIncidencia) {
+		AlertaIncidencia _alertaIncidencia;
+		_alertaIncidencia=tarjetaControlService.CreateAlertaIncidencia(alertaIncidencia);
+		return new ResponseEntity<Integer>(_alertaIncidencia.getAlInId(), HttpStatus.OK);
+	}
+	@RequestMapping(value = "/alertaincidencia/saves", method=RequestMethod.POST,produces = "application/json",consumes="application/json")
+	@ResponseBody
+	public ResponseEntity<Boolean> save(@RequestBody List<AlertaIncidencia> alertaIncidencia) {		
+		tarjetaControlService.CreateAlertaIncidencias(alertaIncidencia);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	@RequestMapping(value="/alertaincidencia/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {

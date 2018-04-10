@@ -24,7 +24,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 	}),
 	@NamedStoredProcedureQuery(name = "Usp_S_AlInGetAllAlertaIncidenciaByEmFecha", 
 	procedureName = "Usp_S_AlInGetAllAlertaIncidenciaByEmFecha",
-	resultClasses = AlertaIncidencia.class , 
+	resultClasses = Usp_S_AlInGetAllAlertaIncidenciaByEmFecha.class , 
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "fecha")
