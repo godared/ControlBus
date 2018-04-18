@@ -866,7 +866,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 			this.alertaIncidenciaDao.create(alertaIncidencia);
 		}
   	}
-  	public AlertaIncidencia CreateAlertaIncidencia(AlertaIncidencia alertaIncidencia){
+  	public AlertaIncidencia CreateReturnAlertaIncidencia(AlertaIncidencia alertaIncidencia){
   		alertaIncidencia.setUsFechaReg(new Date());
 		return this.alertaIncidenciaDao.createReturn(alertaIncidencia);
   	}

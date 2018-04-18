@@ -53,9 +53,9 @@ public class AlertaIncidenciaRestController {
 	}
 	@RequestMapping(value = "/alertaincidencia/save", method=RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<Integer> save(@Valid @RequestBody AlertaIncidencia alertaIncidencia) {
+	public ResponseEntity<Integer> saveReturn(@Valid @RequestBody AlertaIncidencia alertaIncidencia) {
 		AlertaIncidencia _alertaIncidencia;
-		_alertaIncidencia=tarjetaControlService.CreateAlertaIncidencia(alertaIncidencia);
+		_alertaIncidencia=tarjetaControlService.CreateReturnAlertaIncidencia(alertaIncidencia);
 		return new ResponseEntity<Integer>(_alertaIncidencia.getAlInId(), HttpStatus.OK);
 	}
 	@RequestMapping(value = "/alertaincidencia/saves", method=RequestMethod.POST,produces = "application/json",consumes="application/json")

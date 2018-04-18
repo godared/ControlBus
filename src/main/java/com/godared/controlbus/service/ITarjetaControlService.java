@@ -75,6 +75,6 @@ public interface ITarjetaControlService {
   	void DeleteAlertaIncidencia(int AlInId);
   	//void DeleteBusPersonaByBu(int buId);
   	void Save(AlertaIncidencia alertaIncidencia);
-  	AlertaIncidencia CreateAlertaIncidencia(AlertaIncidencia alertaIncidencia);
+  	AlertaIncidencia CreateReturnAlertaIncidencia(AlertaIncidencia alertaIncidencia);
   	void CreateAlertaIncidencias(List<AlertaIncidencia> alertaIncidencias);
 }
