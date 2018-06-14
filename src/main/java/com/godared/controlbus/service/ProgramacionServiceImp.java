@@ -268,7 +268,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	  		}
 	  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
 	  	}
-		for(int i=2; i<=nroDias-1;i++){
+		for(int i=2; i<=nroDias;i++){
 			cal.setTime(_fechaInicio);
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 			//Obtenemos el dia de la semana

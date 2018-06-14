@@ -104,6 +104,9 @@ public class TarjetaControlRestController {
 		
 		return tarjetaControlService.GetAllTarjetaControlByEmReDiDe(buId,reDiDe);
 	}
+	/*Este procedimiento genera para las consultas de vueltas considerando dos
+	 * aspectos con solamente una programacion(caso ruta 13) y programaciones separadas por subempresa(ruta11)
+	 * al final genera las vueltas de acuerdo a la programacion de la fecha actual*/
 	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprfe",params = {"emId","prId","fechaDiario"}, method=RequestMethod.GET)
 	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
 		// el porque lo hago aqui y no en service es que cuando hago la peticion del dao GetAllRegistroVueltasDiariasByEmPrFe
