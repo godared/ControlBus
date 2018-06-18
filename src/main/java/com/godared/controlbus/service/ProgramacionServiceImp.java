@@ -268,7 +268,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	  		}
 	  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
 	  	}
-		for(int i=2; i<=nroDias;i++){
+		for(int i=2; i<=nroDias-1;i++){
 			cal.setTime(_fechaInicio);
 			cal.add(Calendar.DAY_OF_MONTH, 1);
 			//Obtenemos el dia de la semana
@@ -309,7 +309,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			}else
 			{//si es impar tonces hacemos la logica de orden para ordenarlo mas adelante
 				c=1;
-				int c2=3;
+				int c2=2;
 				int c1=1;
 				int total=0;
 				total=(int)_programacionDetalles2.size();
@@ -321,23 +321,24 @@ public class ProgramacionServiceImp implements IProgramacionService {
 					obj.setPrDeFecha(_fechaInicio);	
 					if(c%2==0){
 						//EN caso el total sea par
-						if(total%2==0){
-							if(c==total-1)
+						//if(total%2==0){
+						if(c==total-1)
+							//if(c==total-1)
 								//pr.setPrDeOrden(c1+3);
-							obj.setPrDeOrden(c1+3);
-						}
+							obj.setPrDeOrden(c1+1);
 						else
 							//pr.setPrDeOrden(c1);
 							obj.setPrDeOrden(c1);
 						//_programacionDetalles.add(pr);
-						
-												
 						_programacionDetalles.add(obj);
 						
 						if (c==2)
-							c1=c1+1;
+							c1=c1+0;
 						else
-							c1=c1+2;
+							if(c==4)
+								c1=c1+1;
+							else
+								c1=c1+2;
 					}else{
 						//en caso el total sea inpar					
 						if(c==total)
