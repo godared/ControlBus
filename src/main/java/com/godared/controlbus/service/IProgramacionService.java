@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.godared.controlbus.bean.Programacion;
+import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
@@ -32,5 +33,11 @@ public interface IProgramacionService {
 	 void DeleteProgramacionDetalle(int prDeId);
 	 void DeleteProgramacionDetalleByPrId(int prId);
 	 ProgramacionDetalle UpdateFieldProgramacionDetalle(ProgramacionDetalle programacionDetalle);
+	 
+	 //ProgramacionBase
+	 List<ProgramacionBase> findAllProgramacionBase();
+	 ProgramacionBase findOneProgramacionBase(int prBaId);
+	 void DeleteProgramacionBase(int prBaId);
+	 ProgramacionBase SaveProgramacionBase(ProgramacionBase programacionBase);
 
 }

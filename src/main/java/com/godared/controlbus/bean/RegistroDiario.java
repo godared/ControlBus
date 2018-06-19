@@ -33,6 +33,7 @@ public class RegistroDiario implements Serializable {
 	private int UsId;
 	private Date UsFechaReg;
 	private String ReDiOrdenSubEmpresa;
+	private int PrBaId;
 	
 	@JsonProperty("ReDiId")
 	public int getReDiId() {
@@ -89,6 +90,13 @@ public class RegistroDiario implements Serializable {
 	}
 	public void setReDiOrdenSubEmpresa(String reDiOrdenSubEmpresa) {
 		ReDiOrdenSubEmpresa = reDiOrdenSubEmpresa;
+	}
+	@JsonProperty("PrBaId")
+	public int getPrBaId() {
+		return PrBaId;
+	}
+	public void setPrBaId(int prBaId) {
+		PrBaId = prBaId;
 	}
 	
 	

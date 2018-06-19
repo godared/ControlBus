@@ -21,8 +21,10 @@ import org.apache.commons.lang3.SerializationUtils;
 
 import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Programacion;
+import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
+import com.godared.controlbus.dao.IProgramacionBaseDao;
 import com.godared.controlbus.dao.IProgramacionDao;
 import com.godared.controlbus.dao.IProgramacionDetalleDao;
 
@@ -31,6 +33,7 @@ import com.godared.controlbus.dao.IProgramacionDetalleDao;
 public class ProgramacionServiceImp implements IProgramacionService {
 	private IProgramacionDao programacionDao;
 	private IProgramacionDetalleDao programacionDetalleDao;
+	private IProgramacionBaseDao programacionBaseDao;
 	@PersistenceUnit
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
@@ -42,7 +45,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public void setProgramacionDetalleDao(IProgramacionDetalleDao programacionDetalleDao) {
 		 this.programacionDetalleDao = programacionDetalleDao;		 
 	}
-	
+	public void setProgramacionBaseDao(IProgramacionBaseDao programacionBaseDao) {
+		 this.programacionBaseDao = programacionBaseDao;		 
+	}
 	public List<Programacion> findAll() {
 		// TODO Auto-generated method stub
 		return this.programacionDao.findAll();
@@ -467,5 +472,41 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return this.programacionDetalleDao.update(_programacionDetalle);
 	}
 	
+	//ProgramacionBase
+	
+	public List<ProgramacionBase> findAllProgramacionBase(){
+		return this.programacionBaseDao.findAll();
+	}
+	
+	public ProgramacionBase findOneProgramacionBase(int prBaId){
+		return this.programacionBaseDao.findOne(prBaId);
+	 }
+	public void DeleteProgramacionBase(int prBaId){
+		this.programacionBaseDao.deleteById(prBaId);
+	 }
+	public ProgramacionBase SaveProgramacionBase(ProgramacionBase programacionBase){
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		ProgramacionBase _programacionBase=null;
+		try {		
+			transaction.begin();
+			if (programacionBase.getPrBaId()>0)
+			{
+				programacionBase.setUsFechaReg(new Date());
+				_programacionBase=(ProgramacionBase)this.programacionBaseDao.update(programacionBase);
+			}else
+			{
+				_programacionBase=(ProgramacionBase)this.programacionBaseDao.createReturn(programacionBase);
+			}
+			transaction.commit();
+		}catch(Exception ex){
+		    transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}
+		return _programacionBase;
+	}
 
 }
