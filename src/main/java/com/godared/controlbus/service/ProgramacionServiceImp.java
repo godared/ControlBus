@@ -309,7 +309,7 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			}else
 			{//si es impar tonces hacemos la logica de orden para ordenarlo mas adelante
 				c=1;
-				int c2=2;
+				int c2=3;
 				int c1=1;
 				int total=0;
 				total=(int)_programacionDetalles2.size();
@@ -322,23 +322,29 @@ public class ProgramacionServiceImp implements IProgramacionService {
 					if(c%2==0){
 						//EN caso el total sea par
 						//if(total%2==0){
-						if(c==total-1)
-							//if(c==total-1)
-								//pr.setPrDeOrden(c1+3);
-							obj.setPrDeOrden(c1+1);
-						else
-							//pr.setPrDeOrden(c1);
-							obj.setPrDeOrden(c1);
-						//_programacionDetalles.add(pr);
-						_programacionDetalles.add(obj);
-						
 						if (c==2)
 							c1=c1+0;
-						else
+						else{
 							if(c==4)
 								c1=c1+1;
 							else
 								c1=c1+2;
+							}
+						
+						if(c==total-1){
+							//if(c==total-1)
+								//pr.setPrDeOrden(c1+3);
+							if (total>5)							
+								obj.setPrDeOrden(c1+1);
+							else
+									obj.setPrDeOrden(c1);
+							}
+						else							
+							obj.setPrDeOrden(c1);
+						//_programacionDetalles.add(pr);
+						_programacionDetalles.add(obj);
+						
+						
 					}else{
 						//en caso el total sea inpar					
 						if(c==total)
