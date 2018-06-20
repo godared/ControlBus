@@ -82,8 +82,17 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 			}
 		}
 	}
-	public void GenerarOfProgramacionBase(List<RegistroDiario> registroDiario){
+	public void GenerarOfProgramacionBase(List<RegistroDiario> registroDiarios){
 		//Se han considerado 
+		for(RegistroDiario registroDiario: registroDiarios){
+			registroDiario.getPrBaId();	
+			registroDiario.getPrBaId();
+			registroDiario.getPrBaId();	
+			registroDiario.getPrBaId();			
+			//Se han verificado algunos elementos dentro
+			
+			
+		}
 	}
 	
 	//RegistroDiarioDetalle
