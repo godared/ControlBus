@@ -14,13 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
-import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionBase;
-import com.godared.controlbus.bean.ProgramacionDetalle;
-import com.godared.controlbus.bean.PuntoControl;
 import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
-import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
-import com.godared.controlbus.service.IBusService;
+
 import com.godared.controlbus.service.IProgramacionService;
 
 

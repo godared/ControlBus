@@ -136,7 +136,7 @@ public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
 	public String getSuEmRSocial() {
 		return SuEmRSocial;
 	}
-	@JsonProperty("SuEmRSocial")
+	@JsonProperty("PrBaId")
 	public int getPrBaId() {
 		return PrBaId;
 	}

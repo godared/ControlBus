@@ -82,6 +82,9 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 			}
 		}
 	}
+	public void GenerarOfProgramacionBase(List<RegistroDiario> registroDiario){
+		//Se han considerado 
+	}
 	
 	//RegistroDiarioDetalle
 	public List<RegistroDiarioDetalle> findAllRegistroDiarioDetalle(){
