@@ -23,4 +23,11 @@ public class ProgramacionDaoImp extends AbstractJpaDAO<Programacion> implements 
 	 	   storedProcedure.setParameter("anio",anio);
 	 	    return storedProcedure.getResultList();
 	 }
+	 public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByPrBa(int prBaId){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_PrGetAllProgramacionByPrBa");
+	 	    storedProcedure.setParameter("prBaId",prBaId);
+	 	   
+	 	    return storedProcedure.getResultList();
+	 }
+	
 }

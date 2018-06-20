@@ -68,6 +68,10 @@ public class ProgramacionRestController {
 	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(@RequestParam("emId") int emId,@RequestParam("anio") int anio) {
 		return programacionService.GetAllProgramacionByEm(emId,anio);
 	}
+	@RequestMapping(value = "/programacion/getallprogramacionbyprba",params = {"prBaId"}, method=RequestMethod.GET)
+	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByPrBa(@RequestParam("prBaId") int prBaId) {
+		return programacionService.GetAllProgramacionByPrBa(prBaId);
+	}
 	@RequestMapping(value = "/programacion/programacionbase/{emId}/{prId}/{aleatorio}/", method=RequestMethod.POST) //params = {"emId","prId","aleatorio"},
 	@ResponseBody
 	public ResponseEntity<Boolean> RegistrarProgramacionBase(@RequestBody List<ProgramacionDetalle>  programacionDetalles ,

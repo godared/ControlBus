@@ -7,6 +7,7 @@ import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControl;
+import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 
 public interface IProgramacionService {
@@ -17,6 +18,7 @@ public interface IProgramacionService {
 	 Programacion Save(Programacion programacion);
 	 void Save(Programacion programacion,List<ProgramacionDetalle> programacionDetalle);
 	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio);
+	 List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByPrBa(int prBaId);
 	 void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles ,
 				int emId,int prId, Boolean aleatorio );
 	 List<ProgramacionDetalle> GenerarProgramacionMensual(int emId,int prId, 
@@ -39,5 +41,6 @@ public interface IProgramacionService {
 	 ProgramacionBase findOneProgramacionBase(int prBaId);
 	 void DeleteProgramacionBase(int prBaId);
 	 ProgramacionBase SaveProgramacionBase(ProgramacionBase programacionBase);
+	 List<Usp_S_PrBaGetAllProgramacionBaseByEm> GetAllProgramacionBaseByEm(int emId,int anio);
 
 }

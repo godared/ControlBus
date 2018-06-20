@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.Telefono;
+import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 import com.godared.controlbus.bean.Usp_S_TeGetAllTelefonoByBuImei;
 
 @Repository
@@ -16,10 +17,10 @@ public class ProgramacionBaseDaoImp  extends AbstractJpaDAO<ProgramacionBase> im
 	        super();
 	        setClazz(ProgramacionBase.class);
 	    }
-	/* public List<Usp_S_PrBaProgramacionBaseByEm> GetAllProgramacionBaseByEm(int buId,String teImei){
-		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_PrBaProgramacionBaseByEm");
-	 	    storedProcedure.setParameter("buId",buId);
-	 	   storedProcedure.setParameter("teImei",teImei);
+	public List<Usp_S_PrBaGetAllProgramacionBaseByEm> GetAllProgramacionBaseByEm(int emId,int anio){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_PrBaGetAllProgramacionBaseByEm");
+		 storedProcedure.setParameter("emId",emId);
+	 	  storedProcedure.setParameter("anio",anio);
 	 	    return storedProcedure.getResultList();
-	 }*/
+	 }
 }

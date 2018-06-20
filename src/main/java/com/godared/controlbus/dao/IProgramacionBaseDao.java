@@ -3,6 +3,7 @@ package com.godared.controlbus.dao;
 import java.util.List;
 
 import com.godared.controlbus.bean.ProgramacionBase;
+import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 
 public interface IProgramacionBaseDao {
 	ProgramacionBase findOne(int id);
@@ -12,6 +13,6 @@ public interface IProgramacionBaseDao {
     ProgramacionBase update(ProgramacionBase entity);
     void delete(ProgramacionBase entity);
     void deleteById(int entityId);
-    //List<Usp_S_PrBaProgramacionBaseByEm> GetAllProgramacionBaseByEm(int emId);
+    List<Usp_S_PrBaGetAllProgramacionBaseByEm> GetAllProgramacionBaseByEm(int emId,int anio);
 
 }

@@ -23,6 +23,7 @@ import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
+import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.dao.IProgramacionBaseDao;
 import com.godared.controlbus.dao.IProgramacionDao;
@@ -142,6 +143,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	 }
 	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId, int anio){
 		return programacionDao.GetAllProgramacionByEm(emId,anio);
+	}
+	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByPrBa(int prBaId){
+		return programacionDao.GetAllProgramacionByPrBa(prBaId);
 	}
 	//Registrar el la programacion Base 
 	public void RegistrarProgramacionBase(List<ProgramacionDetalle>  programacionDetalles,
@@ -507,6 +511,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 			entityManager.close();
 		}
 		return _programacionBase;
+	}
+	public List<Usp_S_PrBaGetAllProgramacionBaseByEm> GetAllProgramacionBaseByEm(int emId,int anio){
+		return programacionBaseDao.GetAllProgramacionBaseByEm(emId,anio);
 	}
 
 }

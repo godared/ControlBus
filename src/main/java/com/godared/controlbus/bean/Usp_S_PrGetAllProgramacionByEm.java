@@ -22,6 +22,12 @@ import com.godared.controlbus.TimeZona;
 	parameters = {
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "emId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "anio")
+	}),
+	@NamedStoredProcedureQuery(name = "Usp_S_PrGetAllProgramacionByPrBa", 
+	procedureName = "Usp_S_PrGetAllProgramacionByPrBa",
+	resultClasses = Usp_S_PrGetAllProgramacionByEm.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prBaId")
 	})
 })
 public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
@@ -39,6 +45,7 @@ public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
 	private String PrDiasIncluidos;
 	private int SuEmId;
 	private String SuEmRSocial;
+	private int PrBaId;
 	
 	@JsonProperty("prId")
 	public int getPrId() {
@@ -129,6 +136,9 @@ public class Usp_S_PrGetAllProgramacionByEm implements Serializable {
 	public String getSuEmRSocial() {
 		return SuEmRSocial;
 	}
-	
+	@JsonProperty("SuEmRSocial")
+	public int getPrBaId() {
+		return PrBaId;
+	}
 	
 }

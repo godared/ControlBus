@@ -18,6 +18,7 @@ import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
 import com.godared.controlbus.bean.PuntoControl;
+import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.service.IBusService;
 import com.godared.controlbus.service.IProgramacionService;
@@ -59,9 +60,9 @@ public class ProgramacionBaseRestController {
 		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
 	}
 	//http://localhost:8080/ControlBus/rest/ruta/getallrutabyem?emId=1
-	@RequestMapping(value = "/programacionbase/getallprogramacionbyem",params = {"emId","anio"}, method=RequestMethod.GET)
-	public List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionBaseByEm(@RequestParam("emId") int emId,@RequestParam("anio") int anio) {
-		return programacionService.GetAllProgramacionByEm(emId,anio);
+	@RequestMapping(value = "/programacionbase/getallprogramacionbasebyem",params = {"emId","anio"}, method=RequestMethod.GET)
+	public List<Usp_S_PrBaGetAllProgramacionBaseByEm> GetAllProgramacionBaseByEm(@RequestParam("emId") int emId,@RequestParam("anio") int anio) {
+		return programacionService.GetAllProgramacionBaseByEm(emId,anio);
 	}
 	
 }

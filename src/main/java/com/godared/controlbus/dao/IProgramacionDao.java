@@ -14,5 +14,6 @@ public interface IProgramacionDao {
     void delete(Programacion entity);
     void deleteById(int entityId);
     List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByEm(int emId,int anio);
+    List<Usp_S_PrGetAllProgramacionByEm> GetAllProgramacionByPrBa(int prBaId);
 
 }
