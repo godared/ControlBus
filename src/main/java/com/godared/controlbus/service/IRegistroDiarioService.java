@@ -13,7 +13,7 @@ public interface IRegistroDiarioService {
 		List<RegistroDiario> GetAllRegistroDiarioByEm(int emId);		
 		void Delete(int reDiId);
 		void Save(RegistroDiario registroDiario);
-		
+		void GenerarOfProgramacionBase(List<RegistroDiario> registroDiarios);
 		//RegistroDiarioDetalle
 		List<RegistroDiarioDetalle> findAllRegistroDiarioDetalle();
 		RegistroDiarioDetalle findOneRegistroDiarioDetalle(int reDiDeId);	

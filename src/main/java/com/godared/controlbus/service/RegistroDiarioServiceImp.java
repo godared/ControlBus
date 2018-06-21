@@ -3,7 +3,9 @@ package com.godared.controlbus.service;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceUnit;
 
 import org.springframework.stereotype.Service;
@@ -59,40 +61,63 @@ public class RegistroDiarioServiceImp implements IRegistroDiarioService{
 			
 		}
 		else
-		{			
-			registroDiario.setUsFechaReg(new Date());
-			RegistroDiario _registroDiario=null;
-			_registroDiario=this.registroDiarioDao.createReturn(registroDiario);
-			//generando el detalle
-			int c=1;
-			RegistroDiarioDetalle registroDiarioDetalle;
-			for(Integer i=1; i<=registroDiario.getReDiTotalVuelta();i++){
-				registroDiarioDetalle=new RegistroDiarioDetalle();
-				registroDiarioDetalle.setReDiDeNroVuelta(i);
-				registroDiarioDetalle.setReDiDeNombreVuelta("VUELTA"+i.toString());
-				registroDiarioDetalle.setReDiId(_registroDiario.getReDiId());
-				registroDiarioDetalle.setUsFechaReg(new Date());
-				registroDiarioDetalle.setUsId(1);
-				if(i==1)
-					registroDiarioDetalle.setReDiDeEstado("02"); //ACTIVO
-				else
-					registroDiarioDetalle.setReDiDeEstado("01");//NO REALIZADO
-				this.registroDiarioDetalleDao.create(registroDiarioDetalle);
-				
+		{	EntityManager entityManager=entityManagerFactory.createEntityManager();
+			EntityTransaction transaction=entityManager.getTransaction();
+			try {		
+				transaction.begin();		
+				this.RegistrarRegistroDiario(registroDiario);
+				transaction.commit();
 			}
+			catch(Exception ex ){
+				transaction.rollback();
+			       throw new RuntimeException(ex);
+			}
+			finally{
+				entityManager.close();
+			}	
+		}
+			
+	}
+	public void RegistrarRegistroDiario(RegistroDiario registroDiario){
+		registroDiario.setUsFechaReg(new Date());
+		RegistroDiario _registroDiario=null;
+		_registroDiario=this.registroDiarioDao.createReturn(registroDiario);
+		//generando el detalle
+		int c=1;
+		RegistroDiarioDetalle registroDiarioDetalle;
+		for(Integer i=1; i<=registroDiario.getReDiTotalVuelta();i++){
+			registroDiarioDetalle=new RegistroDiarioDetalle();
+			registroDiarioDetalle.setReDiDeNroVuelta(i);
+			registroDiarioDetalle.setReDiDeNombreVuelta("VUELTA"+i.toString());
+			registroDiarioDetalle.setReDiId(_registroDiario.getReDiId());
+			registroDiarioDetalle.setUsFechaReg(new Date());
+			registroDiarioDetalle.setUsId(1);
+			if(i==1)
+				registroDiarioDetalle.setReDiDeEstado("02"); //ACTIVO
+			else
+				registroDiarioDetalle.setReDiDeEstado("01");//NO REALIZADO
+			this.registroDiarioDetalleDao.create(registroDiarioDetalle);
+			
 		}
 	}
-	public void GenerarOfProgramacionBase(List<RegistroDiario> registroDiarios){
-		//Se han considerado 
-		for(RegistroDiario registroDiario: registroDiarios){
-			registroDiario.getPrBaId();	
-			registroDiario.getPrBaId();
-			registroDiario.getPrBaId();	
-			registroDiario.getPrBaId();			
-			//Se han verificado algunos elementos dentro
-			
-			
+	//Esto es para generar los registros diarios desde la programacion para un periodo de dias determinados
+	public void GenerarOfProgramacionBase(List<RegistroDiario> registroDiarios){		
+		EntityManager entityManager=entityManagerFactory.createEntityManager();
+		EntityTransaction transaction=entityManager.getTransaction();
+		try {		
+			transaction.begin();
+			for(RegistroDiario registroDiario: registroDiarios){			
+				this.RegistrarRegistroDiario(registroDiario);
+			}
+			transaction.commit();
 		}
+		catch(Exception ex ){
+			transaction.rollback();
+		       throw new RuntimeException(ex);
+		}
+		finally{
+			entityManager.close();
+		}	
 	}
 	
 	//RegistroDiarioDetalle

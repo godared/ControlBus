@@ -48,6 +48,12 @@ public class RegistroDiarioRestController {
 		registroDiarioService.Save(registroDiario);
 		return new ResponseEntity<RegistroDiario>(registroDiario, HttpStatus.OK);
 	}
+	@RequestMapping(value = "/registrodiario/generarofprogramacionbase", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<Boolean> GenerarOfProgramacionBase(@Valid @RequestBody List<RegistroDiario> registroDiarios) {
+		registroDiarioService.GenerarOfProgramacionBase(registroDiarios);
+		return new ResponseEntity<Boolean>(Boolean.TRUE, HttpStatus.OK);
+	}
 	@RequestMapping(value="/registrodiario/{id}", method=RequestMethod.DELETE)
 	public ResponseEntity<Boolean> delete(@PathVariable("id") int id) {
 		registroDiarioService.Delete(id);
