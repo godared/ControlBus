@@ -144,7 +144,7 @@ public class TarjetaControlRestController {
 				//Obtenemos y filtramos la programacion por SubEmpresa
 				List<Usp_S_PrGetAllProgramacionByEm> _programaciones=null;			
 				_programaciones=programacionService.GetAllProgramacionByEm(emId,year);
-				//este codigo filtra y el resultado lo devuelve en _registroDiarios
+				//este codigo filtra y el resultado lo devuelve en _programaciones
 				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
 				while (it2.hasNext()) {
 					Usp_S_PrGetAllProgramacionByEm current = it2.next();

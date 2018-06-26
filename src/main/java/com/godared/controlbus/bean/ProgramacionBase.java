@@ -22,6 +22,7 @@ public class ProgramacionBase implements Serializable {
 	private String PrBaDiasIncluidos;
 	private int UsId;
 	private Date UsFechaReg;
+	private String PrBaHoraBase;
 	
 	@JsonProperty("PrBaId")
 	public int getPrBaId() {
@@ -86,9 +87,13 @@ public class ProgramacionBase implements Serializable {
 	public void setUsFechaReg(Date usFechaReg) {
 		UsFechaReg = usFechaReg;
 	}
-	
-
-	
+	@JsonProperty("PrBaHoraBase")
+	public String getPrBaHoraBase() {
+		return PrBaHoraBase;
+	}
+	public void setPrBaHoraBase(String prBaHoraBase) {
+		PrBaHoraBase = prBaHoraBase;
+	}	
 	
 	
 }
