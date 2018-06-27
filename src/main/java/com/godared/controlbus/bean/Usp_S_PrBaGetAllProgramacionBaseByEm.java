@@ -32,7 +32,7 @@ public class Usp_S_PrBaGetAllProgramacionBaseByEm implements Serializable {
 	private Date PrBaFechaInicio;
 	private Date PrBaFechaFin;
 	private short dias;	
-	private String PrDiasIncluidos;
+	private String PrBaDiasIncluidos;
 	private int EmId;
 	private String EmConsorcio;
 	
@@ -68,7 +68,7 @@ public class Usp_S_PrBaGetAllProgramacionBaseByEm implements Serializable {
 
 	@JsonProperty("PrDiasIncluidos")
 	public String getPrDiasIncluidos() {
-		return PrDiasIncluidos;
+		return PrBaDiasIncluidos;
 	}
 
 	@JsonProperty("EmId")
@@ -87,30 +87,32 @@ public class Usp_S_PrBaGetAllProgramacionBaseByEm implements Serializable {
 		Calendar calFin = Calendar.getInstance();
 		//Este procedimiento es para separar lo enviado en DIasIncluir en un Array
 		//y despues hacemos que el 1 empiece en domingo
-		String[] dias_semana = this.PrDiasIncluidos.split(",");		
-	  	Boolean[] dias_semana3=new Boolean[7]; 
-	  	int count1=1;
-	  	for(int i=0;i<dias_semana.length;i++){
-	  		System.out.println(dias_semana[i]);
-	  		if (i==6)
-	  			dias_semana3[0]=(dias_semana[i].equals("1"))?true:false;
-	  		else
-	  			dias_semana3[count1]=(dias_semana[i].equals("1"))?true:false; 			
-	  		count1=count1+1;
-	  	}
-	  //obtenemos los dias reales descontando los dias no considerados
-	  	int nroDias=0;
-	  	calInicio.setTime(this.PrBaFechaInicio);
-	  	calFin.setTime(this.PrBaFechaFin);
-	  	//cal2.get(Calendar.DAY_OF_YEAR)
-	  	while(calInicio.getTime().before(calFin.getTime()) ||  calInicio.getTime().equals(calFin.getTime()) ){
-	  		int dayOfWeek = calInicio.get(Calendar.DAY_OF_WEEK);
-	  		if (dias_semana3[dayOfWeek-1].equals(true)){
-	  			nroDias=nroDias+1;
-	  		}
-	  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
-	  	} 
-		
+		int nroDias=0;
+		if(!this.PrBaDiasIncluidos.isEmpty()){
+			String[] dias_semana = this.PrBaDiasIncluidos.split(",");		
+		  	Boolean[] dias_semana3=new Boolean[7]; 
+		  	int count1=1;
+		  	for(int i=0;i<dias_semana.length;i++){
+		  		System.out.println(dias_semana[i]);
+		  		if (i==6)
+		  			dias_semana3[0]=(dias_semana[i].equals("1"))?true:false;
+		  		else
+		  			dias_semana3[count1]=(dias_semana[i].equals("1"))?true:false; 			
+		  		count1=count1+1;
+		  	}
+		  //obtenemos los dias reales descontando los dias no considerados
+		  	
+		  	calInicio.setTime(this.PrBaFechaInicio);
+		  	calFin.setTime(this.PrBaFechaFin);
+		  	//cal2.get(Calendar.DAY_OF_YEAR)
+		  	while(calInicio.getTime().before(calFin.getTime()) ||  calInicio.getTime().equals(calFin.getTime()) ){
+		  		int dayOfWeek = calInicio.get(Calendar.DAY_OF_WEEK);
+		  		if (dias_semana3[dayOfWeek-1].equals(true)){
+		  			nroDias=nroDias+1;
+		  		}
+		  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
+		  	} 
+		}
 		return (short)nroDias;//dias;
 	}
 		
