@@ -4,6 +4,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -21,6 +23,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.godared.controlbus.RestException;
 import com.godared.controlbus.bean.Configura;
+import com.godared.controlbus.bean.Programacion;
+import com.godared.controlbus.bean.ProgramacionBase;
+import com.godared.controlbus.bean.PuntoControlDetalle;
 import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.TarjetaControl;
 import com.godared.controlbus.bean.Usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
@@ -117,13 +122,15 @@ public class TarjetaControlRestController {
 		c.setTime(fechaDiario);
 		int year = c.get(Calendar.YEAR);
 		
+		
 		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		
 		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
-		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
-		if (_configura.getCoSiId()==1) //Si el 1 entonce no considera dos programaciones 
-			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
+		if (_configura.getCoSiId()==1){ //Si el 1 entonce no considera dos programaciones 
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
 			
+		}	
 		else if(_configura.getCoSiId()==2) { // si es 2 entonces tiene la cantidad de programaciones por subempresas y el orden en registrodiario para concatenar y generar el registro de vueltas
 			//Buscamos el orden de las subempresas
 			List<RegistroDiario> _registroDiarios=null;
@@ -161,7 +168,7 @@ public class TarjetaControlRestController {
 				c1=c1+1;
 			}
 			//Ahora si modificamos e correlativo del id
-			List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+			ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 			//_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.addAll(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
 			int nroVueltas=_registroDiarios.get(0).getReDiTotalVuelta();
 			int count=1;
@@ -193,13 +200,69 @@ public class TarjetaControlRestController {
 				_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.add(usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
 				count=count+1;
 			}
-			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=_usp_S_GetAllRegistroVueltasDiariasByEmPrFe2;
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) _usp_S_GetAllRegistroVueltasDiariasByEmPrFe2;
 		}
 		else
 			return null;
+		//Incluimos la Hora Base, esto es considerado tambien para la asignacion de la tarjetaControl
+		//Obtenemos la hora base de la ProgramacionBase(ya que la hora se define sin importar el orden de las subempresas
+		Programacion programacion=programacionService.findOne(prId);
+		ProgramacionBase programacionBase=programacionService.findOneProgramacionBase(programacion.getPrBaId());
+		String[] _horaBase = programacionBase.getPrBaHoraBase().split(",");
+		
+		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe3=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+		_usp_S_GetAllRegistroVueltasDiariasByEmPrFe3=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) _usp_S_GetAllRegistroVueltasDiariasByEmPrFe.clone();
+	
+		//este codigo filtra y el resultado lo devuelve en _usp_S_GetAllRegistroVueltasDiariasByEmPrFe(solamente dejamos los de la vuelta 1
+		Iterator<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> it2 = _usp_S_GetAllRegistroVueltasDiariasByEmPrFe3.iterator();
+		while (it2.hasNext()) {
+			Usp_S_GetAllRegistroVueltasDiariasByEmPrFe current = it2.next();
+		    if (current.getReDiDeNroVuelta()!=1) {
+		        it2.remove();
+		    }
+		}
+		// ordenamos en forma ascendente de acuerdo al campo orden
+		Collections.sort(_usp_S_GetAllRegistroVueltasDiariasByEmPrFe3, new Comparator<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>() {		               
+            public int compare(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe lhs, Usp_S_GetAllRegistroVueltasDiariasByEmPrFe rhs) {
+                // -1 - less than, 1 - greater than, 0 - equal, all inversed for descending
+                return lhs.getPrDeOrden() < rhs.getPrDeOrden() ? -1 : (lhs.getPrDeOrden() > rhs.getPrDeOrden() ) ? 1 : 0;
+            }
+        });
+		int c1=0;
+		Date _horaSalida;
+		Calendar cal = Calendar.getInstance();
+		int _minuto=0,_segundo=0,_hora=0;
+		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe4=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
+		//Aqui actualizamos la horaBase 
+		//Este es el arrya completo
+		for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe2:_usp_S_GetAllRegistroVueltasDiariasByEmPrFe){
+			//Este es el array filtrado y ordenado por la primera vuelta.
+			
+			for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe:_usp_S_GetAllRegistroVueltasDiariasByEmPrFe3){
+				_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
+				if(c1>_horaBase.length-1)
+					 break ;
+				cal.setTime(_horaSalida);				
+				_hora=Integer.parseInt(_horaBase[c1].trim().substring(0, 1));
+				_minuto=Integer.parseInt(_horaBase[c1].trim().substring(3, 4));
+				_segundo=Integer.parseInt(_horaBase[c1].trim().substring(6, 7));
+				cal.add(Calendar.MINUTE, _minuto);
+				cal.add(Calendar.SECOND, _segundo);
+				cal.add(Calendar.HOUR, _hora);
+				//usp_S_GetAllRegistroVueltasDiariasByEmPrFe.setTaCoHoraSalida(cal.getTime());
+				//Cambiamos la hora salida solo si es la primera vuelta
+				if( usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getReDiDeNroVuelta()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()
+						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
+					usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoHoraSalida(cal.getTime());
+						
+					c1=c1+1;	
+				}
+			}
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe4.add(usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);
+		}
 		
 		
-		return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+		return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe4;
 		
 		//return tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
 	}
