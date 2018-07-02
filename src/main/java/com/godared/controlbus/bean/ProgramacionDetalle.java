@@ -36,6 +36,14 @@ import com.godared.controlbus.TimeZona;
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prId"),
 		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "prDeFecha")
 	})
+	,
+	@NamedStoredProcedureQuery(name = "Usp_S_PrDeGetAllProgramacionDetalleByPrBaFecha", 
+	procedureName = "Usp_S_PrDeGetAllProgramacionDetalleByPrBaFecha",
+	resultClasses = ProgramacionDetalle.class , 
+	parameters = {
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class,name = "prBaId"),
+		@StoredProcedureParameter(mode = ParameterMode.IN, type = Date.class,name = "prDeFecha")
+	})
 })
 public class ProgramacionDetalle implements Serializable {
 	@Id

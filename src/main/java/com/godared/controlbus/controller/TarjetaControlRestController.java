@@ -236,26 +236,31 @@ public class TarjetaControlRestController {
 		//Aqui actualizamos la horaBase 
 		//Este es el arrya completo
 		for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe2:_usp_S_GetAllRegistroVueltasDiariasByEmPrFe){
-			//Este es el array filtrado y ordenado por la primera vuelta.
-			
+			//Este es el array filtrado y ordenado por la primera vuelta.			
 			for(Usp_S_GetAllRegistroVueltasDiariasByEmPrFe usp_S_GetAllRegistroVueltasDiariasByEmPrFe:_usp_S_GetAllRegistroVueltasDiariasByEmPrFe3){
-				_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
-				if(c1>_horaBase.length-1)
+				
+				if(c1>_horaBase.length-1){
 					 break ;
-				cal.setTime(_horaSalida);				
-				_hora=Integer.parseInt(_horaBase[c1].trim().substring(0, 1));
-				_minuto=Integer.parseInt(_horaBase[c1].trim().substring(3, 4));
-				_segundo=Integer.parseInt(_horaBase[c1].trim().substring(6, 7));
-				cal.add(Calendar.MINUTE, _minuto);
-				cal.add(Calendar.SECOND, _segundo);
-				cal.add(Calendar.HOUR, _hora);
+				}				
 				//usp_S_GetAllRegistroVueltasDiariasByEmPrFe.setTaCoHoraSalida(cal.getTime());
 				//Cambiamos la hora salida solo si es la primera vuelta
 				if( usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getReDiDeNroVuelta()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()
 						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
+					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
+					cal.setTime(_horaSalida);	
+					//String valor=_horaBase[c1];
+					//String valor2=valor.substring(0, 2);
+					//aqui hay algo medio raro con el substring(para el start  empieza en 0(index) y para el end(el index empieza en 1)
+					_hora=Integer.parseInt(_horaBase[c1].substring(0, 2));
+					_minuto=Integer.parseInt(_horaBase[c1].substring(3, 5));
+					_segundo=Integer.parseInt(_horaBase[c1].substring(6, 8));
+					cal.add(Calendar.MINUTE, _minuto);
+					cal.add(Calendar.SECOND, _segundo);
+					cal.add(Calendar.HOUR, _hora);
 					usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.setTaCoHoraSalida(cal.getTime());
 						
-					c1=c1+1;	
+					c1=c1+1;
+					break;
 				}
 			}
 			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe4.add(usp_S_GetAllRegistroVueltasDiariasByEmPrFe2);

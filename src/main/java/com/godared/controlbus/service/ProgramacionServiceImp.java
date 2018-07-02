@@ -404,6 +404,9 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(int prId,Date prDeFecha){
 		return this.programacionDetalleDao.getAllProgramacionDetalleByPrFecha(prId,prDeFecha);
 	}
+	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrBaFecha(int prBaId,Date prDeFecha){
+		return this.programacionDetalleDao.getAllProgramacionDetalleByPrBaFecha(prBaId, prDeFecha);
+	}
 	public void CreateProgramacionDetalle(ProgramacionDetalle programacionDetalle){
 		if (programacionDetalle.getPrDeId()>0)
 		{

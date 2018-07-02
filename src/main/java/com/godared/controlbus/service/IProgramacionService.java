@@ -28,6 +28,7 @@ public interface IProgramacionService {
 	 ProgramacionDetalle findOneProgramacionDetalleId(int prDeId);
 	 List<ProgramacionDetalle> getAllProgramacionDetalleByPr(int prId);
 	 List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(int prId,Date prDeFecha);
+	 List<ProgramacionDetalle> getAllProgramacionDetalleByPrBaFecha(int prBaId,Date prDeFecha);
 	 void CreateProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle);
 	 void RegistrarHoraBase(List<ProgramacionDetalle> programacionDetalle);
 	 void CreateProgramacionDetalle(ProgramacionDetalle programacionDetalle);

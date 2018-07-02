@@ -57,6 +57,18 @@ public class ProgramacionDetalleRestController {
 		}
 		return programacionDetalle;	
 	}
+	@RequestMapping(value = "/programaciondetalle/getallprogramaciondetallebyprbafecha",params = {"prBaId","prDeFecha"}, method=RequestMethod.GET)
+	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrBaFecha(@RequestParam("prBaId") int prBaId,@RequestParam("prDeFecha") String prDeFecha) throws ParseException{
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+		Date date=formatter.parse(prDeFecha);
+		List<ProgramacionDetalle> programacionDetalle=programacionService.getAllProgramacionDetalleByPrBaFecha(prBaId,date);
+		if(programacionDetalle==null)
+		{
+			throw new RestException(1,"ProgramacionDetalle no enccontrado"," ProgramacionDetalle con prBaId:"+ prBaId + " No encontrado en el sistema");
+		}
+		return programacionDetalle;	
+	}
 	@RequestMapping(value="/programaciondetalle/new", method=RequestMethod.GET)
 	public ProgramacionDetalle NewProgramacionDetalle(){
 		return new ProgramacionDetalle();

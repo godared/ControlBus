@@ -28,4 +28,10 @@ public class ProgramacionDetalleDaoImp extends AbstractJpaDAO<ProgramacionDetall
 	 	   storedProcedure.setParameter("prDeFecha",prDeFecha);
 	 	   return storedProcedure.getResultList();
 	 }
+	 public List<ProgramacionDetalle> getAllProgramacionDetalleByPrBaFecha(int prBaId,Date prDeFecha){
+		 StoredProcedureQuery storedProcedure  = entityManager.createNamedStoredProcedureQuery("Usp_S_PrDeGetAllProgramacionDetalleByPrBaFecha");
+	 	    storedProcedure.setParameter("prBaId",prBaId);
+	 	   storedProcedure.setParameter("prDeFecha",prDeFecha);
+	 	   return storedProcedure.getResultList();
+	 }
 }
