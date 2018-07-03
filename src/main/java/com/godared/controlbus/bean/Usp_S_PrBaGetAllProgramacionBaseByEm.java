@@ -88,7 +88,8 @@ public class Usp_S_PrBaGetAllProgramacionBaseByEm implements Serializable {
 		//Este procedimiento es para separar lo enviado en DIasIncluir en un Array
 		//y despues hacemos que el 1 empiece en domingo
 		int nroDias=0;
-		if(!this.PrBaDiasIncluidos.isEmpty()){
+		String valor=this.PrBaDiasIncluidos==null?"":this.PrBaDiasIncluidos;
+		if( !valor.trim().equals("")){
 			String[] dias_semana = this.PrBaDiasIncluidos.split(",");		
 		  	Boolean[] dias_semana3=new Boolean[7]; 
 		  	int count1=1;
@@ -113,7 +114,8 @@ public class Usp_S_PrBaGetAllProgramacionBaseByEm implements Serializable {
 		  		calInicio.add(Calendar.DAY_OF_MONTH, 1);
 		  	} 
 		}
-		return (short)nroDias;//dias;
+		dias=(short)nroDias;
+		return dias;
 	}
 		
 	
