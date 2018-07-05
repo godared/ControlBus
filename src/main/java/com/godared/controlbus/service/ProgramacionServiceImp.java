@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -23,6 +24,7 @@ import com.godared.controlbus.bean.Bus;
 import com.godared.controlbus.bean.Programacion;
 import com.godared.controlbus.bean.ProgramacionBase;
 import com.godared.controlbus.bean.ProgramacionDetalle;
+import com.godared.controlbus.bean.RegistroDiario;
 import com.godared.controlbus.bean.Usp_S_PrBaGetAllProgramacionBaseByEm;
 import com.godared.controlbus.bean.Usp_S_PrGetAllProgramacionByEm;
 import com.godared.controlbus.dao.IProgramacionBaseDao;
@@ -39,6 +41,8 @@ public class ProgramacionServiceImp implements IProgramacionService {
 	private EntityManagerFactory entityManagerFactory;
 	@Autowired
 	IBusService busService;
+	@Autowired
+	IRegistroDiarioService registroDiarioService;
 //	injeccion de dependencias
 	public void setProgramacionDao(IProgramacionDao programacionDao) {
 		 this.programacionDao = programacionDao;		 
@@ -399,6 +403,25 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		return this.programacionDetalleDao.findOne(prDeId);	
 	}
 	public List<ProgramacionDetalle> getAllProgramacionDetalleByPr(int prId){
+		 return this.programacionDetalleDao.getAllProgramacionDetalleByPr(prId);	
+	}
+	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrBa(int prBaId){
+		//Obtenemos la programacion		
+		ProgramacionBase programacionBase=this.findOneProgramacionBase(prBaId);
+		List<RegistroDiario> _registroDiarios=null;
+		_registroDiarios=registroDiarioService.GetAllRegistroDiarioByEm(programacionBase.getEmId());
+		//este codigo filtra y el resultado lo devuelve en _registroDiarios
+		Iterator<RegistroDiario> it = _registroDiarios.iterator();
+		while (it.hasNext()) {
+			RegistroDiario current = it.next();
+		    if (current.getReDiFeha().compareTo(fechaDiario)!=0) {
+		        it.remove();
+		    }
+		}
+		//Obtenemos el orden de las subempresas
+		String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
+		String[] _subEmpresas = _ordenSubEmpresas.split(",");
+				
 		 return this.programacionDetalleDao.getAllProgramacionDetalleByPr(prId);	
 	}
 	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(int prId,Date prDeFecha){

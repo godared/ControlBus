@@ -112,8 +112,8 @@ public class TarjetaControlRestController {
 	/*Este procedimiento genera para las consultas de vueltas considerando dos
 	 * aspectos con solamente una programacion(caso ruta 13) y programaciones separadas por subempresa(ruta11)
 	 * al final genera las vueltas de acuerdo a la programacion de la fecha actual*/
-	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprfe",params = {"emId","prId","fechaDiario"}, method=RequestMethod.GET)
-	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prId,Date fechaDiario){
+	@RequestMapping(value = "/tarjetacontrol/getallregistrovueltasdiariasbyemprbafe",params = {"emId","prBaId","fechaDiario"}, method=RequestMethod.GET)
+	public List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> GetAllRegistroVueltasDiariasByEmPrFe(int emId,int prBaId,Date fechaDiario){
 		// el porque lo hago aqui y no en service es que cuando hago la peticion del dao GetAllRegistroVueltasDiariasByEmPrFe
 		// para el tipo _configura.getCoSiId()==2 no se que hace se sobreescribe y sobrepone la lista de vuelta(esto debido a que se realiza la llamada por subempresa
 		//y puede ser de dos a mas y unir las listas).
@@ -121,14 +121,17 @@ public class TarjetaControlRestController {
 		Calendar c = Calendar.getInstance();
 		c.setTime(fechaDiario);
 		int year = c.get(Calendar.YEAR);
-		
+		//Obtenemos la programacion		
+		ProgramacionBase programacionBase=programacionService.findOneProgramacionBase(prBaId);
+		List<Usp_S_PrGetAllProgramacionByEm> programacion=programacionService.GetAllProgramacionByPrBa(prBaId);
 		
 		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		
 		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
 		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
-		if (_configura.getCoSiId()==1){ //Si el 1 entonce no considera dos programaciones 
-			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,prId,fechaDiario);
+		if (_configura.getCoSiId()==1){ //Si el 1 entonce no considera dos programaciones
+			//si es esta configuracion, solo debe existir una programacion
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,programacion.get(0).getPrId(),fechaDiario);
 			
 		}	
 		else if(_configura.getCoSiId()==2) { // si es 2 entonces tiene la cantidad de programaciones por subempresas y el orden en registrodiario para concatenar y generar el registro de vueltas
@@ -206,8 +209,7 @@ public class TarjetaControlRestController {
 			return null;
 		//Incluimos la Hora Base, esto es considerado tambien para la asignacion de la tarjetaControl
 		//Obtenemos la hora base de la ProgramacionBase(ya que la hora se define sin importar el orden de las subempresas
-		Programacion programacion=programacionService.findOne(prId);
-		ProgramacionBase programacionBase=programacionService.findOneProgramacionBase(programacion.getPrBaId());
+		
 		String[] _horaBase = programacionBase.getPrBaHoraBase().split(",");
 		
 		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe3=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
@@ -248,6 +250,10 @@ public class TarjetaControlRestController {
 						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
 					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
 					cal.setTime(_horaSalida);	
+					//Calendar c = Calendar.getInstance();
+					c.set(Calendar.HOUR_OF_DAY, 0);
+					c.set(Calendar.MINUTE, 0);
+					c.set(Calendar.SECOND, 0);
 					//String valor=_horaBase[c1];
 					//String valor2=valor.substring(0, 2);
 					//aqui hay algo medio raro con el substring(para el start  empieza en 0(index) y para el end(el index empieza en 1)

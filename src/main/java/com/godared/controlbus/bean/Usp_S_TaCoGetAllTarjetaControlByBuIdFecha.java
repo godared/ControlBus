@@ -38,6 +38,7 @@ public class Usp_S_TaCoGetAllTarjetaControlByBuIdFecha implements Serializable{
 	private String BuPlaca;
 	private Date PuCoTiempoBus;	
 	private String PuCoDescripcion;
+	private int PrBaId;
 	
 	@JsonProperty("TaCoId")
 	public int getTaCoId() {
@@ -126,6 +127,10 @@ public class Usp_S_TaCoGetAllTarjetaControlByBuIdFecha implements Serializable{
 	@JsonProperty("PuCoDescripcion")
 	public String getPuCoDescripcion() {
 		return PuCoDescripcion;
+	}
+	@JsonProperty("PrBaId")
+	public int getPrBaId() {
+		return PrBaId;
 	}	
 	
 }
