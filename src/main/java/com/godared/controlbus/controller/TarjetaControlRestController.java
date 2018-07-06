@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -249,7 +250,8 @@ public class TarjetaControlRestController {
 				if( usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getReDiDeNroVuelta()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()
 						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
 					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
-					cal.setTime(_horaSalida);	
+					cal.setTime(new Date());	
+					cal.setTimeZone(TimeZone.getTimeZone("America/Lima"));
 					//Calendar c = Calendar.getInstance();
 					c.set(Calendar.HOUR_OF_DAY, 0);
 					c.set(Calendar.MINUTE, 0);

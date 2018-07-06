@@ -27,6 +27,7 @@ public interface IProgramacionService {
 	//Programacion Detalle
 	 ProgramacionDetalle findOneProgramacionDetalleId(int prDeId);
 	 List<ProgramacionDetalle> getAllProgramacionDetalleByPr(int prId);
+	 List<ProgramacionDetalle> getAllProgramacionDetalleByPrBa(int prBaId);
 	 List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(int prId,Date prDeFecha);
 	 List<ProgramacionDetalle> getAllProgramacionDetalleByPrBaFecha(int prBaId,Date prDeFecha);
 	 void CreateProgramacionDetalle(List<ProgramacionDetalle> programacionDetalle);

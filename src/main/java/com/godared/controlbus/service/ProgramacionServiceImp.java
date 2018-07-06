@@ -409,20 +409,42 @@ public class ProgramacionServiceImp implements IProgramacionService {
 		//Obtenemos la programacion		
 		ProgramacionBase programacionBase=this.findOneProgramacionBase(prBaId);
 		List<RegistroDiario> _registroDiarios=null;
+		List<ProgramacionDetalle> _programacionDetalles=null;
+		ArrayList<ProgramacionDetalle> _programacionDetalles2=new ArrayList<ProgramacionDetalle>();
+		//List<Usp_S_PrGetAllProgramacionByEm> _programaciones=this.GetAllProgramacionByPrBa(programacionBase.getPrBaId());
 		_registroDiarios=registroDiarioService.GetAllRegistroDiarioByEm(programacionBase.getEmId());
-		//este codigo filtra y el resultado lo devuelve en _registroDiarios
-		Iterator<RegistroDiario> it = _registroDiarios.iterator();
-		while (it.hasNext()) {
-			RegistroDiario current = it.next();
-		    if (current.getReDiFeha().compareTo(fechaDiario)!=0) {
-		        it.remove();
-		    }
+		for(RegistroDiario registroDiario:_registroDiarios  ){
+			//Obtenemos el orden de las subempresas
+			String _ordenSubEmpresas=registroDiario.getReDiOrdenSubEmpresa();
+			String[] _subEmpresas = _ordenSubEmpresas.split(",");
+			int c1=0;
+			int count=1;
+			while(c1<_subEmpresas.length){
+				//Obtenemos y filtramos la programacion por SubEmpresa
+				List<Usp_S_PrGetAllProgramacionByEm> _programaciones=null;	
+				_programaciones=this.GetAllProgramacionByPrBa(programacionBase.getPrBaId());
+				//_programaciones=this.GetAllProgramacionByEm(emId,year);
+				//este codigo filtra y el resultado lo devuelve en _programaciones
+				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
+				while (it2.hasNext()) {
+					Usp_S_PrGetAllProgramacionByEm current = it2.next();
+				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[c1])) {
+				        it2.remove();
+				    }
+				}
+				_programacionDetalles=getAllProgramacionDetalleByPrFecha(_programaciones.get(0).getPrId(),registroDiario.getReDiFeha());
+				for(ProgramacionDetalle programacionDetalle:_programacionDetalles){
+					programacionDetalle.setPrDeOrden(count);
+					_programacionDetalles2.add(programacionDetalle);					
+					count=count+1;
+				}
+						
+				c1=c1+1;
+			}
+			
 		}
-		//Obtenemos el orden de las subempresas
-		String _ordenSubEmpresas=_registroDiarios.get(0).getReDiOrdenSubEmpresa();
-		String[] _subEmpresas = _ordenSubEmpresas.split(",");
 				
-		 return this.programacionDetalleDao.getAllProgramacionDetalleByPr(prId);	
+		 return _programacionDetalles2;	
 	}
 	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(int prId,Date prDeFecha){
 		return this.programacionDetalleDao.getAllProgramacionDetalleByPrFecha(prId,prDeFecha);

@@ -45,6 +45,15 @@ public class ProgramacionDetalleRestController {
 		}
 		return programacionDetalle;
 	}
+	@RequestMapping(value="/programaciondetalle/prbaid/{prbaId}", method=RequestMethod.GET)
+	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrBa(@PathVariable("prbaId") int prbaId) {
+		List<ProgramacionDetalle> programacionDetalle=programacionService.getAllProgramacionDetalleByPrBa(prbaId);
+		if(programacionDetalle==null)
+		{
+			throw new RestException(1,"ProgramacionDetalle no enccontrado"," ProgramacionDetalle con prbaid:"+ prbaId + " No encontrado en el sistema");
+		}
+		return programacionDetalle;
+	}
 	@RequestMapping(value = "/programaciondetalle/getallprogramaciondetallebyprfecha",params = {"prId","prDeFecha"}, method=RequestMethod.GET)
 	public List<ProgramacionDetalle> getAllProgramacionDetalleByPrFecha(@RequestParam("prId") int prId,@RequestParam("prDeFecha") String prDeFecha) throws ParseException{
 		
