@@ -240,8 +240,12 @@ public class TarjetaControlRestController {
         });
 		int c1=0;
 		Date _horaSalida;
-		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
-		cal.setTimeZone(TimeZone.getTimeZone("America/Lima"));
+		String zona="America/Lima";
+        TimeZone timeZone2 = TimeZone.getTimeZone(zona);
+		Calendar cal = Calendar.getInstance(timeZone2);
+		//cal.setTimeZone(TimeZone.getTimeZone("America/Lima"));
+		//cal.setTimeInMillis(18000000);		
+		cal.setTime(new Date());
 		int _minuto=0,_segundo=0,_hora=0;
 		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe4=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		//Aqui actualizamos la horaBase 
@@ -257,13 +261,13 @@ public class TarjetaControlRestController {
 				//Cambiamos la hora salida solo si es la primera vuelta
 				if( usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getReDiDeNroVuelta()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()
 						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
-					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
-					cal.setTime(_horaSalida);	
+					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();					
+					//cal.setTime(_horaSalida);	
 					
 					//Calendar c = Calendar.getInstance();
-					c.set(Calendar.HOUR_OF_DAY, 0);
-					c.set(Calendar.MINUTE, 0);
-					c.set(Calendar.SECOND, 0);
+					cal.set(Calendar.HOUR_OF_DAY, 0);
+					cal.set(Calendar.MINUTE, 0);
+					cal.set(Calendar.SECOND, 0);
 					//String valor=_horaBase[c1];
 					//String valor2=valor.substring(0, 2);
 					//aqui hay algo medio raro con el substring(para el start  empieza en 0(index) y para el end(el index empieza en 1)
