@@ -118,6 +118,13 @@ public class TarjetaControlRestController {
 		// el porque lo hago aqui y no en service es que cuando hago la peticion del dao GetAllRegistroVueltasDiariasByEmPrFe
 		// para el tipo _configura.getCoSiId()==2 no se que hace se sobreescribe y sobrepone la lista de vuelta(esto debido a que se realiza la llamada por subempresa
 		//y puede ser de dos a mas y unir las listas).
+		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
+		//si es 0 entonce sno tiene programacion y en e procedimiento la vueltasDiarias lo genera en base a la tarjeta y degistrodiario, pero se envia
+		//0 en prId
+		if( prBaId==0){
+			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,0,fechaDiario);
+			return _usp_S_GetAllRegistroVueltasDiariasByEmPrFe;
+		}
 		Configura _configura =new Configura();
 		Calendar c = Calendar.getInstance();
 		c.setTime(fechaDiario);
@@ -129,7 +136,7 @@ public class TarjetaControlRestController {
 		List<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _getAllRegistroVueltasDiariasByEmPrFe= new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		
 		_configura=this.empresaService.GetAllConfiguraByEmPeriodo(emId,year).get(0);
-		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> () ;
+		
 		if (_configura.getCoSiId()==1){ //Si el 1 entonce no considera dos programaciones
 			//si es esta configuracion, solo debe existir una programacion
 			_usp_S_GetAllRegistroVueltasDiariasByEmPrFe=(ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>) tarjetaControlService.GetAllRegistroVueltasDiariasByEmPrFe(emId,programacion.get(0).getPrId(),fechaDiario);
@@ -233,7 +240,8 @@ public class TarjetaControlRestController {
         });
 		int c1=0;
 		Date _horaSalida;
-		Calendar cal = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"));
+		cal.setTimeZone(TimeZone.getTimeZone("America/Lima"));
 		int _minuto=0,_segundo=0,_hora=0;
 		ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe> _usp_S_GetAllRegistroVueltasDiariasByEmPrFe4=new ArrayList<Usp_S_GetAllRegistroVueltasDiariasByEmPrFe>();
 		//Aqui actualizamos la horaBase 
@@ -250,8 +258,8 @@ public class TarjetaControlRestController {
 				if( usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getReDiDeNroVuelta()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getReDiDeNroVuelta()
 						& usp_S_GetAllRegistroVueltasDiariasByEmPrFe2.getBuId()==usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getBuId()){
 					_horaSalida=usp_S_GetAllRegistroVueltasDiariasByEmPrFe.getTaCoHoraSalida();
-					cal.setTime(new Date());	
-					cal.setTimeZone(TimeZone.getTimeZone("America/Lima"));
+					cal.setTime(_horaSalida);	
+					
 					//Calendar c = Calendar.getInstance();
 					c.set(Calendar.HOUR_OF_DAY, 0);
 					c.set(Calendar.MINUTE, 0);
