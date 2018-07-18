@@ -617,7 +617,7 @@ public class TarjetaControlServiceImp implements ITarjetaControlService{
 		 
 		//Obteneniendo la programacion detalle para una fecha especifica
 		List<ProgramacionDetalle> _programacionDetalles=null;
-		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrFecha(_tarjetaControls.get(0).getPrId(),_registroDiario.getReDiFeha());
+		_programacionDetalles= this.programacionService.getAllProgramacionDetalleByPrBaFecha(_registroDiario.getPrBaId(),_registroDiario.getReDiFeha());
 		int count=_tarjetaControls.size();
 		int c=1,sw=0;
 		if (_programacionDetalles.size()>0){ //sii es que no tinene programacion entonces es registro sin programacion
