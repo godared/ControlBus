@@ -166,7 +166,7 @@ public class TarjetaControlRestController {
 				Iterator<Usp_S_PrGetAllProgramacionByEm> it2 = _programaciones.iterator();
 				while (it2.hasNext()) {
 					Usp_S_PrGetAllProgramacionByEm current = it2.next();
-				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[c1])) {
+				    if (current.getSuEmId()!=Integer.parseInt(_subEmpresas[c1]) | current.getPrBaId()!=prBaId) {
 				        it2.remove();
 				    }
 				}
